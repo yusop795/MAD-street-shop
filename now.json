@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "alias": "MAD-street-shop",
+  "files": ["src/config"],
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@now/static-build",
+      "config": { "distDir": "build" }
+    }
+  ],
+  "routes": [
+    {
+        "src": "^/assets/(.*)",
+        "dest": "/public/assets/$1"
+    },
+    {
+        "src": "^/manifest.(.*)",
+        "dest": "/public/manifest.$1"
+    },
+    {
+        "src": "^/precache-manifest.(.*)",
+        "dest": "/public/precache-manifest.$1"
+    },
+    {
+        "src": "^/favicon.ico",
+        "dest": "/public/favicon.ico"
+    },
+    {
+        "src": "^/service-worker.js",
+        "dest": "/public/service-worker.js"
+    },
+    {
+        "src": "^/(.*)",
+        "dest": "/public/index.html"
+    }
+  ]
+}
