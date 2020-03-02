@@ -10,7 +10,7 @@ import * as serviceWorker from './serviceWorker';
 
 /* Reducer 생성 */
 const rootReducer = combineReducers({
-  authReducer
+  authReducer,
 });
 
 /* SagaMiddleware 생성 */
@@ -23,12 +23,12 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(sagaMiddleware)), // composeWithDevTools : DevTools 미들웨어
 );
 
-ReactDOM.render( 
-	<Provider store={store}>
-		<Router />
-	</Provider>,
-	document.getElementById('root')
- );
+ReactDOM.render(
+  <Provider store={store}>
+    <Router />
+  </Provider>,
+  document.getElementById('root'),
+);
 
 // PWA 서비스워커가 등록
 serviceWorker.register();

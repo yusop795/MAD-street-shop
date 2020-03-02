@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { Home,SignUp } from '../containers';
+import { Home, SignUp } from '../containers';
 const Router = () => (
   <BrowserRouter>
     <Switch>
       <Route exact path="/signUp">
-        <SignUp/>
+        <SignUp />
       </Route>
       <Switch>
         <Route exact path="/" component={Home} />
