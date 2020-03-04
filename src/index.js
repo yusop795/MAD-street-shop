@@ -8,6 +8,8 @@ import { initializeState, authReducer } from './reducers';
 import Router from './router';
 import * as serviceWorker from './serviceWorker';
 
+import './assets/styles/common/reset.scss';
+
 /* Reducer 생성 */
 const rootReducer = combineReducers({
   authReducer,
