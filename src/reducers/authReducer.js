@@ -5,7 +5,8 @@
  * 타입 = '리듀서명/타입'
  */
 export const authTypes = {
-  UPDATE_TEXT: 'test/UPDATE_TEXT',
+  UPDATE_TEXT: 'auth/UPDATE_TEXT',
+  SET_LOADING: 'auth/LOADING',
 };
 
 /**
@@ -15,6 +16,7 @@ export const authTypes = {
  */
 export const authAction = {
   updateText: text => ({ type: authTypes.UPDATE_TEXT, text }),
+  updateLoading: loading => ({ type: authTypes.SET_LOADING, loading }),
 };
 
 /**
@@ -22,17 +24,25 @@ export const authAction = {
  */
 const initialState = {
   text: '초기 텍스트',
+  loading: true,
 };
 
 /**
  * 리듀서
  */
 export default function authReducer(state = initialState, action) {
-  switch (action.type) {
+  const { type, payload } = action;
+
+  switch (type) {
     case authTypes.UPDATE_TEXT:
       return {
         ...state,
-        text: action.text,
+        text: payload.text,
+      };
+    case authTypes.SET_LOADING:
+      return {
+        ...state,
+        loading: payload.loading,
       };
     default:
       return state;

@@ -1,0 +1,14 @@
+@import "../../assets/styles/common/color.scss";
+@import "../../assets/styles/common/layout.scss";
+
+.header {
+    display: flex;
+    flex:1;
+    align-items: center;
+    justify-content: space-between;
+    height: 44px;
+    padding: 0 19px;
+    div {
+        min-width: 23px;
+    }
+}

@@ -1,0 +1,26 @@
+@import "../../assets/styles/common/color.scss";
+@import "../../assets/styles/common/layout.scss";
+
+.modal {
+    position: fixed;
+    top:0;
+    left:0;
+    display: flex;
+    flex:1;
+    align-items: center;
+    justify-content: center;
+    width:100%;
+    height:100%;
+    z-index: 999;
+    background:$black01;
+    .modalBox {
+        width: 270px;
+        text-align: center;
+        background: $whiteColor;
+        border-radius: 10px;
+        .modalBtn {
+            border-top: 1px solid $gray233;
+            padding: 12px 0;
+        }
+    }
+}
