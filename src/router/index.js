@@ -1,14 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { authTypes } from '../reducers/authReducer';
-import { Home, SignUp } from '../containers';
+import { Home, SignUp, SettingCategory } from '../containers';
 
 const Router = a => {
-  const dispatch = useDispatch();
-  // 스토어 값 가져오기
-  const loading = useSelector(({ authReducer }) => authReducer.loading, true);
-
   // 마운트 될 때 한번
   // useEffect(() => {
   //   setTimeout(() => {
@@ -31,6 +25,7 @@ const Router = a => {
         </Route>
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route exact path="/setting" component={SettingCategory} />
         </Switch>
       </Switch>
     </BrowserRouter>

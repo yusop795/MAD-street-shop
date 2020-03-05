@@ -7,7 +7,6 @@ import createSagaMiddleware from 'redux-saga';
 import { initializeState, authReducer } from './reducers';
 import Router from './router';
 import * as serviceWorker from './serviceWorker';
-
 import './assets/styles/common/reset.scss';
 
 /* Reducer 생성 */

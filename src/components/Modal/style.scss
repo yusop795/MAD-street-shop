@@ -15,12 +15,17 @@
     background:$black01;
     .modalBox {
         width: 270px;
+        padding-top:32px;
         text-align: center;
         background: $whiteColor;
         border-radius: 10px;
+        p {
+        line-height: 20px;   
+        }
         .modalBtn {
             border-top: 1px solid $gray233;
             padding: 12px 0;
+            margin-top:32px;
         }
     }
 }

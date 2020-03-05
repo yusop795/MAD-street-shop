@@ -1,23 +1,23 @@
 import React from 'react';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { Redirect } from "react-router-dom";
 import './style.scss';
 import iconBack from '../../assets/imgs/iconBack.png';
 
-const Header = ({goBack, title}) => {
+const Header = ({goBack, title = ''}) => {
   return (
     <div className="header">
-      <div onClick={goBack}><img src={iconBack} /></div>
-      <div>{(title)?title:''}</div>
+      <div onClick={goBack}><img src={iconBack} alt={'뒤로가기'}/></div>
+      <h2 className="headerTitle">{(title)?title:''}</h2>
       <div>{''}</div>
     </div>
   );
 };
 
-export const ModalHeader = ({goBack}) => {
+export const ModalHeader = ({goBack, title = ''}) => {
   return (
-    <div className="header">
-      <div onClick={goBack}><img src={iconBack} /></div>
+    <div className="header modalHeader">
+      <div onClick={goBack}>X</div>
+      <h2 className="headerTitle">{(title)?title:''}</h2>
+      <div>{''}</div>
     </div>
   );
 };
