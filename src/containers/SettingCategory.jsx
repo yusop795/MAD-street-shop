@@ -16,14 +16,17 @@ const SettingCategory = ({history}) => {
   const [tagList, setTagList] = useState([]);
   const [selectTag, setSelectTag] = useState([]);
 
+  // 모달
+  const { isShowing, title, contents, setModal} = ModalUtil();
+  
+
   useEffect(() => {
     if(selectCategory){
       setTagList(categoryList[selectCategory-1].item)
+      setSelectTag([])
     }
   },[categoryList,selectCategory]);
 
-  const { isShowing, title, contents, setModal} = ModalUtil();
-  // console.log(categoryList[selectCategory-1])
 
   return (
     <div className="settingCategory modalPage">
@@ -46,6 +49,7 @@ const SettingCategory = ({history}) => {
           item={tagList}
           selectTag={selectTag}
           setSelectTag={setSelectTag}
+          setModal={setModal}
         />
       :null }
       <Modal isShowing={isShowing} hide={setModal} title={title} contents={contents}/>

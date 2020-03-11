@@ -57,6 +57,7 @@
       box-sizing: border-box;
       background-color: $whiteColor;
       &.select {
+        // padding: 6px 13px;
         border: 2px solid $mainColor;
       }
     }
