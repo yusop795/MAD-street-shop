@@ -7,6 +7,7 @@ import { ModalHeader } from '../components/Header';
 import { Modal } from '../components/Modal';
 // components
 import { RadioCategory, InputTag } from '../components/FormGroup';
+import { Button } from '../components/Unit';
 // style
 import '../assets/styles/containers/setting.scss';
 
@@ -52,6 +53,7 @@ const SettingCategory = ({history}) => {
           setModal={setModal}
         />
       :null }
+      <Button active={selectTag.length === 3} onEvent={()=>{alert(1)}}/>
       <Modal isShowing={isShowing} hide={setModal} title={title} contents={contents}/>
     </div>
   );
