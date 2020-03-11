@@ -6,9 +6,9 @@ const FormGroup = ({fullMode = false, title = '', children = null}) => {
   return (
     <div className={`formGroup ${(fullMode)?'fullMode':''}`}>
       <h2 className="formGroupTitle">{title}</h2>
-      <ul className="formGroupList">
+      <div className="formGroupList">
         {children}
-      </ul>
+      </div>
     </div>
   )
 };

@@ -2,14 +2,14 @@ import React from 'react';
 import './style.scss';
 
 
-const Button = ({fullmode=false , active=true, onEvent}) => {
+const Button = ({fullmode=false , active=true, bottom=false, onEvent = null, text=''}) => {
 
   return (
     <div 
-      className={`button ${(fullmode)?'fullMode':''} ${(active)?'active':''}`}
+      className={`button ${(fullmode)?'fullMode':''} ${(active)?'active':''} ${(bottom)?'bottom':''}`}
       onClick={()=> active?onEvent():null}
     >
-      버튼
+      {text}
     </div>
   )
 };

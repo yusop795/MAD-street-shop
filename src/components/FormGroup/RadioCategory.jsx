@@ -14,7 +14,7 @@ const RadioCategory = ({fullMode = false, title = '', item = [], selectCategory,
   return (
     <FormGroup fullMode={fullMode} title={title}>
       {item.map((v,i)=>(
-        <li className={`radioCategoryItem ${(selectCategory === i+1)?'select':''}`} key={v.title}>
+        <div className={`radioCategoryItem ${(selectCategory === i+1)?'select':''}`} key={v.title}>
           <label htmlFor={`categoryTitle-${i+1}`} className="radioInput">
             <input 
               type="radio"
@@ -28,7 +28,7 @@ const RadioCategory = ({fullMode = false, title = '', item = [], selectCategory,
             {(selectCategory === i+1)?<img src={iconBAgreementOn} alt='선택버튼'/>:<div style={style}></div>}
             <span>{v.title}</span>
           </label>
-        </li>
+        </div>
       ))}
     </FormGroup>
   )

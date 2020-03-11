@@ -1,16 +1,16 @@
 import { useState } from 'react';
 
-const ModalUtil = () => {
+const AlertUtil = () => {
   const [isShowing, setIsShowing] = useState(false);
-  const [title, setModalTitle] = useState('');
-  const [contents, setModalContents] = useState('');
+  const [title, setAlertTitle] = useState('');
+  const [contents, setAlertContents] = useState('');
 
-  const setModal = ({ title, contents }) => {
+  const setAlert = ({ title, contents }) => {
     if (!isShowing) {
       // 타이틀 설정
-      setModalTitle(title);
+      setAlertTitle(title);
       // 내용 설정
-      setModalContents(contents);
+      setAlertContents(contents);
     }
     // 모달 노출여부
     setIsShowing(!isShowing);
@@ -20,8 +20,8 @@ const ModalUtil = () => {
     isShowing,
     title,
     contents,
-    setModal,
+    setAlert,
   };
 };
 
-export default ModalUtil;
+export default AlertUtil;
