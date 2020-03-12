@@ -14,6 +14,9 @@
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
+    &.outline {
+      border:1px solid $black01
+    }
     .radioCategoryItem {
       position: relative;
       width: 50%;
@@ -51,19 +54,90 @@
       justify-content: center;
       padding: 8px 15px;
       margin: 0 15px 15px 0;
+      min-width: 60px;
       height:40px;
       border: 1px solid $gray220;
       border-radius: 20px;
       box-sizing: border-box;
       background-color: $whiteColor;
+      font-size: 15px;
       &.select {
-        // padding: 6px 13px;
+        padding: 8px 14px;
         border: 2px solid $mainColor;
       }
     }
+
+    .selectTimeBox{
+      margin-bottom: 15px;
+      label {
+        color:$black05;
+        margin-right: 9px;
+        font-size: 15px;
+      }
+      select{
+        width: 110px;
+      }
+    }
+  }
+  > p {
+    margin-top:15px;
+    font-size:12px;
+    color:$black05
   }
 
+  .inputTextItem {
+    width: 100%;
+    box-sizing: border-box;
+    // border:1px solid $black01;
+    background-color: $whiteColor;
+    display: flex;
+    align-items: center;
+    min-height:50px;
+    padding:0 15px;
+    border-bottom:1px solid $black01;
+    &:last-child {
+      border:none
+    }
+    label {
+      width: 80px;
+      padding:10px 0;
+      margin-right:15px;
+      color:$black05
+    }
+    .inputText {
+      flex:1;
+      font-size: 15px;
+      color:$mainTextColor;
+      &.selcet {
+        margin: 18px 0;
+        span {
+          display: block;
+          margin-top:5px;
+          font-size: 13px;
+          color:$redColor2
+        }
+      }
+    } 
+}
+
+textarea {
+  margin: 10px 0;
+  height: 20px;
+}
+
 // 공통
+select{
+  height: 40px;
+  margin-left:15px;
+  padding: 0 15px;
+  border-radius: 3px;
+  border: 1px solid $gray220;
+  font-size: 15px;
+  background: url('../../assets/imgs/iconBack.png') no-repeat 90% 50%;
+  background-color:$whiteColor;
+  background-size: 8px 5px;
+}
+
 .radioInput {
   display: flex;
   align-items: center;

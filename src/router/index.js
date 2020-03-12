@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { Home, SignUp, SettingCategory, SettingTime } from '../containers';
-
+import { Home, SignUp } from '../containers';
+import { SettingCategory, SettingTime } from '../containers/ModalPage';
 const Router = a => {
   // 마운트 될 때 한번
   // useEffect(() => {
@@ -20,13 +20,12 @@ const Router = a => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/signup/:type">
-          <SignUp />
-        </Route>
+        <Route exact path="/signup/:type" component={SignUp} />
+        <Route exact path="/settingCategory" component={SettingCategory} />
+        <Route exact path="/settingTime" component={SettingTime} />
+        <Route exact path="/settingLocation" component={SettingTime} />
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/settingCategory" component={SettingCategory} />
-          <Route exact path="/settingTime" component={SettingTime} />
         </Switch>
       </Switch>
     </BrowserRouter>

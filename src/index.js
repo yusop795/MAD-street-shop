@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
-import { initializeState, authReducer } from './reducers';
+import { initializeState, authReducer, userReducer } from './reducers';
 import Router from './router';
 import * as serviceWorker from './serviceWorker';
 import './assets/styles/common/reset.scss';
@@ -12,6 +12,7 @@ import './assets/styles/common/reset.scss';
 /* Reducer 생성 */
 const rootReducer = combineReducers({
   authReducer,
+  userReducer,
 });
 
 /* SagaMiddleware 생성 */
