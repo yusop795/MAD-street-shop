@@ -6,13 +6,13 @@
   align-items: center;
   justify-content: space-between;
   height: 50px;
-  padding: 0 19px;
   > div {
     display: flex;
     align-items: center;
     justify-content: center;
     min-width: 23px;
     min-height: 50px;
+    padding: 0 19px;
   }
   .headerTitle {
 
@@ -20,5 +20,9 @@
   &.modalHeader {
     background-color: $whiteColor;
     border-bottom: 1px solid $gray220;
+    img {
+      width: 12px;
+      height: 12px;
+    }
   }
 }

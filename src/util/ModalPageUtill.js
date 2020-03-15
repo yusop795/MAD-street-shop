@@ -5,7 +5,6 @@ const ModalPageUtill = () => {
   const [targetModalPage, setTargetModalPage] = useState(null);
 
   const setModalPage = ({ target }) => {
-    console.log(target);
     if (target) {
       setTargetModalPage(target);
     }

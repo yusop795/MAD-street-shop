@@ -1,35 +1,22 @@
 import React from 'react';
-import {FormGroup} from '../FormGroup'
-import iconBAgreementOn from '../../assets/imgs/iconBAgreementOn.png';
+import { FormGroup, Radio } from '../FormGroup'
 import './style.scss';
-
-const style = {
-  width:24,
-  height:24,
-  border:'1px solid rgba(220,220,220,1)',
-  borderRadius:'50%',
-}
 
 const RadioCategory = ({fullMode = false, title = '', item = [], selectCategory, setSelectCategory}) => {
   return (
     <FormGroup fullMode={fullMode} title={title}>
-      {item.map((v,i)=>(
-        <div className={`radioCategoryItem ${(selectCategory === i+1)?'select':''}`} key={v.title}>
-          <label htmlFor={`categoryTitle-${i+1}`} className="radioInput">
-            <input 
-              type="radio"
-              id={`categoryTitle-${i+1}`} 
-              name="title" 
-              value={v.title} 
-              checked={(selectCategory === i+1)?true:false}
-              hidden={true} 
-              onChange={()=> setSelectCategory(i+1)}
+      <div className='radioBox'>
+        {item.map((v,i)=>(
+            <Radio 
+              key={`category-${i+1}`}
+              type={`category`}
+              index={i} 
+              data={v} 
+              selectItem={selectCategory} 
+              setSelectItem={setSelectCategory}
             />
-            {(selectCategory === i+1)?<img src={iconBAgreementOn} alt='선택버튼'/>:<div style={style}></div>}
-            <span>{v.title}</span>
-          </label>
-        </div>
-      ))}
+        ))}
+      </div>
     </FormGroup>
   )
 };

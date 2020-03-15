@@ -9,7 +9,7 @@ const InputTag = ({fullMode = false, title = '', item = [], selectTag=[], onEven
       {item.map((v,i)=>(
         <div 
           className={`inputTagItem ${(selectTag.includes(v))?'select':''}`} 
-          key={v}
+          key={`inputTagItem-${i}`}
         >
           <label>
             <input 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useSelector } from 'react-redux';
 import { withRouter } from "react-router-dom";
 
@@ -7,7 +7,7 @@ import ModalPageUtill from '../util/ModalPageUtill.js';
 
 import { Alert } from '../components/Alert';
 import { Header } from '../components/Header';
-import { FormGroup, InputText } from '../components/FormGroup';
+import { FormGroup, InputText, Radio } from '../components/FormGroup';
 
 import '../assets/styles/containers/signUp.scss';
 import { SettingCategory, SettingTime } from './ModalPage';
@@ -15,7 +15,9 @@ import { SettingCategory, SettingTime } from './ModalPage';
 const SignUp = ({history, match}) => {
   // 스토어 값 가져오기
   // const loading = useSelector(({ authReducer }) => authReducer.loading, true);
+  const [selectRadioItem, setSelectRadioItem] = useState(2);
   // 모달
+  
   const { isShowing, title, contents, setAlert} = AlertUtil();
   const { targetModalPage, isModalOpen, setModalPage} = ModalPageUtill();
 
@@ -80,6 +82,18 @@ const SignUp = ({history, match}) => {
         <InputText label={'매장소개'} type="textarea"/>
       </FormGroup>
       <FormGroup title={'휴대폰 번호 노출 여부'} info={'※ 휴대폰 번호 노출 선택 시 가게정보에 함께 노출됩니다.'}>
+        <Radio
+          index={0}
+          data={{title:'노출'}}
+          selectItem={selectRadioItem} 
+          setSelectItem={setSelectRadioItem}
+        />
+        <Radio
+          index={1}
+          data={{title:'미노출'}}
+          selectItem={selectRadioItem} 
+          setSelectItem={setSelectRadioItem}
+        />
       </FormGroup>
       <FormGroup title={'대표이미지 등록'} info={'※ 가게를 대표하는 사진을 등록해주세요.'}>
       </FormGroup>

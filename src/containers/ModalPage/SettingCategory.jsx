@@ -31,20 +31,20 @@ const SettingCategory = ({isOpen, onEvent}) => {
     }
   },[categoryList,selectCategory]);
 
-  const onChangeTag = (v)=>{
-    if(!selectTag.includes(v)){
+  const onChangeTag = (tag) => {
+    if(!selectTag.includes(tag)){
       if(selectTag.length > 2) {
         setAlert({
           contents:'대표메뉴는 최대 3개까지만<br/> 선택할 수 있어요.'
         })
       }else {
-        setSelectTag([...selectTag,v])
+        setSelectTag([...selectTag, tag])
       }
     }else {
-      selectTag.splice(selectTag.indexOf(v),1)
+      selectTag.splice(selectTag.indexOf(tag),1)
       setSelectTag([...selectTag])
     }
-}
+  }
 
 
   return (
