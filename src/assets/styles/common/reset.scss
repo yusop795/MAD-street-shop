@@ -26,6 +26,12 @@ input,textarea,select {
   outline: none;
 }
 
+::-webkit-input-placeholder { color: $black025; }
+::-moz-placeholder { color: $black025;  }
+:-ms-input-placeholder { color: $black025;  }
+:-moz-placeholder { color: $black025;  }
+::placeholder { color: $black025; }
+
 .modalPage{
   position: fixed;
   top: 100%;
@@ -39,5 +45,4 @@ input,textarea,select {
     overflow-y: scroll;
     overflow-x: hidden
   }
-
 }

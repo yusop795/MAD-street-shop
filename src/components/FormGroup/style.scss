@@ -108,11 +108,19 @@
       flex:1;
       font-size: 15px;
       color:$mainTextColor;
+      p {
+        display: flex;
+        justify-content: space-between;
+        img {
+          width: 6px;
+          height: 12px;
+        }
+      }
       &.selcet {
-        margin: 18px 0;
+        margin: 16px 0;
         span {
           display: block;
-          margin-top:5px;
+          margin-top:7px;
           font-size: 13px;
           color:$redColor2
         }
