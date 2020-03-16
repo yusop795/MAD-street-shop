@@ -5,6 +5,7 @@ const ModalPageUtill = () => {
   const [targetModalPage, setTargetModalPage] = useState(null);
 
   const setModalPage = ({ target }) => {
+    console.log('isModalOpen', isModalOpen);
     if (target) {
       setTargetModalPage(target);
     }

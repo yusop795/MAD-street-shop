@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { withRouter } from "react-router-dom";
 // utill
 import AlertUtil from '../../util/AlertUtil.js';
@@ -15,22 +15,32 @@ const SettingTime = ({isOpen, onEvent}) => {
   const tagList = ['월','화','수','목','금','토','일']
   const [selectTag, setSelectTag] = useState([]);
 
+  const modalPage = useRef();
+
   // 모달
   const { isShowing, title, contents, setAlert} = AlertUtil();
 
-  const onChangeTag = (v)=>{
-    if(!selectTag.includes(v)){
-      setSelectTag([...selectTag,v])
+  const onChangeTag = (tag)=>{
+    if(!selectTag.includes(tag)){
+      setSelectTag([...selectTag,tag])
     }else {
-      selectTag.splice(selectTag.indexOf(v),1)
+      selectTag.splice(selectTag.indexOf(tag),1)
       setSelectTag([...selectTag])
     }
   }
 
+  useEffect(() => {
+    if(isOpen){
+      console.log(modalPage)
+      modalPage.current.style = 'transform: translateY(0)'
+      modalPage.current.scrollTop = 0
+    }
+  },[isOpen]);
+
   
 
   return (
-    <div className={`settingTime modalPage ${isOpen?'open':''}`}>
+    <div ref={modalPage} className={`settingTime modalPage ${isOpen?'open':''}`}>
       <ModalHeader goBack={onEvent} title={'영업 시간 설정'}/>
       <SelectTime         
         title={'영업 시간'} 

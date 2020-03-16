@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import { withRouter } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 
@@ -20,6 +20,8 @@ const SettingCategory = ({isOpen, onEvent}) => {
   const [tagList, setTagList] = useState([]);
   const [selectTag, setSelectTag] = useState([]);
   const dispatch = useDispatch();
+  
+  const modalPage = useRef();
 
   // alert
   const { isShowing, title, contents, setAlert} = AlertUtil();
@@ -30,6 +32,13 @@ const SettingCategory = ({isOpen, onEvent}) => {
       setSelectTag([])
     }
   },[categoryList,selectCategory]);
+
+  useEffect(() => {
+    if(isOpen){
+      modalPage.current.style = 'transform: translateY(0)'
+      modalPage.current.scrollTop = 0
+    }
+  },[isOpen]);
 
   const onChangeTag = (tag) => {
     if(!selectTag.includes(tag)){
@@ -48,7 +57,7 @@ const SettingCategory = ({isOpen, onEvent}) => {
 
 
   return (
-    <div className={`settingCategory modalPage ${isOpen?'open':''}`}>
+    <div ref={modalPage} className={`settingCategory modalPage ${isOpen?'open':''}`}>
       <ModalHeader goBack={onEvent} title={'카테고리 설정'}/>
       <div className="settingInfoBox">
         <h2 className="settingInfoTitle">판매하는 음식을 선택하세요</h2>
