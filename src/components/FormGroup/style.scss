@@ -9,6 +9,12 @@
   .formGroupTitle {
     margin-bottom:12px;
     font-weight: bold;
+    span {
+      margin-left: 15px;
+      font-size: 12px;
+      font-weight: 400;  
+
+    }
   }
   .formGroupList {
     display: flex;
@@ -87,11 +93,14 @@
       }
     }
   }
-  > p {
+  .infoTxt {
     margin-top:15px;
     font-size:12px;
     line-height: 1.5em;
-    color:$black05
+    color:$black05;
+    b {
+      color:$mainTextColor
+    }
   }
 
   .inputTextItem {
@@ -135,30 +144,69 @@
         }
       }
     } 
-}
+  }
 
-textarea {
-  margin: 10px 0;
-  height: 20px;
-}
+  // imgUploader
+  .imgUploaderBox {
+    display: flex;
 
-// 공통
+    .imgPreviewBox {
+      flex: 1;
+      display: flex;
+      overflow: auto;
+      > div {
+        display: flex;
+      }
+    }
+    .imgBox {
+      position: relative;
+      width: 90px;
+      height: 90px;
+      margin-right: 10px;
+      border: 1px solid $black01;
+      background-size: cover;
+      background-position: 50%;
+      background-repeat: no-repeat;
+      .imgDelBtn {
+        position: absolute;
+        top:5px;
+        right:5px;
+        width: 20px;
+        height: 20px;
+        background: url('../../assets/imgs/iconDelete.png') no-repeat;
+        background-size: contain;
+      }
+      &.imgUploader {
+        background: url('../../assets/imgs/iconAdd.png') no-repeat 50%;
+        background-size: 20px;
+        background-color: $whiteColor;
+      }
+    }
+  }
 
-// select
-select{
-  height: 40px;
-  margin-left:15px;
-  padding: 0 15px;
-  border-radius: 3px;
-  border: 1px solid $gray220;
-  font-size: 15px;
-  background: url('../../assets/imgs/iconDreopdown.png') no-repeat 90% 50%;
-  background-color:$whiteColor;
-  background-size: 8px 5px;
-}
 
-// radio
-.radioInput {
+  // 공통
+  // textarea
+  textarea {
+    margin: 10px 0;
+    height: 20px;
+  }
+
+  // select
+  select{
+    height: 40px;
+    margin-left:15px;
+    padding: 0 15px;
+    border-radius: 3px;
+    border: 1px solid $gray220;
+    font-size: 15px;
+    background: url('../../assets/imgs/iconDreopdown.png') no-repeat 90% 50%;
+    background-color:$whiteColor;
+    background-size: 8px 5px;
+  }
+
+  // radio
+  .radioInput {
   display: flex;
   align-items: center;
   padding-right: 50px;

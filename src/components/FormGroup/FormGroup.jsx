@@ -2,14 +2,14 @@ import React from 'react';
 import './style.scss';
 
 
-const FormGroup = ({fullMode=false, outline=false, title='', children=null, info}) => {
+const FormGroup = ({fullMode=false, outline=false, title='', subTittle='', children=null, info}) => {
   return (
     <div className={`formGroup ${(fullMode)?'fullMode':''}`}>
-      <h2 className="formGroupTitle">{title}</h2>
+      <h2 className="formGroupTitle">{title}<span>{subTittle}</span></h2>
       <div className={`formGroupList ${(outline)?'outline':''}`}>
         {children}
       </div>
-      {info?<p>{info}</p>:null}
+      {info?<p className="infoTxt" dangerouslySetInnerHTML={{__html: info}} />:null}
     </div>
   )
 };

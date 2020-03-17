@@ -5,3 +5,5 @@ export { default as InputTag } from './InputTag';
 export { default as InputText } from './InputText';
 
 export { default as SelectTime } from './SelectTime';
+
+export { default as ImgUploader } from './ImgUploader';

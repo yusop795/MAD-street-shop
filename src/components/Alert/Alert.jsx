@@ -9,7 +9,7 @@ const Alert = ({isShowing, hide, title, contents}) => {
     <div className="alert">
       <div className="alertBox">
         <h5>{title}</h5>
-        <p dangerouslySetInnerHTML={{__html: contents}}></p>
+        <p dangerouslySetInnerHTML={{__html: contents}} />
         <div className="alertBtn" onClick={hide}>확인</div>
       </div>
     </div>

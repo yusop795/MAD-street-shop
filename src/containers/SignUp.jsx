@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { withRouter } from "react-router-dom";
 
@@ -7,7 +7,8 @@ import ModalPageUtill from '../util/ModalPageUtill.js';
 
 import { Alert } from '../components/Alert';
 import { Header } from '../components/Header';
-import { FormGroup, InputText, Radio } from '../components/FormGroup';
+import { FormGroup, InputText, Radio, ImgUploader } from '../components/FormGroup';
+import { Button } from '../components/Unit';
 
 import '../assets/styles/containers/signUp.scss';
 import { SettingCategory, SettingTime } from './ModalPage';
@@ -95,10 +96,13 @@ const SignUp = ({history, match}) => {
           setSelectItem={setSelectRadioItem}
         />
       </FormGroup>
-      <FormGroup title={'대표이미지 등록'} info={'※ 가게를 대표하는 사진을 등록해주세요.'}>
-      </FormGroup>
-      <FormGroup title={'사진 등록'} info={'※ 10장 이내의 사진을 등록해주세요. 판매하는 음식사진이나, 가게 전경, 영업 위치가 찍힌 사진을 등록하면 판매에 도움이 됩니다.'}>
-      </FormGroup>
+      <ImgUploader multiple={false} title={'대표이미지 등록'} info={'※ 가게를 대표하는 사진을 등록해주세요.'} />
+      <ImgUploader title={'사진 등록'} info={'※ 10장 이내의 사진을 등록해주세요. <b>판매하는 음식사진이나, 가게 전경, 영업 위치가 찍힌 사진</b>을 등록하면 판매에 도움이 됩니다.'} />
+      <Button 
+        active={true} 
+        onEvent={()=>{alert(1)}} 
+        text={'완료'}
+      />
       <Alert isShowing={isShowing} hide={setAlert} title={title} contents={contents}/>
       {rederModalPage()}
     </div>
