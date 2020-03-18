@@ -1,0 +1,40 @@
+@mixin keyframes($animation-name) {
+    @-webkit-keyframes #{$animation-name} {
+      @content;
+    }
+    @-moz-keyframes #{$animation-name} {
+      @content;
+    }  
+    @-ms-keyframes #{$animation-name} {
+      @content;
+    }
+    @-o-keyframes #{$animation-name} {
+      @content;
+    }  
+    @keyframes #{$animation-name} {
+      @content;
+    }
+}
+  
+@mixin animation($str) {
+    -webkit-animation: #{$str};
+    -moz-animation: #{$str};
+    -ms-animation: #{$str};
+    -o-animation: #{$str};
+    animation: #{$str};      
+}
+
+@include keyframes(icon-pop01) {
+  50% {transform:translate(160px, -160px) rotate(60deg); opacity: 0.8}
+  100% {transform:translate(200px, -200px) rotate(170deg); opacity: 0}
+}
+
+@include keyframes(icon-pop02) {
+  50% {transform:translate(-160px, -260px) rotate(-60deg); opacity: 0.8}
+  100% {transform:translate(-200px, -300px) rotate(-160deg); opacity: 0}
+}
+
+@include keyframes(icon-pop03) {
+    50% {transform:translate(-80px, -250px) rotate(-60deg); opacity: 0.8}
+    100% {transform:translate(-170px, -500px) rotate(-160deg); opacity: 0}
+}

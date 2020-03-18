@@ -12,6 +12,15 @@ const Home = () => {
       {/* <Redirect to='/signUp' /> */}
       <div><Link to="/signup/owner">사장님 가입</Link></div>
       <div><Link to="/signup/user">사용자 가입</Link></div>
+
+      <div className="iconBox">
+        <span>🍢</span>
+        <span>🥪</span>
+        <span>🍩</span>
+        <span>🍤</span>
+        <span>🌭</span>
+        <span>🐙</span>
+      </div>
     </div>
   );
 };
