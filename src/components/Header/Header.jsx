@@ -2,6 +2,9 @@ import React from 'react';
 import './style.scss';
 import iconBack from '../../assets/imgs/iconBack.png';
 import btnClose from '../../assets/imgs/btnClose.png';
+import iconMenu from '../../assets/imgs/iconMenu.png';
+import iconSearch from '../../assets/imgs/iconSearch.png';
+import adressEdit from '../../assets/imgs/adressEdit.png';
 
 const Header = ({goBack, title = ''}) => {
   return (
@@ -19,6 +22,26 @@ export const ModalHeader = ({goBack, title = ''}) => {
       <div onClick={goBack}><img src={btnClose} alt="btnClose"/></div>
       <h2 className="headerTitle">{(title)?title:''}</h2>
       <div>{''}</div>
+    </div>
+  );
+};
+
+
+
+
+export const HomeHeader = ({address = '서울 영등포구 여의도동 37', fetchGeolocation}) => {
+  return (
+    <div className="header homeHeader">
+      <div className="menu">
+        <img src={iconMenu} alt={'메뉴'}/>
+      </div>
+      <div className="address" onClick={fetchGeolocation}>
+        <span>{address}</span>
+        <img src={adressEdit} alt={'주소 수정'}/>
+        </div>
+      <div className="search">
+        <img src={iconSearch} alt={'검색'}/>
+      </div>
     </div>
   );
 };

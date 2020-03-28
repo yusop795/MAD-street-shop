@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const style = {};
 
-const PhotoList = ({ items = [], type = '' }) => {
+const PhotoList = ({ items = [], type = '', border = true}) => {
   console.log('list', items);
   return (
     <div className="photoListWrapper">

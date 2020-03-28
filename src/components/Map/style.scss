@@ -1,0 +1,34 @@
+@import "../../assets/styles/common/color.scss";
+@import "../../assets/styles/common/layout.scss";
+
+#mapBox {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  // background: $subColor;
+  > i {
+    font-size: 30px;
+  }
+}
+// #locationBtn {
+//   position: absolute;
+//   right: 0;
+//   top: 0;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   width: 30px;
+//   height: 30px;
+//   margin: 10px;
+//   background: #fff;
+//   border-radius: 10px;
+//   z-index: 99999;
+//   box-shadow: 0px 0px 10px rgb(175, 175, 175);
+//   > img {
+//     width: 20px;
+//     height: 20px;
+//   }
+// }

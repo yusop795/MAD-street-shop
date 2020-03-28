@@ -121,7 +121,7 @@ const Ranking = ({ history }) => {
   return (
     <div className="signUp">
       <Header title="내주변 랭킹" goBack={history.goBack} />
-      <button
+      {/* <button
         type="button"
         onClick={() => {
           setModalPage({
@@ -130,7 +130,7 @@ const Ranking = ({ history }) => {
         }}
       >
         모달 테스트
-      </button>
+      </button> */}
       <PhotoList items={dummyData} type="icon" />
       <PhotoList items={dummyData} />
       {rederModalPage()}
