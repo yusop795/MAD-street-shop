@@ -22,3 +22,120 @@ input,textarea,select {
   &::placeholder { color: $black025; }
 }  
 
+<<<<<<< HEAD
+=======
+.modalPage,
+.modalPageLeft,
+.modalPageRight {
+  position: fixed;
+  z-index: 999999;
+  background-color:$mainBgColor;
+  padding-top: 50px;
+  &.open {
+    width: 100vw; /* viewport width */
+    height: 100vh; /* viewport height */
+    overflow-y: scroll;
+    overflow-x: hidden;
+    transition: all 0.2s ease-in;
+  }
+  .modalHeader {
+    position: absolute;
+    top:0;
+    left: 0;
+  }
+}
+.modalPage {
+  top: 100%;
+  left: 0;
+  transform: translateY(100%);
+  &.open {
+    top: 0;
+  }
+}
+.modalPageLeft{
+  top: 0;
+  left: 100%;
+  transform: translateX(100%);
+  &.open {
+    left: 0 
+  }
+}
+.modalPageRight{
+  top: 0;
+  right : 100%;
+  transform: translateX(100%);
+  &.open {
+    right: 0 
+  }
+}
+
+
+.modalHeader {
+  .search {
+    padding: 0;
+    width: 54px;
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  .cancel {
+    padding: 0;
+    width: 62px;
+  }
+  .headerWrapper {
+    box-sizing: border-box;
+    position: relative;
+    width: 100%;
+    padding: 0 62px 0 54px;
+    .search,
+    .cancel{
+      position: absolute;
+      height: 50px;
+    }
+    .search{
+      line-height:46px;
+      top:0;
+      left:0;
+      text-align:center;
+      img {
+        vertical-align: middle;
+      }
+    }
+    .cancel {
+      box-sizing: border-box;
+      padding-left: 6px;
+      line-height: 50px;
+      top: 0;
+      right: 0;
+    }
+  }
+}
+.textBoxWrapper {
+  position: relative;
+  padding: 0;
+  width: 100%;
+  input {
+    width: 100%;
+    padding: 12px 0;
+    height: 20px;
+    line-height: 20px;
+    font-size: 15px;
+  }
+  .deleteText {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 100%;
+    overflow: hidden;
+    text-indent: -9999px;
+    background: url('../../imgs/btnDeleteGray.png') no-repeat center;
+    background-size: 20px 20px;
+    border: 0;
+  }
+  &.focusOn {
+    padding-right: 40px; 
+  }
+}
+>>>>>>> 검색어 모달 스타일

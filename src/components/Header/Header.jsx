@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './style.scss';
 import iconBack from '../../assets/imgs/iconBack.png';
 import btnClose from '../../assets/imgs/btnClose.png';
@@ -25,6 +25,25 @@ export const ModalHeader = ({ onEvent, title = '', border = true }) => {
     </div>
   );
 };
+
+export const SearchModalHeader = ({ goBack, textarea = '' }) => {
+  const [focusOnTextbox, setFocusOnTextbox] = useState(false);
+  return (
+    <div className="header modalHeader">
+      <div className="headerWrapper">
+        <div className="search">
+            <img src={iconSearch} alt={'검색'} />
+          </div>
+        <div className="textBoxWrapper focusOn">
+          <input type="text" placeholder={(textarea) ? textarea : '검색어를 입력하세요'}/>
+          <button type="button" className="deleteText">입력 텍스트 삭제</button>
+        </div>
+        <div className="cancel" onClick={goBack}>취소</div>
+      </div>
+    </div>
+  );
+}
+
 
 export const HomeHeader = ({ address = '서울 영등포구 여의도동 37', fetchGeolocation, setModalPage }) => {
 

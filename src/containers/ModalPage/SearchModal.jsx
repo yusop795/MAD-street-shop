@@ -11,7 +11,7 @@ const SearchModal = ({ isOpen, onEvent }) => {
     useEffect(() => {
         if (isOpen) {
             console.log(modalPage)
-            modalPage.current.style = 'transform: translateY(0)'
+            modalPage.current.style = 'transform: translateX(0)'
             modalPage.current.scrollTop = 0
         }
     }, [isOpen]);
