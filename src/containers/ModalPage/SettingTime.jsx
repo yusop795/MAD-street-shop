@@ -31,7 +31,6 @@ const SettingTime = ({isOpen, onEvent}) => {
 
   useEffect(() => {
     if(isOpen){
-      console.log(modalPage)
       modalPage.current.style = 'transform: translateY(0)'
       modalPage.current.scrollTop = 0
     }

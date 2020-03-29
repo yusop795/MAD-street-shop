@@ -4,7 +4,7 @@ import './style.scss';
 import mapPinOn from '../../assets/imgs/mapPinOn.png';
 import iconPin from '../../assets/imgs/iconPin.png';
 
-
+console.log(process.env.REACT_APP_KAKAO_KEY)
 const kakaoMapScript = scriptUtill(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_KEY}&autoload=false`);
 
 const MainMap = ({ location, shopList= [], isModal, setModal, setShop }) => {

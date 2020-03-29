@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { HomeHeader } from '../components/Header'
 import { MainMap } from '../components/Map';
 import { ShopInfo } from '../components/Unit';
@@ -15,7 +15,7 @@ const Home = () => {
       const options = {
         enableHighAccuracy: true,
         maximumAge: 300000,
-        timeout: 5000,
+        timeout: 50000,
       };
   
       navigator.geolocation.getCurrentPosition(
@@ -29,13 +29,9 @@ const Home = () => {
     };
 
   useEffect(() => {
-    console.log('HOME_Mount');
     if (navigator.geolocation) {
       fetchGeolocation();
     }
-    return () => {
-      console.log('HOME_unMount');
-    };
   }, []);
 
   // location 변경될때
@@ -49,8 +45,7 @@ const Home = () => {
   }, [location]);
 
   return (
-    // <div>{process.env.REACT_APP_API_KEY}</div>
-    <div style={{background:'gray'}}>
+    <div>
       <HomeHeader fetchGeolocation={fetchGeolocation}/>
       <MainMap location={location} setLocation={setLocation} shopList={shopList}/>
       <ShopInfo 
@@ -68,20 +63,6 @@ const Home = () => {
         }
         fetchGeolocation={fetchGeolocation}
       />
-      {/* <div>{`Home: ${loading}`}</div> */}
-      {/* <Redirect to='/signUp' /> */}
-      {/* <div><Link to="/signup/owner">사장님 가입</Link></div>
-      <div><Link to="/signup/user">사용자 가입</Link></div>
-      <div><Link to="/ranking">리스트 보기</Link></div> */}
-
-      {/* <div className="iconBox">
-        <span>🍢</span>
-        <span>🥪</span>
-        <span>🍩</span>
-        <span>🍤</span>
-        <span>🌭</span>
-        <span>🐙</span>
-      </div> */}
     </div>
   );
 };

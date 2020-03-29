@@ -34,5 +34,8 @@
         "src": "^/(.*)",
         "dest": "/public/index.html"
     }
-  ]
+  ],
+  "env": {
+    "REACT_APP_KAKAO_KEY": "@react_app_kakao_key"
+  }
 }
