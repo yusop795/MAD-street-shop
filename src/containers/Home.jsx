@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { HomeHeader } from '../components/Header'
 import { MainMap } from '../components/Map';
-import { ShopInfo } from '../components/Unit';
+import { ShopInfo, ShopDetailModal } from '../components/Unit';
 
 import ModalPageUtill from '../util/ModalPageUtill.js';
 
@@ -50,35 +50,34 @@ const Home = () => {
     }
   }, [location]);
 
+  const data = {
+    name: "석정포장마차",
+    category: "분식",
+    photo: "https://post-phinf.pstatic.net/MjAxOTEwMDFfNjkg/MDAxNTY5OTE5NzUxNDc2.mnGT1DcIaEY9os4ftETl5Bc_SudAwsUq8O3KaqlpQtQg.qhcMdUjcKqBoTC6hR1j7OnsY4BIpK1aulSmv0mlwO14g.JPEG/%EB%B6%84%EC%8B%9D.jpg?type=w1200",
+    open: true,
+    link: "/",
+    info: {
+      distance: 8,
+      like: 674,
+      userLike: true,
+    }
+  }
+
   const rederModalPage = () => {
     switch (targetModalPage) {
       case 'SearchModal':
         return <SearchModal isOpen={isModalOpen} onEvent={setModalPage} />;
+      case 'ShopDetailModal':
+        return <ShopDetailModal shopInfo={data} isOpen={isModalOpen} onEvent={setModalPage} />;
       default:
-        return null;
+        return <ShopInfo shopInfo={data} fetchGeolocation={fetchGeolocation} onEvent={setModalPage}/>;
     }
   }
+
   return (
-    // <div>{process.env.REACT_APP_API_KEY}</div>
-    <div style={{ background: 'gray' }}>
+    <div>
       <HomeHeader fetchGeolocation={fetchGeolocation} setModalPage={setModalPage} />
-      <MainMap location={location} setLocation={setLocation} shopList={shopList} />
-      <ShopInfo
-        shopInfo={{
-          name: "석정포장마차",
-          category: "분식",
-          photo: "https://post-phinf.pstatic.net/MjAxOTEwMDFfNjkg/MDAxNTY5OTE5NzUxNDc2.mnGT1DcIaEY9os4ftETl5Bc_SudAwsUq8O3KaqlpQtQg.qhcMdUjcKqBoTC6hR1j7OnsY4BIpK1aulSmv0mlwO14g.JPEG/%EB%B6%84%EC%8B%9D.jpg?type=w1200",
-          open: true,
-          link: "/",
-          info: {
-            distance: 8,
-            like: 674,
-            userLike: true,
-          }
-        }
-        }
-        fetchGeolocation={fetchGeolocation}
-      />
+      {/* <MainMap location={location} setLocation={setLocation} shopList={shopList} /> */}
       {rederModalPage()}
     </div >
   );

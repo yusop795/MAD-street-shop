@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import scriptUtill from '../../util/scriptUtill';
 import './style.scss';
 import mapPinOn from '../../assets/imgs/mapPinOn.png';
-import iconPin from '../../assets/imgs/iconPin.png';
+import iconMapPin from '../../assets/imgs/iconMapPin.png';
 
 console.log(process.env.REACT_APP_KAKAO_KEY)
 const kakaoMapScript = scriptUtill(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_KEY}&autoload=false`);
@@ -32,7 +32,7 @@ const MainMap = ({ location, shopList= [], isModal, setModal, setShop }) => {
 
   const createShopsMarker = (kakaoMap, map) => {
     for (let i = 0; i < shopList.length; i++) {
-      const src =  selectShop === i ? mapPinOn : iconPin;
+      const src =  selectShop === i ? mapPinOn : iconMapPin;
       const image = createMarkerImage(kakaoMap, src);
       const marker = new kakaoMap.Marker({
         map,

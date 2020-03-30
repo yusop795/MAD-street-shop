@@ -9,7 +9,7 @@ import { Header } from '../components/Header';
 import { SettingCategory, SettingTime } from './ModalPage';
 
 import '../assets/styles/containers/favorite.scss';
-import { PhotoList } from '../components/List';
+import { ShopList } from '../components/List';
 
 const Ranking = ({ history }) => {
   // 스토어 값 가져오기
@@ -131,8 +131,8 @@ const Ranking = ({ history }) => {
       >
         모달 테스트
       </button> */}
-      <PhotoList items={dummyData} type="icon" />
-      <PhotoList items={dummyData} />
+      <ShopList items={dummyData} type="icon" />
+      <ShopList items={dummyData} />
       {rederModalPage()}
     </div>
   );

@@ -12,12 +12,12 @@ const Test = () => {
       <div><Link to="/ranking">리스트 보기</Link></div>
 
       <div className="iconBox">
-        <span>🍢</span>
-        <span>🥪</span>
-        <span>🍩</span>
-        <span>🍤</span>
-        <span>🌭</span>
-        <span>🐙</span>
+        <span role="img" aria-label="1">🍢</span>
+        <span role="img" aria-label="2">🥪</span>
+        <span role="img" aria-label="3">🍩</span>
+        <span role="img" aria-label="4">🍤</span>
+        <span role="img" aria-label="5">🌭</span>
+        <span role="img" aria-label="6">🐙</span>
       </div>
     </div>
   );
