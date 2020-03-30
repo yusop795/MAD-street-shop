@@ -5,7 +5,7 @@
 @import url("https://fonts.googleapis.com/css?family=Noto+Sans+KR|Roboto&display=swap");
 
 body {
-  background-color:$whiteColor;
+  background-color:$mainBgColor;
   font-size: 14px;
   color:$mainTextColor;
   font-family: 'Noto Sans KR', sans-serif;
@@ -53,4 +53,9 @@ input,textarea,select {
     overflow-x: hidden;
     transition: all 0.35s ease-in;
   }
+}
+
+.main {
+  padding-top: 50px;
+  box-sizing: border-box;
 }

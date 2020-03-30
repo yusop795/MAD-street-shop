@@ -1,5 +1,5 @@
+@import "../../assets/styles/common/color.scss";
 .shopListWrapper {
-  margin-top: 50px;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   a {
     display: block;
@@ -43,12 +43,13 @@
   }
   .heart {
     display: inline-block;
+    padding-top: 3px;
     padding-left: 26px;
     color: rgba(0, 0, 0, 0.5);
     font-size: 14px;
     background-repeat: no-repeat;
-    background-size: 14px 12px;
-    background-position: 8px 0px;
+    background-size: 16px 14px;
+    background-position: 7px 3px;
     background-image: url(../../assets/imgs/iconLikeOff.png);
     &.on {
       background-image: url(../../assets/imgs/iconLikeOn.png);
@@ -101,5 +102,23 @@
     color: rgba(255, 255, 255, 1);
     font-size: 14px;
     line-height: 17px;
+  }
+}
+
+.photoListBox {
+  overflow: scroll;
+  margin-left: 20px;
+  > div {
+  }
+  .imgBox {
+    float: left;
+    width: 90px;
+    height: 90px;
+    margin-right: 10px;
+    border: 1px solid $black01;
+    background-size: cover;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-color: red;
   }
 }

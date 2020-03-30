@@ -7,7 +7,7 @@ import iconMapPin from '../../assets/imgs/iconMapPin.png';
 console.log(process.env.REACT_APP_KAKAO_KEY)
 const kakaoMapScript = scriptUtill(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_KEY}&autoload=false`);
 
-const MainMap = ({ location, shopList= [], isModal, setModal, setShop }) => {
+const MainMap = ({ location, shopList= [], isModal, setModal, setShop, onEvent }) => {
   const [isSpin, setisSpin] = useState(true);
   const [selectShop,setSelectShop] = useState(1);
 
@@ -19,6 +19,15 @@ const MainMap = ({ location, shopList= [], isModal, setModal, setShop }) => {
   //     // setLocation({ long: latlng.Ga, lat: latlng.Ha });
   //   });
   // };
+
+  const clickMap = (kakaoMap, map) => {
+    kakaoMap.event.addListener(map, 'click', () => {       
+      console.log() 
+      onEvent({
+        target: 'ShopDetailModal',
+      });
+    });
+  }
 
   const createMarkerImage = (kakaoMap, src) => {
     const size = new kakaoMap.Size(43, 50);
@@ -46,6 +55,9 @@ const MainMap = ({ location, shopList= [], isModal, setModal, setShop }) => {
       // 마커 이벤트 등록
       kakaoMap.event.addListener(marker, 'click', () => {
         setSelectShop(i)
+        onEvent({
+          target: 'ShopDetailModal',
+        });
         // if(marker.getZIndex() ===0){
         //   marker.setZIndex(1);
         // }else {
@@ -81,7 +93,7 @@ const MainMap = ({ location, shopList= [], isModal, setModal, setShop }) => {
             // 마커 이벤트
             // moveMap(kakaoMap, map);
           }
-
+          clickMap(kakaoMap, map)
           // 스핀 제거
           setisSpin(false);
         });

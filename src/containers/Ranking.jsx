@@ -119,7 +119,7 @@ const Ranking = ({ history }) => {
   };
 
   return (
-    <div className="signUp">
+    <div className="main ranking">
       <Header title="내주변 랭킹" goBack={history.goBack} />
       {/* <button
         type="button"

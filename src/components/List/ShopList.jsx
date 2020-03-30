@@ -20,15 +20,14 @@ export const ShopItem = ({index = 10, data, type, onEvent})=> {
       <div 
         className={`shopListItem ${type === "icon" && index < 5 ? "iconShow" : ""}`}
         onClick={()=>{
+          if (!onEvent) return false
           onEvent({
             target: 'ShopDetailModal',
           });
         }}
       >
-        {
-          type === "icon" && index < 5 ? (
-            <div className={`listIcon ${index > 2 ? "iconShow line" : "iconShow"}`}>{index + 1}</div>
-          ) : ("")
+        {type === "icon" && index < 5 ? 
+          (<div className={`listIcon ${index > 2 ? "iconShow line" : "iconShow"}`}>{index + 1}</div>) : null
         }
         <div className="listTest">
           <div className="shopInfo">
@@ -46,9 +45,7 @@ export const ShopItem = ({index = 10, data, type, onEvent})=> {
             src={data.photo}
             alt="돈까스"
           />
-          {
-            data.open ? "" : <div className="getReady">준비중</div>
-          }
+          { data.open ? null : <div className="getReady">준비중</div>}
         </div>
       </div>
   )

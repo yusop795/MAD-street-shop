@@ -36,16 +36,9 @@ const SignUp = ({ history, match }) => {
   };
 
   return (
-    <div className="signUp">
+    <div className="main signUp">
       <Header goBack={history.goBack} />
-      <h2
-        className="title"
-        onClick={() => {
-          setModalPage({
-            target: 'SettingCategory',
-          });
-        }}
-      >
+      <h2 className="title">
         {`안녕하세요`} <br />
         <b>{match.params.type === 'owner' ? `사장님 계정` : `사용자 계정`}</b>
         {`으로 매드스트릿샵`} <br />

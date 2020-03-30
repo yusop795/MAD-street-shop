@@ -12,6 +12,18 @@ import { SearchModal } from '../containers/ModalPage';
 const Home = () => {
   const [location, setLocation] = useState('');
   const [shopList, setShopList] = useState([{ name: '토토네 튀김', latitude: 37.489524599999996, longitude: 126.98655099999998 }, { name: '네네치킨', latitude: 37.489524599999996, longitude: 126.98643099999998 }]);
+  const [selectShop, setselectShop] = useState({
+    name: "석정포장마차",
+    category: "분식",
+    photo: "https://post-phinf.pstatic.net/MjAxOTEwMDFfNjkg/MDAxNTY5OTE5NzUxNDc2.mnGT1DcIaEY9os4ftETl5Bc_SudAwsUq8O3KaqlpQtQg.qhcMdUjcKqBoTC6hR1j7OnsY4BIpK1aulSmv0mlwO14g.JPEG/%EB%B6%84%EC%8B%9D.jpg?type=w1200",
+    open: true,
+    link: "/",
+    info: {
+      distance: 8,
+      like: 674,
+      userLike: true,
+    }
+  });
   const loading = useSelector(({ authReducer }) => authReducer.loading, true);
 
   // 위치정보 조회
@@ -50,34 +62,22 @@ const Home = () => {
     }
   }, [location]);
 
-  const data = {
-    name: "석정포장마차",
-    category: "분식",
-    photo: "https://post-phinf.pstatic.net/MjAxOTEwMDFfNjkg/MDAxNTY5OTE5NzUxNDc2.mnGT1DcIaEY9os4ftETl5Bc_SudAwsUq8O3KaqlpQtQg.qhcMdUjcKqBoTC6hR1j7OnsY4BIpK1aulSmv0mlwO14g.JPEG/%EB%B6%84%EC%8B%9D.jpg?type=w1200",
-    open: true,
-    link: "/",
-    info: {
-      distance: 8,
-      like: 674,
-      userLike: true,
-    }
-  }
 
   const rederModalPage = () => {
     switch (targetModalPage) {
       case 'SearchModal':
         return <SearchModal isOpen={isModalOpen} onEvent={setModalPage} />;
       case 'ShopDetailModal':
-        return <ShopDetailModal shopInfo={data} isOpen={isModalOpen} onEvent={setModalPage} />;
+        return <ShopDetailModal shopInfo={selectShop} isOpen={isModalOpen} onEvent={setModalPage} />;
       default:
-        return <ShopInfo shopInfo={data} fetchGeolocation={fetchGeolocation} onEvent={setModalPage}/>;
+        return <ShopInfo shopInfo={selectShop} fetchGeolocation={fetchGeolocation} onEvent={setModalPage}/>;
     }
   }
 
   return (
     <div>
       <HomeHeader fetchGeolocation={fetchGeolocation} setModalPage={setModalPage} />
-      {/* <MainMap location={location} setLocation={setLocation} shopList={shopList} /> */}
+      {/* <MainMap location={location} setLocation={setLocation} shopList={shopList} onEvent={setModalPage}/> */}
       {rederModalPage()}
     </div >
   );
