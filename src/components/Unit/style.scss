@@ -1,5 +1,5 @@
 @import "../../assets/styles/common/color.scss";
-// @import "../../assets/styles/common/layout.scss";
+@import "../../assets/styles/common/anmation.scss";
 
 
 .button {
@@ -137,5 +137,30 @@
 
     }
 
+  }
+}
+
+
+.iconBox {
+  position: absolute;
+  bottom:-100px;
+  left:50%;
+  span {
+    display: block;
+    font-size: 50px;
+    transform:translate(0px, 0px) rotate(0deg); 
+    opacity: 1;
+    &:nth-child(1) {
+      @include animation('icon-pop01 1s linear 0s infinite forwards');
+    }
+    &:nth-child(2) {
+      @include animation('icon-pop03 1.3s linear 0s infinite forwards');
+    }
+    &:nth-child(3) {
+      @include animation('icon-pop02 1s linear 0s infinite forwards');
+    }
+    &:nth-child(4) { 
+      @include animation('icon-pop01 1s linear 0s infinite forwards');
+    }
   }
 }

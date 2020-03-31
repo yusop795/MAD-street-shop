@@ -10,16 +10,8 @@ const Test = () => {
       <div><Link to="/signup/owner">사장님 가입</Link></div>
       <div><Link to="/signup/user">사용자 가입</Link></div>
       <div><Link to="/ranking">리스트 보기</Link></div>
-      <div><Link to="/account">가입</Link></div>
-
-      <div className="iconBox">
-        <span role="img" aria-label="1">🍢</span>
-        <span role="img" aria-label="2">🥪</span>
-        <span role="img" aria-label="3">🍩</span>
-        <span role="img" aria-label="4">🍤</span>
-        <span role="img" aria-label="5">🌭</span>
-        <span role="img" aria-label="6">🐙</span>
-      </div>
+      <div><Link to="/account">계정 설정</Link></div>
+      <div><Link to="/complet/owner">가입 완료</Link></div>
     </div>
   );
 };

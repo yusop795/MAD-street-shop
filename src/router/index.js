@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { Home, SignUp, Ranking, Test, Account } from '../containers';
+import { Home, SignUp, Ranking, Test, Account, SignUpComplet } from '../containers';
 const Router = a => {
   // 마운트 될 때 한번
   // useEffect(() => {
@@ -21,10 +21,11 @@ const Router = a => {
       <Switch>
         <Route exact path="/account" component={Account} />
         <Route exact path="/signup/:type" component={SignUp} />
-        <Route exact path="/ranking" component={Ranking} />
+        <Route exact path="/complet/:type" component={SignUpComplet} />
         <Switch>
           <Route exact path="/" component={Test} />
           <Route exact path="/home" component={Home} />
+          <Route exact path="/ranking" component={Ranking} />
         </Switch>
       </Switch>
     </BrowserRouter>

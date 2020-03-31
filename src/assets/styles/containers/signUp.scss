@@ -1,5 +1,4 @@
 @import "../common/color.scss";
-@import "../common/anmation.scss";
 
 .signUp {
   .title {
@@ -21,31 +20,6 @@
         background-color: $mainPointerColor;
         z-index: -1;
       }
-    }
-  }
-}
-
-
-.iconBox {
-  position: absolute;
-  bottom:-50px;
-  left:50%;
-  span {
-    display: block;
-    font-size: 25px;
-    transform:translate(0px, 0px) rotate(0deg); 
-    opacity: 1;
-    &:nth-child(1) {
-      @include animation('icon-pop01 1s linear 1s infinite forwards');
-    }
-    &:nth-child(2) {
-      @include animation('icon-pop03 1.3s linear 1s infinite forwards');
-    }
-    &:nth-child(3) {
-      @include animation('icon-pop02 1s linear 1s infinite forwards');
-    }
-    &:nth-child(4) { 
-      @include animation('icon-pop01 1s linear 3s infinite forwards');
     }
   }
 }
