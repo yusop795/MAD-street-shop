@@ -2,27 +2,27 @@
 @import "../common/anmation.scss";
 
 .signUp {
-    .title {
-        margin: 20px 0;
-        text-align: center;
-        font-size: 24px;
-        line-height: 32px;
-        b{
-            position: relative;
-            z-index: 1;
-            &::before {
-                content: '';
-                display: block;
-                position: absolute;
-                left:0;
-                bottom:0;
-                width: 100%;
-                height: 9px;
-                background-color: $mainPointerColor;
-                z-index: -1;
-            }
-        }
+  .title {
+    margin: 20px 0;
+    text-align: center;
+    font-size: 24px;
+    line-height: 32px;
+    b{
+      position: relative;
+      z-index: 1;
+      &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        left:0;
+        bottom:0;
+        width: 100%;
+        height: 9px;
+        background-color: $mainPointerColor;
+        z-index: -1;
+      }
     }
+  }
 }
 
 

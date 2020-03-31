@@ -14,4 +14,12 @@ const Button = ({fullmode=false , active=true, bottom=false, onEvent = null, tex
   )
 };
 
+export const RoundButton = ({ onEvent = null,text=''}) => {
+  return (
+    <div className="roundButton" onClick={onEvent}>
+      {text}
+    </div>
+  )
+}
+
 export default Button;

@@ -10,6 +10,7 @@ const Test = () => {
       <div><Link to="/signup/owner">사장님 가입</Link></div>
       <div><Link to="/signup/user">사용자 가입</Link></div>
       <div><Link to="/ranking">리스트 보기</Link></div>
+      <div><Link to="/account">가입</Link></div>
 
       <div className="iconBox">
         <span role="img" aria-label="1">🍢</span>

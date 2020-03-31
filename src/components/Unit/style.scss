@@ -28,6 +28,15 @@
   }
 }
 
+.roundButton {
+
+  padding:10px 30px;
+  background-color: $mainColor;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
 .shopInfoBox {
   position: fixed;
   bottom:30px;
@@ -92,26 +101,38 @@
   width: 100%;
   height: 400px;
   background-color: $whiteColor;
+  border: 1px solid $black01;
   z-index: 99;
   &.open {
     bottom: 0px;
   }
   .shopDetailInfo {
-    padding: 20px;
+    padding: 20px 20px 0px;
     .infoList {
       display: flex;
       margin-bottom: 17px;
       img {
         width: 20px;
         height: 20px;
-        margin-top: 2px;
+        margin-top: 3px;
         margin-right:10px;
       }
       .info {
         p {
           font-size: 15px;
-          line-height: 1.5em;
+          line-height: 1.8em;
         }
+        .subLocation {
+          font-size: 13px;
+          color: $black05;
+        }
+        .openInfo {
+          margin-left:3px;
+          font-size: 14px;
+          color: $subPointerColor;
+          font-weight: bold;
+        }
+
       }
 
     }
