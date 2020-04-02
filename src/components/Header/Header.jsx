@@ -11,20 +11,20 @@ import ModalPageUtill from '../../util/ModalPageUtill.js';
 import { SearchModal } from '../../containers/ModalPage';
 
 
-const Header = ({ goBack, title = '' }) => {
+const Header = ({ onEvent, title = '' }) => {
   return (
     <div className="header">
-      <div onClick={goBack}><img src={iconBack} alt={'뒤로가기'} /></div>
+      <div onClick={onEvent}><img src={iconBack} alt={'뒤로가기'} /></div>
       <h2 className="headerTitle">{(title) ? title : ''}</h2>
       <div>{''}</div>
     </div>
   );
 };
 
-export const ModalHeader = ({ goBack, title = '' }) => {
+export const ModalHeader = ({ onEvent, title = '' }) => {
   return (
     <div className="header modalHeader">
-      <div onClick={goBack}><img src={btnClose} alt="btnClose" /></div>
+      <div onClick={onEvent}><img src={btnClose} alt="btnClose" /></div>
       <h2 className="headerTitle">{(title) ? title : ''}</h2>
       <div>{''}</div>
     </div>

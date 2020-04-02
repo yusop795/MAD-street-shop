@@ -120,7 +120,7 @@ const Ranking = ({ history }) => {
 
   return (
     <div className="main ranking">
-      <Header title="내주변 랭킹" goBack={history.goBack} />
+      <Header title="내주변 랭킹" onEvent={history.goBack} />
       {/* <button
         type="button"
         onClick={() => {

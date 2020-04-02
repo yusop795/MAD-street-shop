@@ -40,8 +40,8 @@ const SearchModal = ({ isOpen, onEvent }) => {
 
 
     return (
-        <div ref={modalPage} className={`searchModal modalPage ${isOpen ? 'open' : ''}`}>
-            <ModalHeader goBack={onEvent} />
+        <div ref={modalPage} className={`main searchModal modalPage ${isOpen ? 'open' : ''}`}>
+            <ModalHeader goBonEventack={onEvent} />
             검색하기 페이지
         </div>
     );

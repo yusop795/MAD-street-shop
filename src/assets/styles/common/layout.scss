@@ -1,3 +1,40 @@
+body {
+    background-color:$mainBgColor;
+    font-size: 15px;
+    color:$mainTextColor;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+
+#root {
+width: 100%;
+height: 100vh;
+> div {
+    min-height: 100%;
+}
+}
+
+.modalPage{
+position: fixed;
+top: 100%;
+left: 0;
+z-index: 999999;
+background-color:$mainBgColor;
+transform: translateY(100%);
+&.open {
+    top: 0;
+    width: 100vw; /* viewport width */
+    height: 100vh; /* viewport height */
+    overflow-y: scroll;
+    overflow-x: hidden;
+    transition: all 0.35s ease-in;
+}
+}
+
+.main {
+padding-top: 50px;
+box-sizing: border-box;
+}
+
 .header{
     position: absolute;
     top:0;

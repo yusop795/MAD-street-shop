@@ -9,7 +9,7 @@ import '../assets/styles/containers/account.scss';
 const Account = ({ history, match }) => {
   return (
     <div className="main account">
-      <Header goBack={history.goBack} />
+      <Header onEvent={history.goBack} />
       <h2 className="title">
         회원가입을 위한 <br />
         <b>가입 유형</b>

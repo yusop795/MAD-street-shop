@@ -5,7 +5,7 @@ import './style.scss';
 const FormGroup = ({fullMode=false, outline=false, title='', subTittle='', children=null, info}) => {
   return (
     <div className={`formGroup ${(fullMode)?'fullMode':''}`}>
-      <h2 className="formGroupTitle">{title}<span>{subTittle}</span></h2>
+      {title? <h2 className="formGroupTitle">{title}<span>{subTittle}</span></h2> : null}
       <div className={`formGroupList ${(outline)?'outline':''}`}>
         {children}
       </div>

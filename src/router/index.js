@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { Home, SignUp, Ranking, Test, Account, SignUpComplet } from '../containers';
+import { Home, SignUpOwner, SignUpUser, Ranking, Test, Account, SignUpComplet } from '../containers';
 const Router = a => {
   // 마운트 될 때 한번
   // useEffect(() => {
@@ -19,9 +19,10 @@ const Router = a => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/account" component={Account} />
-        <Route exact path="/signup/:type" component={SignUp} />
-        <Route exact path="/complet/:type" component={SignUpComplet} />
+        <Route exact path="/signup/account" component={Account} />
+        <Route exact path="/signup/owner" component={SignUpOwner} />
+        <Route exact path="/signup/user" component={SignUpUser} />
+        <Route exact path="/signup/complet/:type" component={SignUpComplet} />
         <Switch>
           <Route exact path="/" component={Test} />
           <Route exact path="/home" component={Home} />

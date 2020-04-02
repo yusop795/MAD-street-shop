@@ -39,8 +39,8 @@ const SettingTime = ({isOpen, onEvent}) => {
   
 
   return (
-    <div ref={modalPage} className={`settingTime modalPage ${isOpen?'open':''}`}>
-      <ModalHeader goBack={onEvent} title={'영업 시간 설정'}/>
+    <div ref={modalPage} className={`main settingTime modalPage ${isOpen?'open':''}`}>
+      <ModalHeader onEvent={onEvent} title={'영업 시간 설정'}/>
       <SelectTime         
         title={'영업 시간'} 
       />

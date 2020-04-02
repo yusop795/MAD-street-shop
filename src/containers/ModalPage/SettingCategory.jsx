@@ -57,8 +57,8 @@ const SettingCategory = ({isOpen, onEvent}) => {
 
 
   return (
-    <div ref={modalPage} className={`settingCategory modalPage ${isOpen?'open':''}`}>
-      <ModalHeader goBack={onEvent} title={'카테고리 설정'}/>
+    <div ref={modalPage} className={`main settingCategory modalPage ${isOpen?'open':''}`}>
+      <ModalHeader onEvent={onEvent} title={'카테고리 설정'}/>
       <div className="settingInfoBox">
         <h2 className="settingInfoTitle">판매하는 음식을 선택하세요</h2>
         <p className="settingInfo">카테고리는 <b>1개</b>, 대표메뉴는 <b>최대 3개</b>까지<br/>선택가능</p>

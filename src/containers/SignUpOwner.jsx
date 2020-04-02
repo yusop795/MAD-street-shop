@@ -10,10 +10,10 @@ import { Header } from '../components/Header';
 import { FormGroup, InputText, Radio, ImgUploader } from '../components/FormGroup';
 import { Button } from '../components/Unit';
 
-import '../assets/styles/containers/signUp.scss';
+import '../assets/styles/containers/signUpOwner.scss';
 import { SettingCategory, SettingTime } from './ModalPage';
 
-const SignUp = ({ history, match }) => {
+const SignUpOwner = ({ history, match }) => {
   // 스토어 값 가져오기
   // const loading = useSelector(({ authReducer }) => authReducer.loading, true);
   const [selectRadioItem, setSelectRadioItem] = useState(2);
@@ -36,13 +36,12 @@ const SignUp = ({ history, match }) => {
   };
 
   return (
-    <div className="main signUp">
-      <Header goBack={history.goBack} />
+    <div className="main signUpOwner">
+      <Header onEvent={history.goBack} />
       <h2 className="title">
-        {`안녕하세요`} <br />
-        <b>{match.params.type === 'owner' ? `사장님 계정` : `사용자 계정`}</b>
-        {`으로 매드스트릿샵`} <br />
-        {`회원가입을 진행합니다`} <br />
+        안녕하세요 <br />
+        <b>사장님 계정</b>으로 매드스트릿샵<br />
+        회원가입을 진행합니다<br />
       </h2>
       <FormGroup title={'기본 정보'} outline={true}>
         <InputText label={'이름'} />
@@ -111,4 +110,4 @@ const SignUp = ({ history, match }) => {
   );
 };
 
-export default withRouter(SignUp);
+export default withRouter(SignUpOwner);

@@ -1,0 +1,46 @@
+@import "../common/color.scss";
+
+.signUpUser {
+  .titleBox {
+    padding: 37px;
+    font-size: 17px;
+    text-align: center;
+    line-height: 1.5em;
+    background-color: $whiteColor;
+  }
+  .categoryBox {
+    display: flex;
+    .sideCategoryBox {
+      .category {
+        display: flex;
+        flex:1;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 80px;
+        height: 80px;
+        border-bottom: 1px solid $black01;
+        background-color: $whiteColor;
+        .icon {
+          margin-bottom: 7px;
+        }
+        >.title {
+          display: inline-block;
+          max-width: 56px;
+          text-align: center;
+          line-height: 1.2em;
+        }
+        &.active {
+          background-color: $mainBgColor;
+        }
+      }
+    }
+    .menuTagBox {
+      .formGroup {
+        position: sticky;
+        position: -webkit-sticky;
+        top: 30px;
+      }
+    }
+  }
+}
