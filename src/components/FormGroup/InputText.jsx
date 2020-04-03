@@ -2,7 +2,7 @@ import React from 'react';
 import iconChevronRight from '../../assets/imgs/iconChevronRight.png';
 import './style.scss';
 
-const InputText = ({label='',type='text',onEvent=null ,selcetData=null}) => {
+const InputText = ({label=null,type='text',onEvent=null ,selcetData=null, placeholder='입력해주세요'}) => {
 
   const resizeTextArea = ({target}) => {
     target.style.height = "1px";
@@ -25,15 +25,15 @@ const InputText = ({label='',type='text',onEvent=null ,selcetData=null}) => {
           </div>
         )
       case 'textarea':
-        return  <textarea className="inputText" onKeyDown={resizeTextArea} placeholder='입력해주세요'></textarea>
+        return  <textarea className="inputText" onKeyDown={resizeTextArea} placeholder={placeholder}></textarea>
       default:
-        return <input className="inputText" defaultValue='' type={type} placeholder='입력해주세요'/>
+        return <input className="inputText" defaultValue='' type={type} placeholder={placeholder}/>
     }
   }
 
   return (
     <div className='inputTextItem'>
-      <label>{label}</label>
+      {label?<label>{label}</label>:null}
       {renderInput()}
     </div>
   )

@@ -1,15 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import scriptUtill from '../../util/scriptUtill';
 import './style.scss';
 import mapPinOn from '../../assets/imgs/mapPinOn.png';
 import iconMapPin from '../../assets/imgs/iconMapPin.png';
 
-console.log(process.env.REACT_APP_KAKAO_KEY)
-const kakaoMapScript = scriptUtill(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_KEY}&autoload=false`);
-
-const MainMap = ({ location, shopList= [], isModal, setModal, setShop, onEvent }) => {
+const MainMap = ({ location, shopList= [], containerId= null, onEvent }) => {
   const [isSpin, setisSpin] = useState(true);
   const [selectShop,setSelectShop] = useState(1);
+
+  console.log(process.env.REACT_APP_KAKAO_KEY)
+  const kakaoMapScript = scriptUtill(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_KEY}&autoload=false`);
+
 
   // const moveMap = (kakaoMap, map) => {
   //   // 중심 좌표나 확대 수준이 변경되면 발생
@@ -67,7 +68,7 @@ const MainMap = ({ location, shopList= [], isModal, setModal, setShop, onEvent }
     }
   };
 
-  const renderMap = containerId => {
+  const renderMap = () => {
     const container = document.getElementById(containerId);
     kakaoMapScript
       .then(() => {
@@ -93,7 +94,9 @@ const MainMap = ({ location, shopList= [], isModal, setModal, setShop, onEvent }
             // 마커 이벤트
             // moveMap(kakaoMap, map);
           }
-          clickMap(kakaoMap, map)
+          if(onEvent) {
+            clickMap(kakaoMap, map)
+          }
           // 스핀 제거
           setisSpin(false);
         });
@@ -105,10 +108,10 @@ const MainMap = ({ location, shopList= [], isModal, setModal, setShop, onEvent }
 
   useEffect(() => {
     if (location) {
-      renderMap('mapBox');
+      renderMap();
     }
   });
 
-  return <div id='mapBox'></div>;
+  return <div id={containerId} class="mapBox"></div>;
 };
 export default MainMap;

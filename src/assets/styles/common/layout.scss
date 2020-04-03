@@ -14,20 +14,49 @@ height: 100vh;
 }
 
 .modalPage{
-position: fixed;
-top: 100%;
-left: 0;
-z-index: 999999;
-background-color:$mainBgColor;
-transform: translateY(100%);
-&.open {
+  position: fixed;
+  top: 100%;
+  left: 0;
+  z-index: 999999;
+  background-color:$mainBgColor;
+  transform: translateY(100%);
+  &.open {
     top: 0;
     width: 100vw; /* viewport width */
     height: 100vh; /* viewport height */
     overflow-y: scroll;
     overflow-x: hidden;
     transition: all 0.35s ease-in;
-}
+  }
+  &.settingLocation {
+    .locationBox {
+      position: fixed;
+      bottom:0;
+      left:0;
+      width: 100%;
+      flex-direction: column;
+      align-items: flex-start;
+      padding:0;
+      border: none;
+      background-color: $whiteColor;
+      z-index: 99;
+      .loactionBtn {
+        position: absolute;
+        top: -64px;
+        right:20px;
+        img {
+          width: 44px;
+          height: 44px;
+        }
+      }
+      .inputTextItem {
+        padding: 20px;
+      }
+      .location {
+        margin: 20px 20px 0;
+      }
+    }
+  }
 }
 
 .main {

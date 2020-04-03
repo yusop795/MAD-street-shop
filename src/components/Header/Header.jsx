@@ -31,9 +31,6 @@ export const ModalHeader = ({ onEvent, title = '' }) => {
   );
 };
 
-
-
-
 export const HomeHeader = ({ address = '서울 영등포구 여의도동 37', fetchGeolocation, setModalPage }) => {
 
   return (
@@ -41,15 +38,11 @@ export const HomeHeader = ({ address = '서울 영등포구 여의도동 37', fe
       <div className="menu">
         <img src={iconMenu} alt={'메뉴'} />
       </div>
-      <div className="address" onClick={fetchGeolocation}>
+      <div className="address" onClick={() => setModalPage({target: 'SettingLocation'})}>
         <span className="text">{address}</span>
         <img src={adressEdit} alt={'주소 수정'} />
       </div>
-      <div className="search" onClick={() => {
-        setModalPage({
-          target: 'SearchModal',
-        });
-      }}>
+      <div className="search" onClick={() => setModalPage({target: 'SearchModal'})}>
         <img src={iconSearch} alt={'검색'} />
       </div>
     </div>

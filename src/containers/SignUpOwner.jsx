@@ -11,7 +11,7 @@ import { FormGroup, InputText, Radio, ImgUploader } from '../components/FormGrou
 import { Button } from '../components/Unit';
 
 import '../assets/styles/containers/signUpOwner.scss';
-import { SettingCategory, SettingTime } from './ModalPage';
+import { SettingCategory, SettingTime, SettingLocation } from './ModalPage';
 
 const SignUpOwner = ({ history, match }) => {
   // 스토어 값 가져오기
@@ -30,6 +30,8 @@ const SignUpOwner = ({ history, match }) => {
         return <SettingCategory isOpen={isModalOpen} onEvent={setModalPage} />;
       case 'SettingTime':
         return <SettingTime isOpen={isModalOpen} onEvent={setModalPage} />;
+      case 'SettingLocation':
+        return <SettingLocation isOpen={isModalOpen} onEvent={setModalPage} />;
       default:
         return null;
     }
@@ -70,7 +72,15 @@ const SignUpOwner = ({ history, match }) => {
             });
           }}
         />
-        <InputText label={'주 영업 위치'} type="openModal" />
+        <InputText 
+          label={'주 영업 위치'} 
+          type="openModal" 
+          onEvent={() => {
+            setModalPage({
+              target: 'SettingLocation',
+            });
+          }}
+        />
         <InputText
           label={'주 영업 시간'}
           type="openModal"

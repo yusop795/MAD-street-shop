@@ -12,7 +12,7 @@ const shopInfo = ({shopInfo={}, fetchGeolocation, onEvent}) => {
   return (
     <div className="shopInfoBox">
       <div className="buttonBox">
-        <div className="loaction" onClick={fetchGeolocation}>
+        <div className="loactionBtn" onClick={fetchGeolocation}>
           <img src={btnHere} alt="현재위치"/>
         </div>
         <div className="ranking">

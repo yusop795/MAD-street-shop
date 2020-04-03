@@ -4,10 +4,6 @@ import { withRouter } from "react-router-dom";
 import AlertUtil from '../../util/AlertUtil.js';
 // common components
 import { ModalHeader } from '../../components/Header';
-import { Alert } from '../../components/Alert';
-// components
-import { SelectTime, InputTag } from '../../components/FormGroup';
-import { Button } from '../../components/Unit';
 // style
 import '../../assets/styles/containers/setting.scss';
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { HomeHeader } from '../components/Header'
@@ -7,7 +7,7 @@ import { ShopInfo, ShopDetailModal } from '../components/Unit';
 
 import ModalPageUtill from '../util/ModalPageUtill.js';
 
-import { SearchModal } from '../containers/ModalPage';
+import { SearchModal, SettingLocation } from '../containers/ModalPage';
 
 const Home = () => {
   const [location, setLocation] = useState('');
@@ -69,6 +69,8 @@ const Home = () => {
         return <SearchModal isOpen={isModalOpen} onEvent={setModalPage} />;
       case 'ShopDetailModal':
         return <ShopDetailModal shopInfo={selectShop} isOpen={isModalOpen} onEvent={setModalPage} />;
+      case 'SettingLocation':
+        return <SettingLocation isOpen={isModalOpen} onEvent={setModalPage} />;
       default:
         return <ShopInfo shopInfo={selectShop} fetchGeolocation={fetchGeolocation} onEvent={setModalPage}/>;
     }
@@ -77,7 +79,13 @@ const Home = () => {
   return (
     <div>
       <HomeHeader fetchGeolocation={fetchGeolocation} setModalPage={setModalPage} />
-      {/* <MainMap location={location} setLocation={setLocation} shopList={shopList} onEvent={setModalPage}/> */}
+      <MainMap 
+        location={location} 
+        setLocation={setLocation} 
+        shopList={shopList} 
+        onEvent={setModalPage} 
+        containerId={'homeMap'}
+      />
       {rederModalPage()}
     </div >
   );

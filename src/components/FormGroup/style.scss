@@ -102,49 +102,6 @@
     }
   }
 
-  .inputTextItem {
-    width: 100%;
-    box-sizing: border-box;
-    // border:1px solid $black01;
-    background-color: $whiteColor;
-    display: flex;
-    align-items: center;
-    min-height:50px;
-    padding:0 15px;
-    border-bottom:1px solid $black01;
-    &:last-child {
-      border:none
-    }
-    label {
-      width: 85px;
-      padding:10px 0;
-      margin-right:15px;
-      color:$black05
-    }
-    .inputText {
-      flex:1;
-      font-size: 15px;
-      color:$mainTextColor;
-      p {
-        display: flex;
-        justify-content: space-between;
-        img {
-          width: 6px;
-          height: 12px;
-        }
-      }
-      &.selcet {
-        margin: 16px 0;
-        span {
-          display: block;
-          margin-top:7px;
-          font-size: 13px;
-          color:$redColor2
-        }
-      }
-    } 
-  }
-
   // imgUploader
   .imgUploaderBox {
     display: flex;
@@ -216,4 +173,47 @@
       margin-left:10px;
     }
   }
+}
+
+.inputTextItem {
+  width: 100%;
+  box-sizing: border-box;
+  // border:1px solid $black01;
+  background-color: $whiteColor;
+  display: flex;
+  align-items: center;
+  min-height:50px;
+  padding:0 15px;
+  border-bottom:1px solid $black01;
+  &:last-child {
+    border:none
+  }
+  label {
+    width: 85px;
+    padding:10px 0;
+    margin-right:15px;
+    color:$black05
+  }
+  .inputText {
+    flex:1;
+    font-size: 15px;
+    color:$mainTextColor;
+    p {
+      display: flex;
+      justify-content: space-between;
+      img {
+        width: 6px;
+        height: 12px;
+      }
+    }
+    &.selcet {
+      margin: 16px 0;
+      span {
+        display: block;
+        margin-top:7px;
+        font-size: 13px;
+        color:$redColor2
+      }
+    }
+  } 
 }
