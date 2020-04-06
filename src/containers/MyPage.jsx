@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
 import AlertUtil from '../util/AlertUtil.js';
+import ModalPageUtill from '../util/ModalPageUtill.js';
 
 import { ModalHeader } from '../components/Header';
 import { Alert } from '../components/Alert';
+
+import { Login } from './ModalPage';
 
 import imgProfile01 from '../assets/imgs/imgProfile01.png';
 import imgProfile02 from '../assets/imgs/imgProfile02.png';
@@ -19,7 +22,18 @@ import '../assets/styles/containers/myPage.scss';
 
 const MyPage = ({ history, match }) => {
   const type = 'user';
-  const isLogin = true;
+  const isLogin = false;
+
+  const { targetModalPage, isModalOpen, setModalPage } = ModalPageUtill();
+
+  const rederModalPage = () => {
+    switch (targetModalPage) {
+      case 'Login':
+        return <Login isOpen={isModalOpen} onEvent={setModalPage} />;
+      default:
+        return null;
+    }
+  };
 
   // alert
   const { isShowing, title, contents, setAlert} = AlertUtil();
@@ -31,7 +45,13 @@ const MyPage = ({ history, match }) => {
       (
         <div className="userInfoBox">
           <img src={imgProfile03} className="userImg" alt="기본 프로필 이미지"/>
-          <p><Link to="/ranking">로그인</Link>이 필요한 서비스입니다</p>
+          <p>
+            <b onClick={()=>{
+               setModalPage({
+                target: 'Login',
+              });
+            }}>로그인</b>이 필요한 서비스입니다
+          </p>
         </div>
       ):(
         <>
@@ -77,6 +97,7 @@ const MyPage = ({ history, match }) => {
       </ul>
       <p className="notice">매드스트릿샵을 탈퇴하려면 <b>여기</b>를 눌러주세요.</p>
       <Alert isShowing={isShowing} hide={setAlert} title={title} contents={contents}/>
+      {rederModalPage()}
     </div>
   );
 };
