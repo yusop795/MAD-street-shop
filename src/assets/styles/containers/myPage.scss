@@ -8,6 +8,9 @@
     padding: 20px 0px;
     margin: 0px 30px;
     border-bottom: 1px solid $black01;
+    a {
+      text-decoration: underline;
+    }
     .userImg {
       width: 60px;
       height: 60px;
@@ -15,7 +18,7 @@
     }
     .userInfo {
       font-size: 17px;
-      span {
+      > span {
         display: block;
         padding: 3px 7px;
         margin-bottom: 5px;
@@ -90,7 +93,7 @@
     margin: 20px 30px;
     font-size: 12px;
     color: $black025;
-    span {
+    b {
       text-decoration: underline;
     }
   }
