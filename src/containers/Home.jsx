@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { HomeHeader } from '../components/Header'
-import { MainMap } from '../components/Map';
-import { ShopInfo, ShopDetailModal } from '../components/Unit';
 
 import ModalPageUtill from '../util/ModalPageUtill.js';
 
+import { HomeHeader } from '../components/Header'
+import { MainMap } from '../components/Map';
+import { ShopInfo, ShopDetailModal } from '../components/Unit';
 import { SearchModal, SettingLocation } from '../containers/ModalPage';
 
 const Home = () => {

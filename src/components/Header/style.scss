@@ -14,7 +14,6 @@
     padding: 0 19px;
   }
   &.modalHeader {
-    border-bottom: 1px solid $gray220;
     background-color: $whiteColor;
     img {
       width: 12px;
@@ -43,5 +42,8 @@
         padding-top: 0;
       }
     }
+  }
+  &.border{
+    border-bottom: 1px solid $gray220;
   }
 }

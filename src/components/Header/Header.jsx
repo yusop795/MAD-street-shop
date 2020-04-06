@@ -21,9 +21,9 @@ const Header = ({ onEvent, title = '' }) => {
   );
 };
 
-export const ModalHeader = ({ onEvent, title = '' }) => {
+export const ModalHeader = ({ onEvent, title = '', border = true }) => {
   return (
-    <div className="header modalHeader">
+    <div className={`header modalHeader ${border?'border':''}`}>
       <div onClick={onEvent}><img src={btnClose} alt="btnClose" /></div>
       <h2 className="headerTitle">{(title) ? title : ''}</h2>
       <div>{''}</div>
