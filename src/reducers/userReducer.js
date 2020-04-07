@@ -7,7 +7,9 @@
 export const userTypes = {
   SET_STORE_CATEGORY: 'user/SET_STORE_CATEGORY',
   SET_LOADING: 'user/LOADING',
-  FETCH_SHOP_LIST: 'user/FETCH_SHOP_LIST'
+
+  FETCH_SHOP_CATEGORY: 'user/FETCH_SHOP_CATEGORY',
+  SET_SHOP_CATEGORY: 'user/SET_SHOP_CATEGORY',
 };
 
 /**
@@ -21,7 +23,10 @@ export const userAction = {
     category,
   }),
   updateLoading: loading => ({ type: userTypes.SET_LOADING, loading }),
-  fetchShopCategory: () => ({ type: userTypes.FETCH_SHOP_LIST }),
+  setShopCategory: category => ({
+    type: userTypes.SET_SHOP_CATEGORY,
+    category,
+  }),
 };
 
 /**
@@ -46,23 +51,22 @@ const initialState = {
  * 리듀서
  */
 export default function userReducer(state = initialState, action) {
-  // const { type, payload } = action;
-  console.log(action)
-  switch (action.type) {
-    case userTypes.FETCH_SHOP_CATEGORY:
+  const { type, payload } = action;
+  switch (type) {
+    case userTypes.SET_SHOP_CATEGORY:
       return {
         ...state,
-        shopCategory: action.payload.shopCategory,
+        shopCategory: payload,
       };
     case userTypes.SET_STORE_CATEGORY:
       return {
         ...state,
-        storeCategory: action.payload.category,
+        storeCategory: payload.category,
       };
     case userTypes.SET_LOADING:
       return {
         ...state,
-        loading: action.payload.loading,
+        loading: payload.loading,
       };
     default:
       return state;

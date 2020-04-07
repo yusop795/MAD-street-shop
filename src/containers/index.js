@@ -1,4 +1,6 @@
 
+
+export { default as Splash } from './Splash';
 export { default as Account } from './Account';
 export { default as SignUpOwner } from './SignUpOwner';
 export { default as SignUpUser } from './SignUpUser';

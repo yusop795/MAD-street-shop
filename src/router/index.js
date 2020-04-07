@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { Home, SignUpOwner, SignUpUser, Ranking, Test, Account, SignUpComplet, MyPage } from '../containers';
+import { Home, SignUpOwner, SignUpUser, Ranking, Test, Account, SignUpComplet, MyPage, Splash } from '../containers';
 const Router = a => {
   // 마운트 될 때 한번
   // useEffect(() => {
@@ -24,7 +24,8 @@ const Router = a => {
         <Route exact path="/signup/user" component={SignUpUser} />
         <Route exact path="/signup/complet/:type" component={SignUpComplet} />
         <Switch>
-          <Route exact path="/" component={Test} />
+          <Route exact path="/test" component={Test} />
+          <Route exact path="/" component={Splash} />
           <Route exact path="/home" component={Home} />
           <Route exact path="/ranking" component={Ranking} />
           <Route exact path="/myPage" component={MyPage} />

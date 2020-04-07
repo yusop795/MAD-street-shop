@@ -27,7 +27,9 @@ const Radio = ({type= 'radio', index = 0, data, selectItem, setSelectItem}) => {
           onChange={()=> setSelectItem(key)}
         />
         {(selectItem === key)?<img src={iconBAgreementOn} alt='선택버튼'/>:<div style={style}></div>}
-        <span>{data?.title}</span>
+        {data.icon ? (
+          <span dangerouslySetInnerHTML={{__html: `<b>${data?.icon}</b> ${data.title.replace('/','<br/>')}`}}></span>
+        ) : (<span>{data?.title}</span>)}
       </label>
     </div>
   )
