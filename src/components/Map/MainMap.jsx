@@ -5,7 +5,7 @@ import mapPinOn from '../../assets/imgs/mapPinOn.png';
 import iconMapPin from '../../assets/imgs/iconMapPin.png';
 
 const MainMap = ({ location, shopList= [], containerId= null, onEvent }) => {
-  const [isSpin, setisSpin] = useState(true);
+  // const [isSpin, setisSpin] = useState(true);
   const [selectShop,setSelectShop] = useState(1);
 
   console.log(process.env.REACT_APP_KAKAO_KEY)
@@ -98,7 +98,7 @@ const MainMap = ({ location, shopList= [], containerId= null, onEvent }) => {
             clickMap(kakaoMap, map)
           }
           // 스핀 제거
-          setisSpin(false);
+          // setisSpin(false);
         });
       })
       .catch(e => {

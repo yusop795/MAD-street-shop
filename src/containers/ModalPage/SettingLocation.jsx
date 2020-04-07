@@ -6,7 +6,7 @@ import { ModalHeader } from '../../components/Header';
 import { Button } from '../../components/Unit';
 import { InputText } from '../../components/FormGroup';
 
-import { MainMap } from '../../components/Map';
+// import { MainMap } from '../../components/Map';
 // style
 import '../../assets/styles/containers/setting.scss';
 import btnHere from '../../assets/imgs/btnHere.png';

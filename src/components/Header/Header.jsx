@@ -6,11 +6,6 @@ import iconMenu from '../../assets/imgs/iconMenu.png';
 import iconSearch from '../../assets/imgs/iconSearch.png';
 import adressEdit from '../../assets/imgs/adressEdit.png';
 
-import ModalPageUtill from '../../util/ModalPageUtill.js';
-
-import { SearchModal } from '../../containers/ModalPage';
-
-
 const Header = ({ onEvent, title = '' }) => {
   return (
     <div className="header">

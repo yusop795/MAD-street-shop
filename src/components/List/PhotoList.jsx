@@ -1,6 +1,5 @@
 import React from 'react';
 import './style.scss';
-import windowUtil from '../../util/windowUtil'
 
 const PhotoList = ({ items = [], type = '', onEvent = null}) => {
   return (

@@ -5,13 +5,14 @@ import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 import { initializeState, authReducer, userReducer } from './reducers';
+import rootSaga from './sagas';
 import Router from './router';
 import * as serviceWorker from './serviceWorker';
 import './assets/styles/common/reset.scss';
 
 /* Reducer 생성 */
 const rootReducer = combineReducers({
-  authReducer,
+  // authReducer,
   userReducer,
 });
 
@@ -24,6 +25,8 @@ const store = createStore(
   initializeState,
   composeWithDevTools(applyMiddleware(sagaMiddleware)), // composeWithDevTools : DevTools 미들웨어
 );
+
+sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>

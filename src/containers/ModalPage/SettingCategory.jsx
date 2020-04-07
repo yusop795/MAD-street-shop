@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { withRouter } from "react-router-dom";
-import { useDispatch } from 'react-redux';
+import { useDispatch , useSelector} from 'react-redux';
 
 import { userTypes } from '../../reducers/userReducer';
 // utill
@@ -15,11 +15,13 @@ import { Button } from '../../components/Unit';
 import '../../assets/styles/containers/setting.scss';
 
 const SettingCategory = ({isOpen, onEvent}) => {
+  const dispatch = useDispatch();
+  const list = useSelector(state => state.userReducer.shopCategory, []);
+  console.log(list)
   const [categoryList] = useState([{"title":"붕어빵/국화빵","item":["땅콩빵","호두과자","붕어빵","계란빵","국화빵","호떡"]},{"title":"타코야끼","item":["타코야끼"]},{"title":"샌드위치","item":["토스트","햄버거","샌드위치","타코","브리또","케밥","음료"]},{"title":"핫도그","item":["핫도그"]},{"title":"분식","item":["떡볶이","순대","오뎅","만두","김밥","찐빵","튀김","음료","컵밥","주먹밥"]},{"title":"면류","item":["쌀국수","라면","우동","짬뽕","짜장면","파스타"]},{"title":"구황작물","item":["군밤","군고구마","옥수수","알감자"]},{"title":"철판요리","item":["순대볶음","곱창볶음","야끼소바","오꼬노미야끼","스테이크"]},{"title":"튀김류","item":["새우튀김","오징어튀김","탕수육","닭강정"]},{"title":"디저트","item":["츄러스","아이스크림","솜사탕","음료","탕후루","마카롱","케이크"]},{"title":"음료","item":["커피","생과일쥬스","슬러시","코코넛","차","버블티"]},{"title":"꼬치류","item":["닭꼬치","떡꼬치","소세지꼬치","소떡소떡","핫바","회오리감자","염통꼬치"]},{"title":"도넛류","item":["꽈배기","찹쌀도넛","고로케"]},{"title":"기타","item":["버터오징어","쥐포","달고나","엿","기타"]}]);
   const [selectCategory, setSelectCategory] = useState(0);
   const [tagList, setTagList] = useState([]);
   const [selectTag, setSelectTag] = useState([]);
-  const dispatch = useDispatch();
   
   const modalPage = useRef();
 
@@ -32,6 +34,13 @@ const SettingCategory = ({isOpen, onEvent}) => {
       setSelectTag([])
     }
   },[categoryList,selectCategory]);
+
+  useEffect(() => {
+    console.log('시작')
+    dispatch({
+      type: userTypes.FETCH_SHOP_LIST,
+    });
+  },[]);
 
   useEffect(() => {
     if(isOpen){

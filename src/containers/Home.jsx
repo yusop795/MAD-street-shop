@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import ModalPageUtill from '../util/ModalPageUtill.js';
@@ -11,8 +10,8 @@ import { SearchModal, SettingLocation } from '../containers/ModalPage';
 
 const Home = () => {
   const [location, setLocation] = useState('');
-  const [shopList, setShopList] = useState([{ name: '토토네 튀김', latitude: 37.489524599999996, longitude: 126.98655099999998 }, { name: '네네치킨', latitude: 37.489524599999996, longitude: 126.98643099999998 }]);
-  const [selectShop, setselectShop] = useState({
+  const [shopList] = useState([{ name: '토토네 튀김', latitude: 37.489524599999996, longitude: 126.98655099999998 }, { name: '네네치킨', latitude: 37.489524599999996, longitude: 126.98643099999998 }]);
+  const [selectShop] = useState({
     name: "석정포장마차",
     category: "분식",
     photo: "https://post-phinf.pstatic.net/MjAxOTEwMDFfNjkg/MDAxNTY5OTE5NzUxNDc2.mnGT1DcIaEY9os4ftETl5Bc_SudAwsUq8O3KaqlpQtQg.qhcMdUjcKqBoTC6hR1j7OnsY4BIpK1aulSmv0mlwO14g.JPEG/%EB%B6%84%EC%8B%9D.jpg?type=w1200",
@@ -24,7 +23,7 @@ const Home = () => {
       userLike: true,
     }
   });
-  const loading = useSelector(({ authReducer }) => authReducer.loading, true);
+  // const loading = useSelector(({ authReducer }) => authReducer.loading, true);
 
   // 위치정보 조회
   const fetchGeolocation = () => {

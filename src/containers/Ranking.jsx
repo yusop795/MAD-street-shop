@@ -1,8 +1,6 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import AlertUtil from '../util/AlertUtil.js';
 import ModalPageUtill from '../util/ModalPageUtill.js';
 
 import { Header } from '../components/Header';
@@ -102,10 +100,10 @@ const Ranking = ({ history }) => {
   ];
   // const loading = useSelector(({ authReducer }) => authReducer.loading, true);
   // 모달
-  const { isShowing, title, contents, setAlert } = AlertUtil();
+  // const { isShowing, title, contents, setAlert } = AlertUtil();
   const { targetModalPage, isModalOpen, setModalPage } = ModalPageUtill();
 
-  const storeCategory = useSelector(state => state.userReducer.storeCategory, {});
+  // const storeCategory = useSelector(state => state.userReducer.storeCategory, {});
 
   const rederModalPage = () => {
     switch (targetModalPage) {
