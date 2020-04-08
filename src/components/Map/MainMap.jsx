@@ -8,8 +8,8 @@ const MainMap = ({ location, shopList= [], containerId= null, onEvent }) => {
   // const [isSpin, setisSpin] = useState(true);
   const [selectShop,setSelectShop] = useState(1);
 
-  console.log(process.env.REACT_APP_KAKAO_KEY)
-  const kakaoMapScript = scriptUtill(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_KEY}&autoload=false`);
+  console.log(process.env.REACT_APP_KAKAO_MAP_KEY)
+  const kakaoMapScript = scriptUtill(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAP_KEY}&autoload=false`);
 
 
   // const moveMap = (kakaoMap, map) => {
@@ -112,6 +112,6 @@ const MainMap = ({ location, shopList= [], containerId= null, onEvent }) => {
     }
   });
 
-  return <div id={containerId} class="mapBox"></div>;
+  return <div id={containerId} className="mapBox"></div>;
 };
 export default MainMap;

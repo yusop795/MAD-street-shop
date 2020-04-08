@@ -28,6 +28,12 @@ const store = createStore(
 
 sagaMiddleware.run(rootSaga);
 
+// 카카오 로그인
+const KAKAO = window.Kakao;
+KAKAO.init(process.env.REACT_APP_KAKAO_AUTH_KEY);
+KAKAO.isInitialized();
+console.log(22)
+
 ReactDOM.render(
   <Provider store={store}>
     <Router />

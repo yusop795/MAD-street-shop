@@ -7,9 +7,8 @@
 export const userTypes = {
   SET_STORE_CATEGORY: 'user/SET_STORE_CATEGORY',
   SET_LOADING: 'user/LOADING',
-
-  FETCH_SHOP_CATEGORY: 'user/FETCH_SHOP_CATEGORY',
-  SET_SHOP_CATEGORY: 'user/SET_SHOP_CATEGORY',
+  SET_TOKEN: 'user/SET_TOKEN',
+  SET_LOGIN: 'user/SET_LOGIN'
 };
 
 /**
@@ -23,9 +22,13 @@ export const userAction = {
     category,
   }),
   updateLoading: loading => ({ type: userTypes.SET_LOADING, loading }),
-  setShopCategory: category => ({
-    type: userTypes.SET_SHOP_CATEGORY,
-    category,
+  setToken: token => ({
+    type: userTypes.SET_TOKEN,
+    token,
+  }),
+  setLogin: isLogin => ({
+    type: userTypes.SET_TOKEN,
+    isLogin,
   }),
 };
 
@@ -45,6 +48,8 @@ const initialState = {
   storeIntroduce: '',
   userPhoneOn: false,
   shopCategory: [],
+  token: {},
+  isLogin: false,
 };
 
 /**
@@ -53,10 +58,17 @@ const initialState = {
 export default function userReducer(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
-    case userTypes.SET_SHOP_CATEGORY:
+    case userTypes.SET_LOGIN:
       return {
         ...state,
-        shopCategory: payload,
+        token: payload.token,
+        isLogin: payload.isLogin,
+      };
+    case userTypes.SET_TOKEN:
+      return {
+        ...state,
+        token: payload.token,
+        isLogin: true,
       };
     case userTypes.SET_STORE_CATEGORY:
       return {

@@ -1,5 +1,8 @@
 import React, { useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import { withRouter } from "react-router-dom";
+
+import { userTypes } from '../../reducers/userReducer';
 
 // common components
 import { ModalHeader } from '../../components/Header';
@@ -9,9 +12,30 @@ import '../../assets/styles/containers/login.scss';
 import imgLogoTruck from '../../assets/imgs/imgLogoTruck.png';
 import iconKakao from '../../assets/imgs/iconKakao.png';
 
-
-const Login = ({ isOpen, onEvent }) => {
+const KAKAO = window.Kakao
+const Login = ({ history, isOpen, onEvent }) => {
+  const dispatch = useDispatch();
   const modalPage = useRef();
+
+  const kakaoLogin = (url) => {
+    KAKAO.Auth.login({
+      success: (authObj) => {
+        url ? history.push(`/signUp/${url}`) : history.push(`/test`)
+        dispatch({
+          type: userTypes.SET_TOKEN,
+          payload: {
+            token : {
+              accessToken: authObj.access_token,
+              refreshToken: authObj.refresh_token
+            }
+          },
+        })
+      },
+      fail: (err) => {
+        console.log(JSON.stringify(err))
+      },
+    })
+  }
 
   useEffect(() => {
     if(isOpen){
@@ -26,14 +50,14 @@ const Login = ({ isOpen, onEvent }) => {
       <div className="loginBox">
         <img src={imgLogoTruck} alt=""/>
         <p>매드스트릿샵의 모든 기능을<br/>이용하시려면 <b>로그인</b>해주세요</p>
-        <div className="kakaoBtn">
+        <div className="kakaoBtn" onClick={()=>kakaoLogin()}>
           <img src={iconKakao} alt=""/>
           <span>카카오톡으로 로그인</span>
         </div>
       </div>
       <div className="loginBox">
         <p>아직 매드스트릿샵의 회원이<br/>아니신가요?</p>
-        <div className="kakaoBtn">
+        <div className="kakaoBtn" onClick={()=>kakaoLogin('account')}>
           <img src={iconKakao} alt=""/>
           <span>카카오톡으로 회원가입</span>
         </div>

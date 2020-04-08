@@ -11,11 +11,16 @@ import { Button } from '../components/Unit';
 import { Alert } from '../components/Alert';
 import '../assets/styles/containers/signUpUser.scss';
 
+const KAKAO = window.Kakao
+
 const SignUpUser = ({ history }) => {
   const categoryList = useSelector(state => state.startReducer.shopCategory, []);  
+  const token = useSelector(state => state.userReducer.token, {});   
   const [selectCategory, setSelectCategory] = useState(1);
   const [tagList, setTagList] = useState([]);
   const [selectTag, setSelectTag] = useState([]);
+
+  console.log(token)
 
   useEffect(() => {
     if(categoryList.length > 0){
