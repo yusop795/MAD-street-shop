@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { withRouter } from "react-router-dom";
 // common components
-import { ModalHeader } from '../../components/Header';
+import { SearchModalHeader } from '../../components/Header';
 // style
 import '../../assets/styles/containers/setting.scss';
 
@@ -10,13 +10,14 @@ const SearchModal = ({ isOpen, onEvent }) => {
 
     const modalPage = useRef();
 
-    // 모달
-    const { isShowing, title, contents, setAlert } = AlertUtil();
-
     const onKeywordRemove = useCallback(keyword => {
         keywordList.splice(keywordList.indexOf(keyword), 1)
         setKewordList([...keywordList]);
     })
+
+    const searchForKeyword = (keyword)=>{
+       window.location = `/searchResult?keyword=${keyword}`
+    }
 
     useEffect(() => {
         if (isOpen) {
@@ -29,14 +30,17 @@ const SearchModal = ({ isOpen, onEvent }) => {
 
     return (
         <div ref={modalPage} className={`searchModal modalPageRight ${isOpen ? 'open' : ''}`}>
-            <SearchModalHeader goBack={onEvent} />
+            <SearchModalHeader goBack={onEvent} goTo={'/searchResult'}/>
             <div className="currentSearch">
                 <div>최근검색어</div>
                 <ul>
                     {
                         keywordList.map((v, i) => {
                             return (
-                                <li key={i}><button className="searchForKeyword" type="button">{v}</button><button type="button" className="deleteKeyword" onClick={() => onKeywordRemove(v)}></button></li>
+                                <li key={i}>
+                                    <button className="searchForKeyword" onClick={() => searchForKeyword(v)}type="button">{v}</button>
+                                    <button type="button" className="deleteKeyword" onClick={() => onKeywordRemove(v)}></button>
+                                </li>
                             )
                         })
                     }
