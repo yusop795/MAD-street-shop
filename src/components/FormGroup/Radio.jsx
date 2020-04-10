@@ -12,21 +12,19 @@ const Radio = ({type= 'radio', index = 0, data, selectItem, setSelectItem}) => {
     background:'white'
   }
 
-  const key = index+1;
-
   return (
-    <div className={`radioItem ${(selectItem === key)?'select':''}`}>
-      <label htmlFor={`${type}Title-${key}`} className="radioInput">
+    <div className={`radioItem ${(selectItem === index)?'select':''}`}>
+      <label htmlFor={`${type}Title-${index}`} className="radioInput">
         <input 
           type="radio"
-          id={`${type}Title-${key}`} 
+          id={`${type}Title-${index}`} 
           name="title" 
           value={data?.title} 
-          checked={(selectItem === key)?true:false}
+          checked={(selectItem === index)?true:false}
           hidden={true} 
-          onChange={()=> setSelectItem(key)}
+          onChange={()=> setSelectItem(index)}
         />
-        {(selectItem === key)?<img src={iconBAgreementOn} alt='선택버튼'/>:<div style={style}></div>}
+        {(selectItem === index)?<img src={iconBAgreementOn} alt='선택버튼'/>:<div style={style}></div>}
         {data.icon ? (
           <span dangerouslySetInnerHTML={{__html: `<b>${data?.icon}</b> ${data.title.replace('/','<br/>')}`}}></span>
         ) : (<span>{data?.title}</span>)}

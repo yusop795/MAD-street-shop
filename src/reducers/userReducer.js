@@ -7,6 +7,7 @@
 export const userTypes = {
   SET_STORE_CATEGORY: 'user/SET_STORE_CATEGORY',
   SET_STORE_LOCATION: 'user/SET_STORE_LOCATION',
+  SET_STORE_TIME: 'user/SET_STORE_TIME',
 
   SET_LOADING: 'user/LOADING',
   SET_TOKEN: 'user/SET_TOKEN',
@@ -39,6 +40,10 @@ export const userAction = {
     type: userTypes.SET_STORE_LOCATION,
     storeLocation,
   }),
+  setStoreTime: time => ({
+    type: userTypes.SET_STORE_TIME,
+    time,
+  }),
 
   updateLoading: loading => ({ type: userTypes.SET_LOADING, loading }),
   setToken: token => ({
@@ -63,14 +68,13 @@ const initialState = {
   userId: '',
   userName: '',
   userPhone: '',
-  storeName: '',
   storeCategory: '',
   storeLocation: '',
+  storeOpenDays: '',
   storeOpenTime: '',
   storeCloseTime: '',
-  storeIntroduce: '',
   userPhoneOn: false,
-  shopCategory: [],
+  storeCategory: [],
   token: {},
   isLogin: false,
 };
@@ -107,6 +111,13 @@ export default function userReducer(state = initialState, action) {
       return {
         ...state,
         storeLocation: payload.storeLocation,
+      };
+    case userTypes.SET_STORE_TIME:
+      return {
+        ...state,
+        storeOpenDays: payload.storeOpenDays,
+        storeOpenTime: payload.storeOpenTime,
+        storeCloseTime: payload.storeCloseTime
       };
     case userTypes.SET_LOADING:
       return {

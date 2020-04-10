@@ -3,7 +3,6 @@ import { FormGroup } from '../FormGroup'
 import './style.scss';
 
 const InputTag = ({fullMode = false, title = '', item = [], selectTag=[], onEvent}) => {
-
   return (
     <FormGroup fullMode={fullMode} title={title}>
       {item.map((v,i)=>(

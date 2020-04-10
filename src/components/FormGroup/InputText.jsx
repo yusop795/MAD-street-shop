@@ -25,7 +25,16 @@ const InputText = ({label=null,type='text',onEvent=null ,selcetData=null, placeh
           </div>
         )
       case 'textarea':
-        return  <textarea className="inputText" onKeyDown={resizeTextArea} placeholder={placeholder}></textarea>
+        return (
+          <textarea 
+            className="inputText" 
+            onKeyDown={resizeTextArea} 
+            placeholder={placeholder} 
+            defaultValue={defaultValue}
+            onChange={(e)=>(onEvent)?onEvent(e):null}
+          >
+          </textarea>
+        )
       default:
         return (
           <input 

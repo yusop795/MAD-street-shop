@@ -1,4 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useDispatch , useSelector} from 'react-redux';
+import { userTypes, userApiTypes } from '../../reducers/userReducer';
+
 import { withRouter } from "react-router-dom";
 // utill
 import AlertUtil from '../../util/AlertUtil.js';
@@ -12,8 +15,14 @@ import { Button } from '../../components/Unit';
 import '../../assets/styles/containers/setting.scss';
 
 const SettingTime = ({isOpen, onEvent}) => {
+  const dispatch = useDispatch();
   const tagList = ['월','화','수','목','금','토','일']
-  const [selectTag, setSelectTag] = useState([]);
+  const storeOpenDays = useSelector(state => state.userReducer.storeOpenDays, []);
+  const storeOpenTime = useSelector(state => state.userReducer.storeOpenTime, []);
+  const storeCloseTime = useSelector(state => state.userReducer.storeCloseTime, []);
+  const [selectTag, setSelectTag] = useState(storeOpenDays);
+  const [openTime, setOpenTime] = useState(storeOpenTime);
+  const [closeTime, setCloseTime] = useState(storeCloseTime);
 
   const modalPage = useRef();
 
@@ -21,11 +30,12 @@ const SettingTime = ({isOpen, onEvent}) => {
   const { isShowing, title, contents, setAlert} = AlertUtil();
 
   const onChangeTag = (tag)=>{
-    if(!selectTag.includes(tag)){
-      setSelectTag([...selectTag,tag])
+    if(!Object.keys(selectTag).includes(tag)){
+      const data = {...selectTag, [tag]:true }
+      setSelectTag(data)
     }else {
-      selectTag.splice(selectTag.indexOf(tag),1)
-      setSelectTag([...selectTag])
+      delete selectTag[tag]
+      setSelectTag({...selectTag})
     }
   }
 
@@ -36,6 +46,18 @@ const SettingTime = ({isOpen, onEvent}) => {
     }
   },[isOpen]);
 
+  const setData = () =>{
+    console.log(selectTag,openTime, closeTime)
+    dispatch({
+      type: userTypes.SET_STORE_TIME,
+      payload: {
+        storeOpenDays: selectTag,
+        storeOpenTime: openTime,
+        storeCloseTime: closeTime,
+      },
+    })
+  }
+
   
 
   return (
@@ -43,6 +65,8 @@ const SettingTime = ({isOpen, onEvent}) => {
       <ModalHeader onEvent={onEvent} title={'영업 시간 설정'}/>
       <SelectTime         
         title={'영업 시간'} 
+        setOpenTime={setOpenTime}
+        setCloseTime={setCloseTime}
       />
       <InputTag 
         title={'영업 요일'} 
@@ -51,9 +75,9 @@ const SettingTime = ({isOpen, onEvent}) => {
         onEvent={onChangeTag}
       />
       <Button 
-        active={selectTag.length >= 1} 
+        active={Object.keys(selectTag).length >= 1} 
         bottom={true} 
-        onEvent={()=>{alert(1)}} 
+        onEvent={setData} 
         text={'저장'}
       />
       <Alert isShowing={isShowing} hide={setAlert} title={title} contents={contents}/>

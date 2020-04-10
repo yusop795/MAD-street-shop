@@ -64,14 +64,13 @@ const SettingCategory = ({isOpen, onEvent}) => {
   // 태그 선택
   const onChangeTag = (tag) => {
     const tags = Object.keys(selectTag)
-
     if(!tags.includes(tag)){
       if(tags.length > 2) {
         setAlert({
           contents:'대표메뉴는 최대 3개까지만<br/> 선택할 수 있어요.'
         })
       }else {
-        const key = selectCategory-1
+        const key = selectCategory - 1
         const data = {...selectTag, [tag]: categoryList[key].title}
         setSelectTag(data)
       }
@@ -79,6 +78,19 @@ const SettingCategory = ({isOpen, onEvent}) => {
       delete selectTag[tag]
       setSelectTag({...selectTag})
     }
+  }
+
+  const setData = () =>{
+    dispatch({
+      type: userTypes.SET_STORE_CATEGORY,
+      payload: { 
+        category:{
+          title:categoryList[selectCategory-1].title,
+          item:Object.keys(selectTag)
+        }
+      },
+    });
+    onEvent({target:null})
   }
 
 
@@ -103,18 +115,7 @@ const SettingCategory = ({isOpen, onEvent}) => {
           onEvent={onChangeTag}
         />
       : null }
-      <Button active={Object.keys(selectTag).length >=1} onEvent={()=>{
-        dispatch({
-          type: userTypes.SET_STORE_CATEGORY,
-          payload: { 
-            category:{
-              title:categoryList[selectCategory-1].title,
-              item:Object.keys(selectTag)
-            }
-          },
-        });
-        onEvent({target:null})
-      }} text={'저장'}/>
+      <Button active={Object.keys(selectTag).length >=1} onEvent={setData} text={'저장'}/>
       <Alert isShowing={isShowing} hide={setAlert} title={title} contents={contents} height={modalPage.current?.scrollHeight}/>
     </div>
   );

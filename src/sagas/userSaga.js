@@ -1,6 +1,6 @@
 import { takeEvery, takeLatest, put, call } from "redux-saga/effects";
 import { userTypes, userApiTypes, userAction } from "../reducers/userReducer";
-import { fetchWhoami, fetchKaKaoInfo, postSignUpUser } from './api/userApi';
+import { fetchWhoami, fetchKaKaoInfo, postSignUpUser, postSignUpOwner } from './api/userApi';
 
 /**
  * 카카오 회원정보 조회
@@ -32,6 +32,19 @@ export function* postSignUpUserSaga({ payload }) {
   // }
 }
 
+/**
+ * 카카오 사장닙 회원가입
+ */
+export function* postSignUpOwnerSaga({ payload }) {
+  const response = yield call(postSignUpOwner, payload);
+
+  // if (response.data) {
+  //   console.log(response)
+  // } else {
+  //   console.log(response);
+  // }
+}
+
 export function* fetchWhoamiSaga({ payload }) {
   const response = yield call(fetchWhoami, payload);
 
@@ -45,4 +58,5 @@ export function* fetchWhoamiSaga({ payload }) {
 export default function* userSaga() {
   // yield takeEvery(userTypes.FETCH_KAKAO_INFO, fetchKaKaoInfoSaga);
   yield takeEvery(userApiTypes.POST_SIGNUP_USER, postSignUpUserSaga);
+  yield takeEvery(userApiTypes.POST_SIGNUP_OWNER, postSignUpOwnerSaga);
 }

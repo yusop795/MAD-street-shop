@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { FormGroup } from '../FormGroup'
 import './style.scss';
 
-const SelectTime = ({fullMode = false, title = ''}) => {
+const SelectTime = ({fullMode = false, title = '', setOpenTime=null, setCloseTime=null}) => {
   const min = [0,10,20,30,40,50]
-  const [openTime, setOpenTime] = useState({hour:0,min:0});
-  const [closeTime, setCloseTime] = useState({hour:0,min:0});
+  const [open, setOpen] = useState({hour:0,min:0});
+  const [close, setClose] = useState({hour:0,min:0});
 
   const renderHourOption = ()=>{
     const hour = 24
@@ -16,18 +16,23 @@ const SelectTime = ({fullMode = false, title = ''}) => {
     return option;
   }
 
+  useEffect(() => {
+    setOpenTime(`${open.hour}:${(open.min < 10)?`0${open.min}`:open.min}`)
+    setCloseTime(`${close.hour}:${(close.min < 10)?`0${close.min}`:close.min}`)
+  },[open,close]);
+
   return (
     <FormGroup fullMode={fullMode} title={title}> 
       <div>
         <div className="selectTimeBox">
           <label>여는 시간</label>
           <select onChange={({target})=>{
-            setOpenTime({hour:target.value,min:openTime.min})
+            setOpen({hour:target.value,min:open.min})
           }}>
             {renderHourOption()}
           </select>
           <select onChange={({target})=>{
-            setOpenTime({hour:openTime.hour,min:target.value})
+            setOpen({hour:open.hour,min:target.value})
           }}>
             {
               min.map((v,i)=>{
@@ -39,12 +44,12 @@ const SelectTime = ({fullMode = false, title = ''}) => {
         <div className="selectTimeBox">
           <label>닫는 시간</label>
           <select onChange={({target})=>{
-            setCloseTime({hour:target.value,min:closeTime.min})
+            setClose({hour:target.value,min:close.min})
           }}>
             {renderHourOption()}
           </select>
           <select onChange={({target})=>{
-            setCloseTime({hour:closeTime.hour,min:target.value})
+            setClose({hour:close.hour,min:target.value})
           }}>
             {
               min.map((v,i)=>{

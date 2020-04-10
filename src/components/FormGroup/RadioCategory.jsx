@@ -10,7 +10,7 @@ const RadioCategory = ({fullMode = false, title = '', item = [], selectCategory,
             <Radio 
               key={`category-${i+1}`}
               type={`category`}
-              index={i} 
+              index={i+1} 
               data={v} 
               selectItem={selectCategory} 
               setSelectItem={setSelectCategory}

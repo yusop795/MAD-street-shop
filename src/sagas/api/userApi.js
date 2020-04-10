@@ -66,8 +66,8 @@ export const postSignUpUser = ({ userId, userTags }) => {
  * 카카오 사장님 회원가입
  * @param
  */
-export const postSignUpOwner = ({ data }) => {
-  console.log('postSignUpUser', data)
+export const postSignUpOwner = (data) => {
+  console.log('postSignUpOwner', data)
 
   // return API_INSTANCE.post('/users/join/user', {
   //   data: { userId, userTags }

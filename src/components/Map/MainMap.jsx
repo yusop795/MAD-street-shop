@@ -21,11 +21,10 @@ const MainMap = ({ location, shopList=[], containerId= null, onEvent, getGeocode
   // };
 
   const moveMap = (kakaoMap, map, latlng) => {
-      // 이동할 위도 경도 위치를 생성합니다 
-      const moveLatLon = new kakaoMap.LatLng(latlng.Ga, latlng.Ha);
-      console.log('moveLatLon',moveLatLon)
-      // 지도 중심을 이동 시킵니다
-      map.panTo(moveLatLon);
+    // 이동할 위도 경도 위치를 생성합니다 
+    const moveLatLon = new kakaoMap.LatLng(latlng.Ga, latlng.Ha);
+    // 지도 중심을 이동 시킵니다
+    map.panTo(moveLatLon);
   }
 
   const clickMap = (kakaoMap, map) => {
@@ -99,7 +98,6 @@ const MainMap = ({ location, shopList=[], containerId= null, onEvent, getGeocode
         const kakaoMap = window.kakao.maps;    
         kakaoMap.load(() => {
           // 지도 옵션
-          console.log(1)
           const options = {
             center: new kakaoMap.LatLng(location.lat, location.long), // 지도의 중심좌표.
             level: 2, // 지도의 레벨(확대, 축소 정도)
