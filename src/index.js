@@ -10,6 +10,16 @@ import Router from './router';
 import * as serviceWorker from './serviceWorker';
 import './assets/styles/common/reset.scss';
 
+import AuthUtill from './util/AuthUtill'
+
+
+/* KAKAO 생성 */
+const KAKAO = window.Kakao;
+KAKAO.init(process.env.REACT_APP_KAKAO_AUTH_KEY);
+KAKAO.isInitialized();
+/* KAKAO accessToken 저장 */
+AuthUtill.setUserStore(KAKAO.Auth.getAccessToken())
+
 /* Reducer 생성 */
 const rootReducer = combineReducers({
   startReducer,
@@ -27,12 +37,6 @@ const store = createStore(
 );
 
 sagaMiddleware.run(rootSaga);
-
-// 카카오 로그인
-const KAKAO = window.Kakao;
-KAKAO.init(process.env.REACT_APP_KAKAO_AUTH_KEY);
-KAKAO.isInitialized();
-console.log(22)
 
 ReactDOM.render(
   <Provider store={store}>

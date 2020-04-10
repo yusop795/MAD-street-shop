@@ -1,8 +1,9 @@
-import { takeEvery, put, call } from "redux-saga/effects";
+import { takeLatest, put, call } from "redux-saga/effects";
 import { startTypes } from "../reducers/startReducer";
 import { fetchCategory } from './api/startApi';
 
 export function* fetchCategorySaga({ payload }) {
+  console.log('fetchCategorySaga')
   const response = yield call(fetchCategory, payload);
   if (response.data) {
     yield put({
@@ -15,5 +16,5 @@ export function* fetchCategorySaga({ payload }) {
 }
 
 export default function* startSaga() {
-  yield takeEvery(startTypes.FETCH_SHOP_CATEGORY, fetchCategorySaga);
+  yield takeLatest(startTypes.FETCH_SHOP_CATEGORY, fetchCategorySaga);
 }

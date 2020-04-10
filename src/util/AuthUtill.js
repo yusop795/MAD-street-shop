@@ -1,11 +1,11 @@
-import { useSelector } from 'react-redux';
+class AuthUtill {
+  static accessToken = ''
 
-const AuthUtill = (a) => {
-  const accessToken = useSelector(state => state.startReducer.accessToken, '');
-  console.log(3, a)
-  return {
-    accessToken
+  static setUserStore(accessToken) {
+    this.accessToken = accessToken
   }
+
+
 }
 
 export default AuthUtill;

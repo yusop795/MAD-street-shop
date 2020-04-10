@@ -8,7 +8,16 @@ export const userTypes = {
   SET_STORE_CATEGORY: 'user/SET_STORE_CATEGORY',
   SET_LOADING: 'user/LOADING',
   SET_TOKEN: 'user/SET_TOKEN',
-  SET_LOGIN: 'user/SET_LOGIN'
+  SET_LOGIN: 'user/SET_LOGIN',
+  SET_USER_INFO: 'user/SET_USER_INFO',
+};
+
+/**
+ * API CALL 액션 타입 정의
+ * 타입 = '리듀서명/타입'
+ */
+export const userApiTypes = {
+  POST_SIGNUP_USER: 'user/POST_SIGNUP_USER',
 };
 
 /**
@@ -29,6 +38,10 @@ export const userAction = {
   setLogin: isLogin => ({
     type: userTypes.SET_TOKEN,
     isLogin,
+  }),
+  setUserInfo: userinfo => ({
+    type: userTypes.SET_USER_INFO,
+    userinfo,
   }),
 };
 
@@ -58,6 +71,11 @@ const initialState = {
 export default function userReducer(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
+    case userTypes.SET_USER_INFO:
+      return {
+        ...state,
+        userId: payload.userInfo.userId,
+      };
     case userTypes.SET_LOGIN:
       return {
         ...state,

@@ -48,7 +48,8 @@ const SettingCategory = ({isOpen, onEvent}) => {
           contents:'대표메뉴는 최대 3개까지만<br/> 선택할 수 있어요.'
         })
       }else {
-        setSelectTag([...selectTag, tag])
+        const key = selectCategory-1
+        setSelectTag([...selectTag, {[key]:tag}])
       }
     }else {
       selectTag.splice(selectTag.indexOf(tag),1)

@@ -5,6 +5,6 @@ import startSaga from './startSaga';
 export default function* () {
   yield all([
     userSaga(),
-    startSaga()
+    startSaga(),
   ]);
 }

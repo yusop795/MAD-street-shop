@@ -2,6 +2,9 @@ import React, { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { withRouter } from "react-router-dom";
 
+
+import AuthUtill from '../../util/AuthUtill'
+
 import { userTypes } from '../../reducers/userReducer';
 
 // common components
@@ -17,10 +20,12 @@ const Login = ({ history, isOpen, onEvent }) => {
   const dispatch = useDispatch();
   const modalPage = useRef();
 
-  const kakaoLogin = (url) => {
+  const kakaoSignUp = (url) => {
+    // 카카오 로그인
     KAKAO.Auth.login({
       success: (authObj) => {
-        url ? history.push(`/signUp/${url}`) : history.push(`/test`)
+        // 사용자 토큰 저장
+        AuthUtill.setUserStore(authObj.access_token)
         dispatch({
           type: userTypes.SET_TOKEN,
           payload: {
@@ -30,11 +35,36 @@ const Login = ({ history, isOpen, onEvent }) => {
             }
           },
         })
+        // 카카오 회원 정보 조회
+        KAKAO.API.request({
+          url: '/v2/user/me',
+          success: function(response) {
+            console.log(response)
+            dispatch({
+              type: userTypes.SET_USER_INFO,
+              payload: {
+                userInfo : {
+                  userId: response.id,
+                }
+              }
+            })
+
+            console.log(response.id);
+          },
+          fail: function(error) {
+              console.log(error);
+          }
+        });
+        history.push(`/signUp/account`)
       },
       fail: (err) => {
         console.log(JSON.stringify(err))
       },
     })
+  }
+
+  const kakaoLogin = (url) => {
+
   }
 
   useEffect(() => {
@@ -57,7 +87,7 @@ const Login = ({ history, isOpen, onEvent }) => {
       </div>
       <div className="loginBox">
         <p>아직 매드스트릿샵의 회원이<br/>아니신가요?</p>
-        <div className="kakaoBtn" onClick={()=>kakaoLogin('account')}>
+        <div className="kakaoBtn" onClick={()=>kakaoSignUp()}>
           <img src={iconKakao} alt=""/>
           <span>카카오톡으로 회원가입</span>
         </div>

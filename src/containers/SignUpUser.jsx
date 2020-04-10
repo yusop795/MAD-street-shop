@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import { useSelector} from 'react-redux';
+// import { useSelector} from 'react-redux';
 
 // utill
-import AlertUtil from '../util/AlertUtil.js';
+import AlertUtil from '../util/AlertUtil';
 
 import { ModalHeader } from '../components/Header';
 import { InputTag } from '../components/FormGroup';
@@ -11,40 +11,93 @@ import { Button } from '../components/Unit';
 import { Alert } from '../components/Alert';
 import '../assets/styles/containers/signUpUser.scss';
 
-const KAKAO = window.Kakao
+import { useDispatch , useSelector} from 'react-redux';
+import { startTypes } from '../reducers/startReducer';
+import { userTypes, userApiTypes } from '../reducers/userReducer';
+
+
 
 const SignUpUser = ({ history }) => {
-  const categoryList = useSelector(state => state.startReducer.shopCategory, []);  
-  const token = useSelector(state => state.userReducer.token, {});   
+  const userId = useSelector(state => state.userReducer.userId, ''); 
+  const categoryList = useSelector(state => state.startReducer.shopCategory, []);       
   const [selectCategory, setSelectCategory] = useState(1);
   const [tagList, setTagList] = useState([]);
   const [selectTag, setSelectTag] = useState([]);
 
-  console.log(token)
+  // alert
+  const { isShowing, title, contents, setAlert} = AlertUtil();
 
+  // 카테고리
+  const KAKAO = window.Kakao
+  const dispatch = useDispatch();
+
+  useEffect(() => { 
+    dispatch({
+      type: startTypes.FETCH_SHOP_CATEGORY,
+    });
+    if(KAKAO.Auth.getAccessToken()){
+      dispatch({
+        type: userTypes.SET_LOGIN,
+        payload: {
+          token: {
+            accessToken: KAKAO.Auth.getAccessToken(),
+          },
+          isLogin: true
+        },
+      })
+    } 
+  },[]);
+
+  // tag 선택 기능
   useEffect(() => {
     if(categoryList.length > 0){
       setTagList(categoryList[selectCategory-1].item)
     }
   },[categoryList,selectCategory]);
 
-
-  // alert
-  const { isShowing, title, contents, setAlert} = AlertUtil();
-
   const onChangeTag = (tag) => {
-    if(!selectTag.includes(tag)){
+    if(!Object.keys(selectTag).includes(tag)){
       if(selectTag.length > 2) {
         setAlert({
           contents:'대표메뉴는 최대 3개까지만<br/> 선택할 수 있어요.'
         })
       }else {
-        setSelectTag([...selectTag, tag])
+        const key = selectCategory-1
+        const data = {...selectTag, [tag]: categoryList[key].title}
+        setSelectTag(data)
       }
     }else {
-      selectTag.splice(selectTag.indexOf(tag),1)
-      setSelectTag([...selectTag])
+      delete selectTag[tag]
+      setSelectTag({...selectTag})
     }
+  }
+
+  // 데이터 전송
+  const submitData = () => {
+    const data = {};
+    Object.keys(selectTag).map((v, i) => {
+      let tags = data[selectTag[v]]
+      if (tags && tags.length > 0) {
+        data[selectTag[v]] = data[selectTag[v]].concat(v);
+      } else {
+        data[selectTag[v]] = [v]
+      }
+    })
+
+    const userTags =Object.keys(data).map((v)=>{
+      return {
+        title: v,
+        item: data[v]
+      }
+    })
+
+    dispatch({
+      type: userApiTypes.POST_SIGNUP_USER,
+      payload: {
+        userId,
+        userTags
+      }
+    })
   }
 
   return (
@@ -73,10 +126,10 @@ const SignUpUser = ({ history }) => {
       </div>
       <Button 
         fullmode={true} 
-        active={selectTag.length === 3} 
+        active={Object.keys(selectTag).length === 3} 
         bottom={true} 
-        onEvent={null} 
-        text={`선택 완료(${selectTag.length}/3)`}
+        onEvent={submitData} 
+        text={`선택 완료(${Object.keys(selectTag).length}/3)`}
       />
       <Alert isShowing={isShowing} hide={setAlert} title={title} contents={contents}/>
     </div>

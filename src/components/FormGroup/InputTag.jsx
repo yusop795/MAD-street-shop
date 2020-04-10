@@ -8,7 +8,7 @@ const InputTag = ({fullMode = false, title = '', item = [], selectTag=[], onEven
     <FormGroup fullMode={fullMode} title={title}>
       {item.map((v,i)=>(
         <div 
-          className={`inputTagItem ${(selectTag.includes(v))?'select':''}`} 
+          className={`inputTagItem ${(Object.keys(selectTag).includes(v))?'select':''}`} 
           key={`inputTagItem-${i}`}
         >
           <label>
@@ -28,3 +28,5 @@ const InputTag = ({fullMode = false, title = '', item = [], selectTag=[], onEven
 };
 
 export default InputTag;
+
+
