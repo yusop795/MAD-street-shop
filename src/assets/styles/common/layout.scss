@@ -68,9 +68,52 @@ box-sizing: border-box;
 }
 
 .header{
-    position: absolute;
+    position: fixed;
     top:0;
     left:0;
     width: 100%;
     z-index: 999;
+    background: #fff;
+    border-bottom: 1px solid rgb(220, 220, 220);
+}
+
+
+.searchModal{
+    &.modalPageRight {
+        background-color: #fff;
+    }  
+}
+.currentSearch {
+    padding:32px 10px 0 20px;
+    > div {
+        margin-bottom: 10px;
+        font-size: 13px;
+        color: rgba(0, 0, 0, 0.5);
+    }
+    li {
+        position: relative;
+        height: 40px;
+        box-sizing: border-box;
+        padding-right: 40px;
+    }
+    .searchForKeyword {
+        width: 100%;
+        line-height: 40px;
+        padding: 0;
+        font-size: 15px;
+        border: 0;
+        text-align: left;
+        background-color: transparent;
+    }
+    .deleteKeyword {
+        padding: 0;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 40px;
+        height: 40px;
+        border: 0;
+        background: url('../../imgs/btnCloseLine.png') no-repeat center;
+        background-size: 12px 10px;
+    }
 }
