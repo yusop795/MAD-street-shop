@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './style.scss';
 import iconBack from '../../assets/imgs/iconBack.png';
 import btnClose from '../../assets/imgs/btnClose.png';
 import iconMenu from '../../assets/imgs/iconMenu.png';
 import iconSearch from '../../assets/imgs/iconSearch.png';
 import adressEdit from '../../assets/imgs/adressEdit.png';
+
+
+import { useDispatch, useSelector} from 'react-redux';
 
 const Header = ({ onEvent, title = '' }) => {
   return (
@@ -25,6 +28,40 @@ export const ModalHeader = ({ onEvent, title = '', border = true }) => {
     </div>
   );
 };
+
+export const SearchModalHeader = ({ goBack, textarea = '', goTo, textValue = ''}) => {
+  const [focusOnTextbox, setFocusOnTextbox] = useState(false);
+  const [enterKeyword, setKeyword] = useState('');
+
+  const addKeyPress = (e)=>{
+    if (e.key === 'Enter') {
+      console.log('e', goTo);
+      window.location = `${goTo}?keyword=${e.target.value}`
+    }
+  }
+  useEffect(() => {
+    console.log('useEffect', textValue);
+        if (textValue !== '') {
+            setKeyword(textValue);
+        }
+    }, []);
+
+  return (
+    <div className="header modalHeader">
+      <div className="headerWrapper">
+        <div className="search">
+            <img src={iconSearch} alt={'검색'} />
+          </div>
+        <div className="textBoxWrapper focusOn">
+          <input type="text" placeholder={(textarea) ? textarea : '검색어를 입력하세요'} value={enterKeyword} onChange={(e)=> setKeyword(e.target.value)} onKeyPress={(e)=>{addKeyPress(e)}}/>
+          <button type="button" className="deleteText" onClick={()=>setKeyword('')}>입력 텍스트 삭제</button>
+        </div>
+        <div className="cancel" onClick={goBack}>취소</div>
+      </div>
+    </div>
+  );
+}
+
 
 export const HomeHeader = ({ address = '서울 영등포구 여의도동 37', fetchGeolocation, setModalPage }) => {
 
