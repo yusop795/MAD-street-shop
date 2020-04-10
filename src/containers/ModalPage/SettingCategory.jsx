@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { useDispatch , useSelector} from 'react-redux';
 
-import { startTypes } from '../../reducers/startReducer';
 import { userTypes, userApiTypes } from '../../reducers/userReducer';
 // utill
 import AlertUtil from '../../util/AlertUtil.js';
@@ -24,26 +23,6 @@ const SettingCategory = ({isOpen, onEvent}) => {
 
   // Alert
   const { isShowing, title, contents, setAlert} = AlertUtil();
-
-    // 카테고리
-    const KAKAO = window.Kakao
-  
-    useEffect(() => { 
-      dispatch({
-        type: startTypes.FETCH_SHOP_CATEGORY,
-      });
-      if(KAKAO.Auth.getAccessToken()){
-        dispatch({
-          type: userTypes.SET_LOGIN,
-          payload: {
-            token: {
-              accessToken: KAKAO.Auth.getAccessToken(),
-            },
-            isLogin: true
-          },
-        })
-      } 
-    },[]);
   
   // 카테고리 선택
   useEffect(() => {
@@ -122,3 +101,4 @@ const SettingCategory = ({isOpen, onEvent}) => {
 };
 
 export default SettingCategory;
+

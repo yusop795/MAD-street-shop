@@ -23,17 +23,17 @@ const Splash = () => {
     dispatch({
       type: startTypes.FETCH_SHOP_CATEGORY,
     });
-    if(KAKAO.Auth.getAccessToken()){
-      dispatch({
-        type: userTypes.SET_LOGIN,
-        payload: {
-          token: {
-            accessToken: KAKAO.Auth.getAccessToken(),
-          },
-          isLogin: true
-        },
-      })
-    } 
+    // if(KAKAO.Auth.getAccessToken()){
+    //   dispatch({
+    //     type: userTypes.SET_LOGIN,
+    //     payload: {
+    //       token: {
+    //         accessToken: KAKAO.Auth.getAccessToken(),
+    //       },
+    //       isLogin: true
+    //     },
+    //   })
+    // } 
   },[]);
 
   useEffect(() => { 

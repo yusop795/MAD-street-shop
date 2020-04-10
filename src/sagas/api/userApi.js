@@ -21,6 +21,25 @@ const KAKAO_API_INSTANCE = axios.create({
 
 
 /**
+ * 앱 로그인
+ * @param
+ */
+export const login = () => {
+  console.log('login', AuthUtill.accessToken)
+  return API_INSTANCE.post('/users/login',
+    null,
+    { headers: { 'Authorization': `Bearer ${AuthUtill.accessToken}` } }
+  )
+    .then(response => {
+      return response
+    })
+    .catch(error => {
+      console.log('login', error);
+      return error;
+    });
+};
+
+/**
  * 카카오 회원정보 조회
  * @param
  */
@@ -48,19 +67,18 @@ export const fetchKaKaoInfo = () => {
  * @param
  */
 export const postSignUpUser = ({ userId, userTags }) => {
-  console.log('postSignUpUser', userId, userTags)
 
-  // return API_INSTANCE.post('/users/join/user', {
-  //   data: { userId, userTags }
-  // })
-  //   .then(response => {
-  //     console.log('postSignUpUser')
-  //     return response
-  //   })
-  //   .catch(error => {
-  //     console.log('postSignUpUser', error);
-  //     return error;
-  //   });
+  return API_INSTANCE.post('/users/join/user',
+    qs.stringify({ userId, userTags }),
+  )
+    .then(response => {
+      console.log('postSignUpUser')
+      return response
+    })
+    .catch(error => {
+      console.log('postSignUpUser', error);
+      return error;
+    });
 };
 
 /**

@@ -62,7 +62,8 @@ const SignUpOwner = ({ history, match }) => {
         openDays: Object.keys(storeOpenDays).join(','),
         openTime: storeOpenTime,
         closeTime: storeCloseTime,
-        files:formData,
+        files: formData,
+        useKakao: false,
       },
     })
   }

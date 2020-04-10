@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from "react-router-dom";
 
 
 import AuthUtill from '../../util/AuthUtill'
 
-import { userTypes } from '../../reducers/userReducer';
+import { userTypes,userApiTypes } from '../../reducers/userReducer';
 
 // common components
 import { ModalHeader } from '../../components/Header';
@@ -18,6 +18,8 @@ import iconKakao from '../../assets/imgs/iconKakao.png';
 const KAKAO = window.Kakao
 const Login = ({ history, isOpen, onEvent }) => {
   const dispatch = useDispatch();
+  const loginOk = useSelector(state => state.userReducer.loginOk, []);
+
   const modalPage = useRef();
 
   const kakaoSignUp = (url) => {
@@ -35,6 +37,10 @@ const Login = ({ history, isOpen, onEvent }) => {
             }
           },
         })
+        // 앱 로그인
+        dispatch({
+          type: userApiTypes.LOGIN,
+        })
         // 카카오 회원 정보 조회
         KAKAO.API.request({
           url: '/v2/user/me',
@@ -48,14 +54,11 @@ const Login = ({ history, isOpen, onEvent }) => {
                 }
               }
             })
-
-            console.log(response.id);
           },
           fail: function(error) {
               console.log(error);
           }
         });
-        history.push(`/signUp/account`)
       },
       fail: (err) => {
         console.log(JSON.stringify(err))
@@ -73,6 +76,12 @@ const Login = ({ history, isOpen, onEvent }) => {
       modalPage.current.scrollTop = 0
     }
   },[isOpen]);
+
+  useEffect(() => {
+    if(loginOk){
+      history.push(`/signUp/account`)
+    }
+  });
   
   return (
     <div ref={modalPage} className={`main login modalPage ${isOpen ? 'open' : ''}`}>

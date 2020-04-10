@@ -12,6 +12,7 @@ export const userTypes = {
   SET_LOADING: 'user/LOADING',
   SET_TOKEN: 'user/SET_TOKEN',
   SET_LOGIN: 'user/SET_LOGIN',
+  SET_LOGIN_OK: 'user/SET_LOGIN_OK',
 
   SET_USER_INFO: 'user/SET_USER_INFO',
   SET_OWNER_INFO: 'user/SET_USER_INFO',
@@ -22,6 +23,7 @@ export const userTypes = {
  * 타입 = '리듀서명/타입'
  */
 export const userApiTypes = {
+  LOGIN: 'user/LOGIN',
   POST_SIGNUP_USER: 'user/POST_SIGNUP_USER',
   POST_SIGNUP_OWNER: 'user/POST_SIGNUP_OWNER',
 };
@@ -45,6 +47,11 @@ export const userAction = {
     time,
   }),
 
+  setLoginOk: isLogin => ({
+    type: userTypes.SET_LOGIN_OK,
+    isLogin,
+  }),
+
   updateLoading: loading => ({ type: userTypes.SET_LOADING, loading }),
   setToken: token => ({
     type: userTypes.SET_TOKEN,
@@ -64,10 +71,7 @@ export const userAction = {
  * 리듀서의 초기 값 설정
  */
 const initialState = {
-  userType: '',
   userId: '',
-  userName: '',
-  userPhone: '',
   storeCategory: '',
   storeLocation: '',
   storeOpenDays: '',
@@ -77,6 +81,7 @@ const initialState = {
   storeCategory: [],
   token: {},
   isLogin: false,
+  loginOk: false,
 };
 
 /**
@@ -100,7 +105,6 @@ export default function userReducer(state = initialState, action) {
       return {
         ...state,
         token: payload.token,
-        isLogin: true,
       };
     case userTypes.SET_STORE_CATEGORY:
       return {
@@ -118,6 +122,12 @@ export default function userReducer(state = initialState, action) {
         storeOpenDays: payload.storeOpenDays,
         storeOpenTime: payload.storeOpenTime,
         storeCloseTime: payload.storeCloseTime
+      };
+
+    case userTypes.SET_LOGIN_OK:
+      return {
+        ...state,
+        loginOk: payload,
       };
     case userTypes.SET_LOADING:
       return {

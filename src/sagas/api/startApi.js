@@ -15,7 +15,6 @@ const API_INSTANCE = axios.create({
  * @param 
  */
 export const fetchCategory = () => {
-  console.log('fetchCategory', AuthUtill.accessToken)
   return API_INSTANCE.get('/tags')
     .then(response => {
       console.log('야호')
