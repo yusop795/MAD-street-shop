@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-// import { useSelector} from 'react-redux';
 
 // utill
 import AlertUtil from '../util/AlertUtil';
@@ -12,41 +11,21 @@ import { Alert } from '../components/Alert';
 import '../assets/styles/containers/signUpUser.scss';
 
 import { useDispatch , useSelector} from 'react-redux';
-import { startTypes } from '../reducers/startReducer';
-import { userTypes, userApiTypes } from '../reducers/userReducer';
+import { userApiTypes } from '../reducers/userReducer';
 
 
 
 const SignUpUser = ({ history }) => {
+  const dispatch = useDispatch();
   const userId = useSelector(state => state.userReducer.userId, ''); 
   const categoryList = useSelector(state => state.startReducer.shopCategory, []);       
   const [selectCategory, setSelectCategory] = useState(1);
   const [tagList, setTagList] = useState([]);
   const [selectTag, setSelectTag] = useState([]);
 
+
   // alert
   const { isShowing, title, contents, setAlert} = AlertUtil();
-
-  // 카테고리
-  const KAKAO = window.Kakao
-  const dispatch = useDispatch();
-
-  useEffect(() => { 
-    dispatch({
-      type: startTypes.FETCH_SHOP_CATEGORY,
-    });
-    if(KAKAO.Auth.getAccessToken()){
-      dispatch({
-        type: userTypes.SET_LOGIN,
-        payload: {
-          token: {
-            accessToken: KAKAO.Auth.getAccessToken(),
-          },
-          isLogin: true
-        },
-      })
-    } 
-  },[]);
 
   // tag 선택 기능
   useEffect(() => {

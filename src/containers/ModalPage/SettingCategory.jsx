@@ -1,7 +1,8 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { useDispatch , useSelector} from 'react-redux';
 
-import { userTypes } from '../../reducers/userReducer';
+import { startTypes } from '../../reducers/startReducer';
+import { userTypes, userApiTypes } from '../../reducers/userReducer';
 // utill
 import AlertUtil from '../../util/AlertUtil.js';
 // components
@@ -23,6 +24,26 @@ const SettingCategory = ({isOpen, onEvent}) => {
 
   // Alert
   const { isShowing, title, contents, setAlert} = AlertUtil();
+
+    // 카테고리
+    const KAKAO = window.Kakao
+  
+    useEffect(() => { 
+      dispatch({
+        type: startTypes.FETCH_SHOP_CATEGORY,
+      });
+      if(KAKAO.Auth.getAccessToken()){
+        dispatch({
+          type: userTypes.SET_LOGIN,
+          payload: {
+            token: {
+              accessToken: KAKAO.Auth.getAccessToken(),
+            },
+            isLogin: true
+          },
+        })
+      } 
+    },[]);
   
   // 카테고리 선택
   useEffect(() => {
@@ -42,18 +63,21 @@ const SettingCategory = ({isOpen, onEvent}) => {
 
   // 태그 선택
   const onChangeTag = (tag) => {
-    if(!selectTag.includes(tag)){
-      if(selectTag.length > 2) {
+    const tags = Object.keys(selectTag)
+
+    if(!tags.includes(tag)){
+      if(tags.length > 2) {
         setAlert({
           contents:'대표메뉴는 최대 3개까지만<br/> 선택할 수 있어요.'
         })
       }else {
         const key = selectCategory-1
-        setSelectTag([...selectTag, {[key]:tag}])
+        const data = {...selectTag, [tag]: categoryList[key].title}
+        setSelectTag(data)
       }
     }else {
-      selectTag.splice(selectTag.indexOf(tag),1)
-      setSelectTag([...selectTag])
+      delete selectTag[tag]
+      setSelectTag({...selectTag})
     }
   }
 
@@ -79,13 +103,13 @@ const SettingCategory = ({isOpen, onEvent}) => {
           onEvent={onChangeTag}
         />
       : null }
-      <Button active={selectTag.length >=1} onEvent={()=>{
+      <Button active={Object.keys(selectTag).length >=1} onEvent={()=>{
         dispatch({
           type: userTypes.SET_STORE_CATEGORY,
           payload: { 
             category:{
               title:categoryList[selectCategory-1].title,
-              item:selectTag
+              item:Object.keys(selectTag)
             }
           },
         });
