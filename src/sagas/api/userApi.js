@@ -1,4 +1,5 @@
 import axios from 'axios';
+import qs from 'qs'
 import AuthUtill from '../../util/AuthUtill'
 
 const API_INSTANCE = axios.create({
@@ -68,18 +69,21 @@ export const postSignUpUser = ({ userId, userTags }) => {
  */
 export const postSignUpOwner = (data) => {
   console.log('postSignUpOwner', data)
-
-  // return API_INSTANCE.post('/users/join/user', {
-  //   data: { userId, userTags }
-  // })
-  //   .then(response => {
-  //     console.log('postSignUpUser')
-  //     return response
-  //   })
-  //   .catch(error => {
-  //     console.log('postSignUpUser', error);
-  //     return error;
-  //   });
+  return API_INSTANCE.post('/users/join/owner',
+    qs.stringify(data),
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+    })
+    .then(response => {
+      console.log('postSignUpUser')
+      return response
+    })
+    .catch(error => {
+      console.log('postSignUpUser', error);
+      return error;
+    });
 };
 
 

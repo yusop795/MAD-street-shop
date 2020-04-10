@@ -30,13 +30,22 @@ const SignUpOwner = ({ history, match }) => {
   const [useMobile, setUseMobile] = useState(0);
   const [shopName, setShopName] = useState('');
   const [shopComment, setShopComment] = useState('');
+  const [firstFiles, setFirstFiles] = useState('');
   const [files, setFiles] = useState('');
   
   // 모달
   const { isShowing, title, contents, setAlert } = AlertUtil();
   const { targetModalPage, isModalOpen, setModalPage } = ModalPageUtill();
 
-  const submitData = () =>{
+  const submitData = () => {
+    const formData = new FormData();
+    formData.append('file', firstFiles[0].imgFile);
+    if(files.length > 0){
+      files.map((v)=>{
+        formData.append('file', v.imgFile);
+      })
+    }
+
     dispatch({
       type: userApiTypes.POST_SIGNUP_OWNER,
       payload: {
@@ -53,10 +62,11 @@ const SignUpOwner = ({ history, match }) => {
         openDays: Object.keys(storeOpenDays).join(','),
         openTime: storeOpenTime,
         closeTime: storeCloseTime,
-        files:[],
+        files:formData,
       },
     })
   }
+
 
   const rederModalPage = () => {
     switch (targetModalPage) {
@@ -70,6 +80,8 @@ const SignUpOwner = ({ history, match }) => {
         return null;
     }
   };
+
+  console.log(files)
 
 
   return (
@@ -149,8 +161,8 @@ const SignUpOwner = ({ history, match }) => {
           setSelectItem={setUseMobile}
         />
       </FormGroup>
-      <ImgUploader multiple={false} title={'대표이미지 등록'} info={'※ 가게를 대표하는 사진을 등록해주세요.'} />
-      <ImgUploader title={'사진 등록'} info={'※ 10장 이내의 사진을 등록해주세요. <b>판매하는 음식사진이나, 가게 전경, 영업 위치가 찍힌 사진</b>을 등록하면 판매에 도움이 됩니다.'} />
+      <ImgUploader setFiles={setFirstFiles} multiple={false} title={'대표이미지 등록'} info={'※ 가게를 대표하는 사진을 등록해주세요.'} />
+      <ImgUploader setFiles={setFiles} title={'사진 등록'} info={'※ 10장 이내의 사진을 등록해주세요. <b>판매하는 음식사진이나, 가게 전경, 영업 위치가 찍힌 사진</b>을 등록하면 판매에 도움이 됩니다.'} />
       <Button
         active={true}
         onEvent={submitData}

@@ -1,9 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef,useEffect } from 'react';
 import { FormGroup } from '../FormGroup'
 import windowUtil from '../../util/windowUtil'
 import './style.scss';
 
-const ImgUploader = ({fullMode = false, title = '', info='', multiple = true}) => {
+const ImgUploader = ({fullMode = false, title = '', info='', multiple = true, setFiles=null}) => {
   const [isImgUpload, setIsImgUpload] = useState(true);
   const [imgFiles, setImgFiles] = useState([]);
   const imgUploader = useRef();
@@ -44,6 +44,14 @@ const ImgUploader = ({fullMode = false, title = '', info='', multiple = true}) =
     }
 
   }
+
+  useEffect(() => {
+    if(imgFiles.length > 0){
+      setFiles(imgFiles)
+    }
+  },[imgFiles]);
+
+
 
   const renderImgPreviewBox = () => {
     return imgFiles.map((v,i)=>{
