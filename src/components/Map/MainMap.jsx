@@ -3,14 +3,13 @@ import scriptUtill from '../../util/scriptUtill';
 import './style.scss';
 import mapPinOn from '../../assets/imgs/mapPinOn.png';
 import iconMapPin from '../../assets/imgs/iconMapPin.png';
+import { SettingLocation } from '../../containers/ModalPage';
 
-const MainMap = ({ location, shopList= [], containerId= null, onEvent }) => {
-  // const [isSpin, setisSpin] = useState(true);
+const kakaoMapScript = scriptUtill(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAP_KEY}&autoload=false&libraries=services`);
+
+const MainMap = ({ location, shopList=[], containerId= null, onEvent, getGeocoder }) => {
+  const [crruntLocation, setCrruntLocation] = useState(location);
   const [selectShop,setSelectShop] = useState(1);
-
-  console.log(process.env.REACT_APP_KAKAO_MAP_KEY)
-  const kakaoMapScript = scriptUtill(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAP_KEY}&autoload=false`);
-
 
   // const moveMap = (kakaoMap, map) => {
   //   // 중심 좌표나 확대 수준이 변경되면 발생
@@ -21,11 +20,36 @@ const MainMap = ({ location, shopList= [], containerId= null, onEvent }) => {
   //   });
   // };
 
+  const moveMap = (kakaoMap, map, latlng) => {
+      // 이동할 위도 경도 위치를 생성합니다 
+      const moveLatLon = new kakaoMap.LatLng(latlng.Ga, latlng.Ha);
+      console.log('moveLatLon',moveLatLon)
+      // 지도 중심을 이동 시킵니다
+      map.panTo(moveLatLon);
+  }
+
   const clickMap = (kakaoMap, map) => {
     kakaoMap.event.addListener(map, 'click', () => {       
-      console.log() 
       onEvent({
         target: 'ShopDetailModal',
+      });
+    });
+  }
+
+  const setAddress = (kakaoMap, map) => {
+    // 주소-좌표 변환 객체를 생성합니다
+    const geocoder = new kakaoMap.services.Geocoder();
+    kakaoMap.event.addListener(map, 'click', (data) => {  
+      const latlng = data.latLng; 
+      // moveMap(kakaoMap, map, latlng)   
+      geocoder.coord2Address(latlng.Ga, latlng.Ha, (result, status) => {
+
+
+        if(result[0].road_address){
+          getGeocoder(result[0].road_address.address_name, { long: latlng.Ga, lat: latlng.Ha})
+        }else {
+          getGeocoder(result[0].address.address_name,{ long: latlng.Ga, lat: latlng.Ha})
+        }
       });
     });
   }
@@ -72,15 +96,17 @@ const MainMap = ({ location, shopList= [], containerId= null, onEvent }) => {
     const container = document.getElementById(containerId);
     kakaoMapScript
       .then(() => {
-        const kakaoMap = window.kakao.maps;
+        const kakaoMap = window.kakao.maps;    
         kakaoMap.load(() => {
           // 지도 옵션
+          console.log(1)
           const options = {
             center: new kakaoMap.LatLng(location.lat, location.long), // 지도의 중심좌표.
             level: 2, // 지도의 레벨(확대, 축소 정도)
           };
           // 지도 생성
           const map = new kakaoMap.Map(container, options);
+
           // 마커 생성
           const marker = new kakaoMap.Marker({
             map,
@@ -96,6 +122,10 @@ const MainMap = ({ location, shopList= [], containerId= null, onEvent }) => {
           }
           if(onEvent) {
             clickMap(kakaoMap, map)
+          }
+
+          if(getGeocoder){
+            setAddress(kakaoMap, map)
           }
           // 스핀 제거
           // setisSpin(false);

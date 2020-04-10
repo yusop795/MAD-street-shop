@@ -6,10 +6,14 @@
  */
 export const userTypes = {
   SET_STORE_CATEGORY: 'user/SET_STORE_CATEGORY',
+  SET_STORE_LOCATION: 'user/SET_STORE_LOCATION',
+
   SET_LOADING: 'user/LOADING',
   SET_TOKEN: 'user/SET_TOKEN',
   SET_LOGIN: 'user/SET_LOGIN',
+
   SET_USER_INFO: 'user/SET_USER_INFO',
+  SET_OWNER_INFO: 'user/SET_USER_INFO',
 };
 
 /**
@@ -18,6 +22,7 @@ export const userTypes = {
  */
 export const userApiTypes = {
   POST_SIGNUP_USER: 'user/POST_SIGNUP_USER',
+  POST_SIGNUP_OWNER: 'user/POST_SIGNUP_OWNER',
 };
 
 /**
@@ -30,6 +35,11 @@ export const userAction = {
     type: userTypes.SET_STORE_CATEGORY,
     category,
   }),
+  setStoreLocation: storeLocation => ({
+    type: userTypes.SET_STORE_LOCATION,
+    storeLocation,
+  }),
+
   updateLoading: loading => ({ type: userTypes.SET_LOADING, loading }),
   setToken: token => ({
     type: userTypes.SET_TOKEN,
@@ -92,6 +102,11 @@ export default function userReducer(state = initialState, action) {
       return {
         ...state,
         storeCategory: payload.category,
+      };
+    case userTypes.SET_STORE_LOCATION:
+      return {
+        ...state,
+        storeLocation: payload.storeLocation,
       };
     case userTypes.SET_LOADING:
       return {

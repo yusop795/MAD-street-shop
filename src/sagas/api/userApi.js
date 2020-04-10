@@ -47,8 +47,27 @@ export const fetchKaKaoInfo = () => {
  * @param
  */
 export const postSignUpUser = ({ userId, userTags }) => {
-  console.log('postSignUpUser', AuthUtill.accessToken)
   console.log('postSignUpUser', userId, userTags)
+
+  // return API_INSTANCE.post('/users/join/user', {
+  //   data: { userId, userTags }
+  // })
+  //   .then(response => {
+  //     console.log('postSignUpUser')
+  //     return response
+  //   })
+  //   .catch(error => {
+  //     console.log('postSignUpUser', error);
+  //     return error;
+  //   });
+};
+
+/**
+ * 카카오 사장님 회원가입
+ * @param
+ */
+export const postSignUpOwner = ({ data }) => {
+  console.log('postSignUpUser', data)
 
   // return API_INSTANCE.post('/users/join/user', {
   //   data: { userId, userTags }

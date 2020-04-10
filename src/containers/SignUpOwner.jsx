@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
+import { userTypes, userApiTypes } from '../reducers/userReducer';
+
 import AlertUtil from '../util/AlertUtil.js';
 import ModalPageUtill from '../util/ModalPageUtill.js';
 
@@ -15,14 +17,13 @@ import { SettingCategory, SettingTime, SettingLocation } from './ModalPage';
 
 const SignUpOwner = ({ history, match }) => {
   // 스토어 값 가져오기
-  // const loading = useSelector(({ authReducer }) => authReducer.loading, true);
+  const storeLocation = useSelector(state => state.userReducer.storeLocation, {});
+  const storeCategory = useSelector(state => state.userReducer.storeCategory, {});
   const [selectRadioItem, setSelectRadioItem] = useState(2);
   // 모달
 
   const { isShowing, title, contents, setAlert } = AlertUtil();
   const { targetModalPage, isModalOpen, setModalPage } = ModalPageUtill();
-
-  const storeCategory = useSelector(state => state.userReducer.storeCategory, {});
 
   const rederModalPage = () => {
     switch (targetModalPage) {
@@ -74,6 +75,7 @@ const SignUpOwner = ({ history, match }) => {
         />
         <InputText 
           label={'주 영업 위치'} 
+          selcetData={{ main: storeLocation.address, sub: storeLocation.locationComment }}
           type="openModal" 
           onEvent={() => {
             setModalPage({
@@ -84,7 +86,7 @@ const SignUpOwner = ({ history, match }) => {
         <InputText
           label={'주 영업 시간'}
           type="openModal"
-          selcetData={{ main: '월~금 17:00 19:10' }}
+          selcetData={{ main: '10시' }}
           onEvent={() => {
             setModalPage({
               target: 'SettingTime',

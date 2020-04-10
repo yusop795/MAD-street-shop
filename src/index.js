@@ -20,6 +20,7 @@ KAKAO.isInitialized();
 /* KAKAO accessToken 저장 */
 AuthUtill.setUserStore(KAKAO.Auth.getAccessToken())
 
+
 /* Reducer 생성 */
 const rootReducer = combineReducers({
   startReducer,
