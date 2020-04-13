@@ -15,7 +15,7 @@ const shopDetailModal = ({shopInfo, isOpen=true, onEvent=null}) => {
           target: 'ShopDetailModal',
         });
     }}>
-      <ShopItem data={shopInfo}/>
+      <ShopItem data={shopInfo} type='icon'/>
       <ul className={'shopDetailInfo'}>
         <li className="infoList">
           <img src={iconMapPin} alt={'위치'}/>

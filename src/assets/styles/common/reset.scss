@@ -15,6 +15,7 @@ a {
 
 input,textarea,select {
   outline: none;
+  border: none;
   &::-webkit-input-placeholder { color: $black025; }
   &::-moz-placeholder { color: $black025;  }
   &:-ms-input-placeholder { color: $black025;  }
@@ -42,6 +43,7 @@ input,textarea,select {
     left: 0;
   }
 }
+
 .modalPage {
   top: 100%;
   left: 0;
@@ -50,6 +52,7 @@ input,textarea,select {
     top: 0;
   }
 }
+
 .modalPageLeft{
   top: 0;
   left: 100%;
@@ -58,6 +61,7 @@ input,textarea,select {
     left: 0 
   }
 }
+
 .modalPageRight{
   top: 0;
   right : 100%;

@@ -1,6 +1,8 @@
 import React from 'react';
 import './style.scss';
 
+import iconLikeOn from '../../assets/imgs/iconLikeOn.png'
+
 const ShopList = ({ items = [], type = '', onEvent = null}) => {
   return (
     <div className="shopListWrapper">
@@ -15,10 +17,10 @@ const ShopList = ({ items = [], type = '', onEvent = null}) => {
   );
 };
 
-export const ShopItem = ({index = 10, data, type, onEvent})=> {
+export const ShopItem = ({index = 10, data, type, onEvent, icon = false, iconEvent=null})=> {
   return (
       <div 
-        className={`shopListItem ${type === "icon" && index < 5 ? "iconShow" : ""}`}
+        className={`shopListItem ${type === "rank" && index < 5 ? "iconShow" : ""}`}
         onClick={()=>{
           if (!onEvent) return false
           onEvent({
@@ -26,7 +28,7 @@ export const ShopItem = ({index = 10, data, type, onEvent})=> {
           });
         }}
       >
-        {type === "icon" && index < 5 ? 
+        {type === "rank" && index < 5 ? 
           (<div className={`listIcon ${index > 2 ? "iconShow line" : "iconShow"}`}>{index + 1}</div>) : null
         }
         <div className="listTest">
@@ -40,13 +42,12 @@ export const ShopItem = ({index = 10, data, type, onEvent})=> {
             <span className={`heart ${data.info.userLike ? "on" : ""}`}>{data.info.like}</span>
           </div>
         </div>
-        <div className="listPhoto">
-          <img
-            src={data.photo}
-            alt="돈까스"
-          />
-          { data.open ? null : <div className="getReady">준비중</div>}
-        </div>
+        {type === 'icon' ?  <img src={iconLikeOn} alt={'좋아요'}/> : (
+          <div className="listPhoto">
+            <img src={data.photo} alt="돈까스"/>
+            { data.open ? null : <div className="getReady">준비중</div>}
+          </div>
+        )}
       </div>
   )
 }

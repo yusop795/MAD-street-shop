@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { useDispatch, useSelector} from 'react-redux';
 
 import { userTypes } from '../reducers/userReducer';
@@ -26,8 +26,9 @@ import '../assets/styles/containers/myPage.scss';
 const KAKAO = window.Kakao
 const MyPage = ({ history, match }) => {
   const dispatch = useDispatch();
-  const isLogin = useSelector(state => state.userReducer.isLogin, false); 
-  const type = 'user';
+  // const isLogin = useSelector(state => state.userReducer.isLogin, fasle);
+  const isLogin = true
+  const type = 'owner';
 
   const kakaoLogout = () => {
     KAKAO.Auth.logout(() => {
@@ -77,14 +78,14 @@ const MyPage = ({ history, match }) => {
             </div>
           </div>
           <div className="menuList">
-            <div className="menuItem">
-              <img src={iconSettings} alt="취향설정"/>
-              <p>취향설정</p>
-            </div>
-            <div className="menuItem">
+            <Link to='/signup/user' className="menuItem">
+                <img src={iconSettings} alt="취향설정"/>
+                <p>취향설정</p>
+            </Link>
+            <Link to='/ranking'  className="menuItem">
               <img src={iconHeart} alt="관심리스트"/>
               <p>관심리스트</p>
-            </div>
+            </Link>
             <div className="menuItem" 
               onClick={()=>{
               setAlert({
@@ -97,6 +98,7 @@ const MyPage = ({ history, match }) => {
           </div>
         </>
       )}
+      {type ==='user'? (
       <div className="banner">
         <p>
           <span>스트릿푸드를 판매하고 계신가요?</span>
@@ -104,6 +106,7 @@ const MyPage = ({ history, match }) => {
         </p>
         <img src={more} alt="더보기"/>
       </div>
+      ):null}
       <ul className="settingList">
         <li className="settingItem">공지사항<img src={iconChevronRight} alt="이동"/></li>
         <li className="settingItem border">FAQ<img src={iconChevronRight} alt="이동"/></li>

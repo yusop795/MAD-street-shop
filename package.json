@@ -20,7 +20,7 @@
     "reset-css": "^5.0.1"
   },
   "scripts": {
-    "dev": "yarn add && react-scripts start",
+    "dev": "react-scripts start",
     "start": "react-scripts start .env",
     "build": "react-scripts build",
     "test": "react-scripts test",

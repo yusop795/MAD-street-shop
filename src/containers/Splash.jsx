@@ -37,6 +37,10 @@ const Splash = () => {
   },[]);
 
   useEffect(() => { 
+    setTimeout(()=>{
+      setAllState(true)
+    },3000)
+    
     if(categoryList.length > 0){
       setAllState(true)
     }

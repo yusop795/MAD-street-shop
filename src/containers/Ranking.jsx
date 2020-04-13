@@ -129,7 +129,7 @@ const Ranking = ({ history }) => {
       >
         모달 테스트
       </button> */}
-      <ShopList items={dummyData} type="icon" />
+      <ShopList items={dummyData} type="rank" />
       <ShopList items={dummyData} />
       {rederModalPage()}
     </div>

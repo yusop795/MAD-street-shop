@@ -8,15 +8,21 @@
   }
 }
 .shopListItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   position: relative;
   box-sizing: border-box;
   height: 100px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 20px 84px 20px 20px;
-  display: flex;
-  align-items: center;
+  padding: 20px;
   &.iconShow {
     padding-left: 52px;
+  }
+  > img {
+    width: 26px;
+    height: 23px;
+    margin-top:-24px;
   }
   .shopInfo {
     .shopName {
