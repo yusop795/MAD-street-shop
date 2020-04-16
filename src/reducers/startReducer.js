@@ -27,6 +27,7 @@ export const startAction = {
 const initialState = {
   accessToken: '',
   shopCategory: [],
+  shopInfo: [],
 };
 
 /**
