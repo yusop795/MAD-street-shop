@@ -16,9 +16,9 @@ const SearchResult = () => {
             open: true,
             link: "/",
             info: {
-            distance: 8,
-            like: 674,
-            userLike: true,
+                distance: 8,
+                like: 674,
+                userLike: true,
             }
         },
         {
@@ -28,9 +28,9 @@ const SearchResult = () => {
             open: false,
             link: "/",
             info: {
-            distance: 12,
-            like: 521,
-            userLike: false,
+                distance: 12,
+                like: 521,
+                userLike: false,
             }
         },
         {
@@ -40,9 +40,9 @@ const SearchResult = () => {
             open: true,
             link: "/",
             info: {
-            distance: 40,
-            like: 500,
-            userLike: false,
+                distance: 40,
+                like: 500,
+                userLike: false,
             }
         },
         {
@@ -52,9 +52,9 @@ const SearchResult = () => {
             open: false,
             link: "/",
             info: {
-            distance: 45,
-            like: 329,
-            userLike: false,
+                distance: 45,
+                like: 329,
+                userLike: false,
             }
         },
         {
@@ -64,9 +64,9 @@ const SearchResult = () => {
             open: true,
             link: "/",
             info: {
-            distance: 111,
-            like: 301,
-            userLike: true,
+                distance: 111,
+                like: 301,
+                userLike: true,
             }
         },
         {
@@ -76,9 +76,9 @@ const SearchResult = () => {
             open: true,
             link: "/",
             info: {
-            distance: 129,
-            like: 196,
-            userLike: false,
+                distance: 129,
+                like: 196,
+                userLike: false,
             }
         },
         {
@@ -88,18 +88,18 @@ const SearchResult = () => {
             open: true,
             link: "/",
             info: {
-            distance: 149,
-            like: 165,
-            userLike: true,
+                distance: 149,
+                like: 165,
+                userLike: true,
             }
         },
     ];
 
     const modalPage = useRef();
     const [enterKeyword, setKeyword] = useState('');
-    
+
     useEffect(() => {
-    
+
         let keyword = (decodeURI(window.location.search)).split('=');
         console.log('window =>', keyword, keyword[1]);
         setKeyword(keyword[1]);
@@ -112,7 +112,7 @@ const SearchResult = () => {
 
     return (
         <div ref={modalPage}>
-            <SearchModalHeader goBack={goBackToHome} goTo={'/searchResult'} textValue={(decodeURI(window.location.search)).split('=')[1]}/>
+            <SearchModalHeader goBack={goBackToHome} goTo={'/searchResult'} textValue={(decodeURI(window.location.search)).split('=')[1]} />
             <div className="searchResult">
                 <div className="resultInfo">내 주변 <strong>3km</strong> 이내의 검색 결과입니다</div>
                 <div className="resultWrapper">

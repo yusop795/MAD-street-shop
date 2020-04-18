@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { startTypes, startAction } from '../reducers/startReducer';
+
 
 import ModalPageUtill from '../util/ModalPageUtill.js';
 
@@ -103,7 +107,26 @@ const Ranking = ({ history }) => {
   // const { isShowing, title, contents, setAlert } = AlertUtil();
   const { targetModalPage, isModalOpen, setModalPage } = ModalPageUtill();
 
+  const dispatch = useDispatch();
+
   // const storeCategory = useSelector(state => state.userReducer.storeCategory, {});
+
+  useEffect(() => {
+    dispatch({
+      type: startTypes.FETCH_SHOP_LIST,
+    });
+    // if(KAKAO.Auth.getAccessToken()){
+    //   dispatch({
+    //     type: userTypes.SET_LOGIN,
+    //     payload: {
+    //       token: {
+    //         accessToken: KAKAO.Auth.getAccessToken(),
+    //       },
+    //       isLogin: true
+    //     },
+    //   })
+    // } 
+  }, []);
 
   const rederModalPage = () => {
     switch (targetModalPage) {

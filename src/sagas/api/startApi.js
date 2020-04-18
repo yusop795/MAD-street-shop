@@ -5,7 +5,7 @@ const API_INSTANCE = axios.create({
   baseURL: 'https://mad-street-shop.herokuapp.com/api',
   headers: {
     'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'application/x-www-form-urlencoded',
+    'Content-Type': 'application/x-www-form-urlencoded'
   },
 });
 
@@ -36,16 +36,18 @@ export const fetchCategory = () => {
  * 활성화 active : false
  * 범위 range : 기본값은 10000(=10km)
  */
-export const fetchList = (longData, latData, typeData, activeData, rangeData = 10000) => {
+export const fetchList = () => {
   console.log('fetchList')
-  return API_INSTANCE.get('/shops',
+
+  return API_INSTANCE.get('/shops/list',
     {
       params: {
-        long: longData,
-        lat: latData,
-        type: typeData,
-        active: activeData,
-        range: rangeData
+        long: 123.45,
+        lat: 78.901,
+        type: "rank",
+        active: false,
+        range: 10000,
+        search: "투데이",
       }
     },
     {
@@ -55,7 +57,7 @@ export const fetchList = (longData, latData, typeData, activeData, rangeData = 1
     }
   )
     .then(response => {
-      console.log('get List')
+      console.log('get List', response)
       return response
     })
     .catch(error => {
