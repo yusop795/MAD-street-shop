@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { withRouter } from "react-router-dom";
-import { useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { userTypes } from '../../reducers/userReducer';
 
@@ -14,11 +14,11 @@ import { MainMap } from '../../components/Map';
 import '../../assets/styles/containers/setting.scss';
 import btnHere from '../../assets/imgs/btnHere.png';
 
-const SettingLocation = ({isOpen, onEvent}) => {
+const SettingLocation = ({ isOpen, onEvent }) => {
   const dispatch = useDispatch();
   const store = useSelector(state => state.userReducer.storeLocation, {});
   const [location, setLocation] = useState('');
-  const [storeLocation, setStoreLocation] = useState('');
+  const [setStoreLocation] = useState('');
   const [address, setAddress] = useState('');
   const [locationComment, setLocationComment] = useState('');
   const modalPage = useRef();
@@ -58,27 +58,27 @@ const SettingLocation = ({isOpen, onEvent}) => {
   // })
 
   useEffect(() => {
-    if(isOpen){
+    if (isOpen) {
       modalPage.current.style = 'transform: translateY(0)'
       modalPage.current.scrollTop = 0
     }
-  },[isOpen]);
+  }, [isOpen]);
 
   // 도로명 주소 가져오기
   const getGeocoder = (address) => {
     setAddress(address)
     setStoreLocation(location)
   }
-  
+
   const setText = (e) => {
     setLocationComment(e.target.value)
   }
-  const setData = () =>{
-    console.log(address,locationComment,location)
+  const setData = () => {
+    console.log(address, locationComment, location)
     dispatch({
       type: userTypes.SET_STORE_LOCATION,
       payload: {
-        storeLocation:{
+        storeLocation: {
           address,
           locationComment,
           location,
@@ -88,23 +88,23 @@ const SettingLocation = ({isOpen, onEvent}) => {
   }
 
   return (
-    <div ref={modalPage} className={`main settingLocation modalPage ${isOpen?'open':''}`}>
-      <ModalHeader onEvent={onEvent} title={'위치 설정'}/>
-      <MainMap 
-        location={location} 
+    <div ref={modalPage} className={`main settingLocation modalPage ${isOpen ? 'open' : ''}`}>
+      <ModalHeader onEvent={onEvent} title={'위치 설정'} />
+      <MainMap
+        location={location}
         containerId={'locationMap'}
-        getGeocoder={getGeocoder} 
+        getGeocoder={getGeocoder}
       />
       <div className="locationBox">
         <div className="loactionBtn" onClick={fetchGeolocation}>
-          <img src={btnHere} alt="현재위치"/>
+          <img src={btnHere} alt="현재위치" />
         </div>
         <p className="location">{address}</p>
-        <InputText placeholder={'상세주소 입력 (예 : OO빌딩 앞, OO아파트 단지 내)'} defaultValue={locationComment} onEvent={setText}/>
-        <Button fullmode={true} text={'선택한 위치로 설정'} onEvent={()=>{
+        <InputText placeholder={'상세주소 입력 (예 : OO빌딩 앞, OO아파트 단지 내)'} defaultValue={locationComment} onEvent={setText} />
+        <Button fullmode={true} text={'선택한 위치로 설정'} onEvent={() => {
           setData()
-          onEvent({target:null})
-        }}/>
+          onEvent({ target: null })
+        }} />
       </div>
     </div>
   );

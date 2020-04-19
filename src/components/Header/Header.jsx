@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import './style.scss';
 import iconBack from '../../assets/imgs/iconBack.png';
 import btnClose from '../../assets/imgs/btnClose.png';
@@ -7,12 +7,10 @@ import iconSearch from '../../assets/imgs/iconSearch.png';
 import adressEdit from '../../assets/imgs/adressEdit.png';
 
 
-import { useDispatch, useSelector} from 'react-redux';
-
 const Header = ({ onEvent, title = '' }) => {
   return (
     <div className="header">
-      <div onClick={onEvent}><img src={iconBack} alt={'뒤로가기'} /></div>
+      <div onClick={onEvent} className="gobackBtn"><img src={iconBack} alt={'뒤로가기'} /></div>
       <h2 className="headerTitle">{(title) ? title : ''}</h2>
       <div>{''}</div>
     </div>
@@ -21,7 +19,7 @@ const Header = ({ onEvent, title = '' }) => {
 
 export const ModalHeader = ({ onEvent, title = '', border = true }) => {
   return (
-    <div className={`header modalHeader ${border?'border':''}`}>
+    <div className={`header modalHeader ${border ? 'border' : ''}`}>
       <div onClick={onEvent}><img src={btnClose} alt="btnClose" /></div>
       <h2 className="headerTitle">{(title) ? title : ''}</h2>
       <div>{''}</div>
@@ -29,11 +27,11 @@ export const ModalHeader = ({ onEvent, title = '', border = true }) => {
   );
 };
 
-export const SearchModalHeader = ({ goBack, textarea = '', goTo, textValue = ''}) => {
-  const [focusOnTextbox, setFocusOnTextbox] = useState(false);
+export const SearchModalHeader = ({ goBack, textarea = '', goTo, textValue = '' }) => {
+  // const [focusOnTextbox, setFocusOnTextbox] = useState(false);
   const [enterKeyword, setKeyword] = useState('');
 
-  const addKeyPress = (e)=>{
+  const addKeyPress = (e) => {
     if (e.key === 'Enter') {
       console.log('e', goTo);
       window.location = `${goTo}?keyword=${e.target.value}`
@@ -41,20 +39,20 @@ export const SearchModalHeader = ({ goBack, textarea = '', goTo, textValue = ''}
   }
   useEffect(() => {
     console.log('useEffect', textValue);
-        if (textValue !== '') {
-            setKeyword(textValue);
-        }
-    }, []);
+    if (textValue !== '') {
+      setKeyword(textValue);
+    }
+  }, []);
 
   return (
     <div className="header modalHeader">
       <div className="headerWrapper">
         <div className="search">
-            <img src={iconSearch} alt={'검색'} />
-          </div>
+          <img src={iconSearch} alt={'검색'} />
+        </div>
         <div className="textBoxWrapper focusOn">
-          <input type="text" placeholder={(textarea) ? textarea : '검색어를 입력하세요'} value={enterKeyword} onChange={(e)=> setKeyword(e.target.value)} onKeyPress={(e)=>{addKeyPress(e)}}/>
-          <button type="button" className="deleteText" onClick={()=>setKeyword('')}>입력 텍스트 삭제</button>
+          <input type="text" placeholder={(textarea) ? textarea : '검색어를 입력하세요'} value={enterKeyword} onChange={(e) => setKeyword(e.target.value)} onKeyPress={(e) => { addKeyPress(e) }} />
+          <button type="button" className="deleteText" onClick={() => setKeyword('')}>입력 텍스트 삭제</button>
         </div>
         <div className="cancel" onClick={goBack}>취소</div>
       </div>
@@ -70,11 +68,11 @@ export const HomeHeader = ({ address = '서울 영등포구 여의도동 37', fe
       <div className="menu">
         <img src={iconMenu} alt={'메뉴'} />
       </div>
-      <div className="address" onClick={() => setModalPage({target: 'SettingLocation'})}>
+      <div className="address" onClick={() => setModalPage({ target: 'SettingLocation' })}>
         <span className="text">{address}</span>
         <img src={adressEdit} alt={'주소 수정'} />
       </div>
-      <div className="search" onClick={() => setModalPage({target: 'SearchModal'})}>
+      <div className="search" onClick={() => setModalPage({ target: 'SearchModal' })}>
         <img src={iconSearch} alt={'검색'} />
       </div>
     </div>

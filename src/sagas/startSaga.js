@@ -21,7 +21,8 @@ export function* fetchShopListSaga({ payload }) {
   if (response.data) {
     console.log('fetchShopList 있음 >>', response.data);
     yield put({
-      type: startTypes.FETCH_SHOP_LIST,
+      type: startTypes.SET_SHOP_LIST,
+      name: payload.type,
       payload: response.data,
     });
   } else {
