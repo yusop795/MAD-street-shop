@@ -1,13 +1,10 @@
 
-export const setLocalStorage = () => {
-    return API_INSTANCE.get('/tags')
-        .then(response => {
-            console.log('야호')
-            return response
-        })
-        .catch(error => {
-            console.log('fetchShopList', error);
-            return error;
-        });
+export const setLocalStorage = ({ name, data }) => {
+    let localStorageValue = localStorage.getItem(name);
+    if (localStorageValue) {
+        localStorage.setItem(name, data);
+    } else {
+
+    }
 };
 
