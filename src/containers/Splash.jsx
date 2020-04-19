@@ -13,28 +13,50 @@ const KAKAO = window.Kakao
 
 const Splash = () => {
   const dispatch = useDispatch();
+  const [location, setLocation] = useState('');
   const categoryList = useSelector(state => state.startReducer.shopCategory, []);
   const token = useSelector(state => state.userReducer.token, {});
   const [allState, setAllState] = useState(false);
 
   // const {setToken} = AuthUtill();
 
+  // 위치정보 조회
+  const fetchGeolocation = () => {
+    const options = {
+      enableHighAccuracy: true,
+      maximumAge: 300000,
+      timeout: 50000,
+    };
+  
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        console.log('coords', coords);
+        setLocation({ lat: coords.latitude, long: coords.longitude });
+      },
+      e => console.log(`Geolocation 오류 [${e.code}] : ${e.message}`),
+      options,
+    );
+  };
+
   useEffect(() => {
     dispatch({
       type: startTypes.FETCH_SHOP_CATEGORY,
     });
+
+    // console.log(location)
     dispatch({
       type: startTypes.FETCH_SHOP_LIST,
       payload: {
         type: "rank",
       }
     });
-    dispatch({
-      type: startTypes.FETCH_SHOP_LIST,
-      payload: {
-        type: "main",
-      }
-    });
+    // fetchGeolocation();
+    // dispatch({
+    //   type: startTypes.FETCH_SHOP_LIST,
+    //   payload: {
+    //     type: "main",
+    //   }
+    // });
     // if(KAKAO.Auth.getAccessToken()){
     //   dispatch({
     //     type: userTypes.SET_LOGIN,

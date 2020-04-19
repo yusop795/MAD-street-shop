@@ -19,7 +19,7 @@ const KAKAO = window.Kakao
 const Login = ({ history, isOpen, onEvent }) => {
   const dispatch = useDispatch();
   const loginOk = useSelector(state => state.userReducer.loginOk, []);
-
+  const isUser = useSelector(state => state.userReducer.isUser, []);
   const modalPage = useRef();
 
   const kakaoSignUp = (url) => {
@@ -67,7 +67,10 @@ const Login = ({ history, isOpen, onEvent }) => {
   }
 
   const kakaoLogin = (url) => {
-
+    // 앱 로그인
+    dispatch({
+      type: userApiTypes.LOGIN,
+    })
   }
 
   useEffect(() => {
@@ -78,8 +81,9 @@ const Login = ({ history, isOpen, onEvent }) => {
   }, [isOpen]);
 
   useEffect(() => {
-    if (loginOk) {
-      history.push(`/signUp/account`)
+    console.log(isUser)
+    if (isUser) {
+      history.push(`/home`)
     }
   });
 
