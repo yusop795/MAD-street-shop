@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import { useDispatch, useSelector} from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { userTypes } from '../reducers/userReducer';
 
@@ -34,7 +34,7 @@ const MyPage = ({ history, match }) => {
     KAKAO.Auth.logout(() => {
       dispatch({
         type: userTypes.SET_LOGIN,
-        payload: {token:{}, isLogin: false},
+        payload: { token: {}, isLogin: false },
       })
     });
   }
@@ -51,69 +51,69 @@ const MyPage = ({ history, match }) => {
   };
 
   // alert
-  const { isShowing, title, contents, setAlert} = AlertUtil();
+  const { isShowing, title, contents, setAlert } = AlertUtil();
 
   return (
     <div className="main myPage">
-      <ModalHeader onEvent={history.goBack} border={false}/>
-      {!isLogin ? 
-      (
-        <div className="userInfoBox">
-          <img src={imgProfile03} className="userImg" alt="기본 프로필 이미지"/>
-          <p>
-            <b onClick={()=>{
-               setModalPage({
-                target: 'Login',
-              });
-            }}>로그인</b>이 필요한 서비스입니다
-          </p>
-        </div>
-      ):(
-        <>
+      <ModalHeader onEvent={history.goBack} border={false} />
+      {!isLogin ?
+        (
           <div className="userInfoBox">
-            <img src={type ==='user'?imgProfile01:imgProfile02} className="userImg" alt="기본 프로필 이미지"/>
-            <div className="userInfo">
-              {type ==='user'? <span>일반회원</span> : <span>사장님</span>}
-              <p>김키모</p>
-            </div>
+            <img src={imgProfile03} className="userImg" alt="기본 프로필 이미지" />
+            <p>
+              <b onClick={() => {
+                setModalPage({
+                  target: 'Login',
+                });
+              }}>로그인</b>이 필요한 서비스입니다
+          </p>
           </div>
-          <div className="menuList">
-            <Link to='/signup/user' className="menuItem">
-                <img src={iconSettings} alt="취향설정"/>
+        ) : (
+          <>
+            <div className="userInfoBox">
+              <img src={type === 'user' ? imgProfile01 : imgProfile02} className="userImg" alt="기본 프로필 이미지" />
+              <div className="userInfo">
+                {type === 'user' ? <span>일반회원</span> : <span>사장님</span>}
+                <p>김키모</p>
+              </div>
+            </div>
+            <div className="menuList">
+              <Link to='/signup/user' className="menuItem">
+                <img src={iconSettings} alt="취향설정" />
                 <p>취향설정</p>
-            </Link>
-            <Link to='/ranking'  className="menuItem">
-              <img src={iconHeart} alt="관심리스트"/>
-              <p>관심리스트</p>
-            </Link>
-            <div className="menuItem" 
-              onClick={()=>{
-              setAlert({
-                contents:'준비 중인 기능입니다.'
-              })
-            }}>
-              <img src={iconDeclare} alt="신고리스트"/>
-              <p>신고리스트</p>
+              </Link>
+              <Link to='/watchList' className="menuItem">
+                <img src={iconHeart} alt="관심리스트" />
+                <p>관심리스트</p>
+              </Link>
+              <div className="menuItem"
+                onClick={() => {
+                  setAlert({
+                    contents: '준비 중인 기능입니다.'
+                  })
+                }}>
+                <img src={iconDeclare} alt="신고리스트" />
+                <p>신고리스트</p>
+              </div>
             </div>
-          </div>
-        </>
-      )}
-      {type ==='user'? (
-      <div className="banner">
-        <p>
-          <span>스트릿푸드를 판매하고 계신가요?</span>
-          지금 매장을 등록해보세요!
+          </>
+        )}
+      {type === 'user' ? (
+        <div className="banner">
+          <p>
+            <span>스트릿푸드를 판매하고 계신가요?</span>
+            지금 매장을 등록해보세요!
         </p>
-        <img src={more} alt="더보기"/>
-      </div>
-      ):null}
+          <img src={more} alt="더보기" />
+        </div>
+      ) : null}
       <ul className="settingList">
-        <li className="settingItem">공지사항<img src={iconChevronRight} alt="이동"/></li>
-        <li className="settingItem border">FAQ<img src={iconChevronRight} alt="이동"/></li>
-        <li className="settingItem" onClick={kakaoLogout}>로그아웃<img src={iconChevronRight} alt="이동"/></li>
+        <li className="settingItem">공지사항<img src={iconChevronRight} alt="이동" /></li>
+        <li className="settingItem border">FAQ<img src={iconChevronRight} alt="이동" /></li>
+        <li className="settingItem" onClick={kakaoLogout}>로그아웃<img src={iconChevronRight} alt="이동" /></li>
       </ul>
       <p className="notice">매드스트릿샵을 탈퇴하려면 <b>여기</b>를 눌러주세요.</p>
-      <Alert isShowing={isShowing} hide={setAlert} title={title} contents={contents}/>
+      <Alert isShowing={isShowing} hide={setAlert} title={title} contents={contents} />
       {rederModalPage()}
     </div>
   );

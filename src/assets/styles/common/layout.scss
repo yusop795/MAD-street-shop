@@ -76,6 +76,12 @@ box-sizing: border-box;
     z-index: 999;
     background: #fff;
     border-bottom: 1px solid rgb(220, 220, 220);
+    .gobackBtn {
+      img {
+        width: 16px;
+        height: auto;
+      }
+    }
 }
 
 
