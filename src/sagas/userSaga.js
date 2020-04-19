@@ -11,12 +11,20 @@ export function* loginSaga({ payload }) {
   if (response.data) {
     yield put({
       type: userTypes.SET_LOGIN_OK,
-      payload: false,
+      payload: {
+        loginOk: true,
+        isUser: response.data.isUser,
+        userId: response.data.userId
+      },
     });
   } else {
     yield put({
       type: userTypes.SET_LOGIN_OK,
-      payload: true,
+      payload: {
+        loginOk: false,
+        isUser: '',
+        userId: ''
+      },
     });
   }
 }

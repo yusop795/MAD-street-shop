@@ -72,6 +72,7 @@ export const userAction = {
  */
 const initialState = {
   userId: '',
+  isUser: false,
   storeCategory: '',
   storeLocation: '',
   storeOpenDays: '',
@@ -127,7 +128,9 @@ export default function userReducer(state = initialState, action) {
     case userTypes.SET_LOGIN_OK:
       return {
         ...state,
-        loginOk: payload,
+        loginOk: payload.loginOk,
+        isUser: payload.isUser,
+        userId: payload.userId
       };
     case userTypes.SET_LOADING:
       return {

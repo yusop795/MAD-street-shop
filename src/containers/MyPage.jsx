@@ -27,8 +27,8 @@ const KAKAO = window.Kakao
 const MyPage = ({ history, match }) => {
   const dispatch = useDispatch();
   // const isLogin = useSelector(state => state.userReducer.isLogin, fasle);
-  const isLogin = true
-  const type = 'owner';
+  const isLogin = false
+  const type = 'user';
 
   const kakaoLogout = () => {
     KAKAO.Auth.logout(() => {

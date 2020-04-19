@@ -18,8 +18,6 @@ const KAKAO_API_INSTANCE = axios.create({
   },
 });
 
-
-
 /**
  * 앱 로그인
  * @param
@@ -67,9 +65,13 @@ export const fetchKaKaoInfo = () => {
  * @param
  */
 export const postSignUpUser = ({ userId, userTags }) => {
-
   return API_INSTANCE.post('/users/join/user',
-    qs.stringify({ userId, userTags }),
+    { userId, category: userTags },
+    {
+      headers: {
+        'Authorization': `Bearer ${AuthUtill.accessToken}`
+      }
+    }
   )
     .then(response => {
       console.log('postSignUpUser')
@@ -91,6 +93,7 @@ export const postSignUpOwner = (data) => {
     qs.stringify(data),
     {
       headers: {
+        'Authorization': `Bearer ${AuthUtill.accessToken}`,
         'Content-Type': 'multipart/form-data'
       },
     })
@@ -100,6 +103,25 @@ export const postSignUpOwner = (data) => {
     })
     .catch(error => {
       console.log('postSignUpUser', error);
+      return error;
+    });
+};
+
+/**
+ * 카카오 사장님 회원가입 이미지 업로드
+ * @param
+ */
+export const putImgUpload = ({ files, userId, shopId }) => {
+  console.log('putImgUpload', files, userId, shopId)
+  return API_INSTANCE.put(`/upload-img/${userId}/${shopId}`,
+    qs.stringify(files)
+  )
+    .then(response => {
+      console.log('putImgUpload')
+      return response
+    })
+    .catch(error => {
+      console.log('putImgUpload', error);
       return error;
     });
 };
