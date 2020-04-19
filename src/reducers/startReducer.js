@@ -1,3 +1,4 @@
+
 // Ducks 패턴
 
 /**
@@ -7,8 +8,9 @@
 export const startTypes = {
   FETCH_SHOP_CATEGORY: 'start/FETCH_SHOP_CATEGORY',
   SET_SHOP_CATEGORY: 'start/SET_SHOP_CATEGORY',
-};
-
+  FETCH_SHOP_LIST: 'start/FETCH_SHOP_LIST',
+  SET_SHOP_LIST: 'start/SET_SHOP_LIST',
+}
 /**
  * 액션 생섬함수 정의
  * @param 변경할 텍스트 값
@@ -19,6 +21,10 @@ export const startAction = {
     type: startTypes.SET_SHOP_CATEGORY,
     category,
   }),
+  setShopList: shopList => ({
+    type: startTypes.SET_SHOP_LIST,
+    shopList,
+  }),
 };
 
 /**
@@ -27,6 +33,8 @@ export const startAction = {
 const initialState = {
   accessToken: '',
   shopCategory: [],
+  rank: [],
+  main: [],
 };
 
 /**
@@ -34,11 +42,18 @@ const initialState = {
  */
 export default function startReducer(state = initialState, action) {
   const { type, payload } = action;
+  console.log('startReducer', type, payload);
   switch (type) {
     case startTypes.SET_SHOP_CATEGORY:
       return {
         ...state,
         shopCategory: payload,
+      };
+    case startTypes.SET_SHOP_LIST:
+      console.log('start/FETCH_SHOP_LIST');
+      return {
+        ...state,
+        [action.name]: payload,
       };
     default:
       return state;

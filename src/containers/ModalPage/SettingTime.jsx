@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch , useSelector} from 'react-redux';
-import { userTypes, userApiTypes } from '../../reducers/userReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { userTypes } from '../../reducers/userReducer';
 
 import { withRouter } from "react-router-dom";
 // utill
@@ -14,9 +14,9 @@ import { Button } from '../../components/Unit';
 // style
 import '../../assets/styles/containers/setting.scss';
 
-const SettingTime = ({isOpen, onEvent}) => {
+const SettingTime = ({ isOpen, onEvent }) => {
   const dispatch = useDispatch();
-  const tagList = ['월','화','수','목','금','토','일']
+  const tagList = ['월', '화', '수', '목', '금', '토', '일']
   const storeOpenDays = useSelector(state => state.userReducer.storeOpenDays, []);
   const storeOpenTime = useSelector(state => state.userReducer.storeOpenTime, []);
   const storeCloseTime = useSelector(state => state.userReducer.storeCloseTime, []);
@@ -27,27 +27,27 @@ const SettingTime = ({isOpen, onEvent}) => {
   const modalPage = useRef();
 
   // 모달
-  const { isShowing, title, contents, setAlert} = AlertUtil();
+  const { isShowing, title, contents, setAlert } = AlertUtil();
 
-  const onChangeTag = (tag)=>{
-    if(!Object.keys(selectTag).includes(tag)){
-      const data = {...selectTag, [tag]:true }
+  const onChangeTag = (tag) => {
+    if (!Object.keys(selectTag).includes(tag)) {
+      const data = { ...selectTag, [tag]: true }
       setSelectTag(data)
-    }else {
+    } else {
       delete selectTag[tag]
-      setSelectTag({...selectTag})
+      setSelectTag({ ...selectTag })
     }
   }
 
   useEffect(() => {
-    if(isOpen){
+    if (isOpen) {
       modalPage.current.style = 'transform: translateY(0)'
       modalPage.current.scrollTop = 0
     }
-  },[isOpen]);
+  }, [isOpen]);
 
-  const setData = () =>{
-    console.log(selectTag,openTime, closeTime)
+  const setData = () => {
+    console.log(selectTag, openTime, closeTime)
     dispatch({
       type: userTypes.SET_STORE_TIME,
       payload: {
@@ -58,29 +58,29 @@ const SettingTime = ({isOpen, onEvent}) => {
     })
   }
 
-  
+
 
   return (
-    <div ref={modalPage} className={`main settingTime modalPage ${isOpen?'open':''}`}>
-      <ModalHeader onEvent={onEvent} title={'영업 시간 설정'}/>
-      <SelectTime         
-        title={'영업 시간'} 
+    <div ref={modalPage} className={`main settingTime modalPage ${isOpen ? 'open' : ''}`}>
+      <ModalHeader onEvent={onEvent} title={'영업 시간 설정'} />
+      <SelectTime
+        title={'영업 시간'}
         setOpenTime={setOpenTime}
         setCloseTime={setCloseTime}
       />
-      <InputTag 
-        title={'영업 요일'} 
+      <InputTag
+        title={'영업 요일'}
         item={tagList}
         selectTag={selectTag}
         onEvent={onChangeTag}
       />
-      <Button 
-        active={Object.keys(selectTag).length >= 1} 
-        bottom={true} 
-        onEvent={setData} 
+      <Button
+        active={Object.keys(selectTag).length >= 1}
+        bottom={true}
+        onEvent={setData}
         text={'저장'}
       />
-      <Alert isShowing={isShowing} hide={setAlert} title={title} contents={contents}/>
+      <Alert isShowing={isShowing} hide={setAlert} title={title} contents={contents} />
     </div>
   );
 };

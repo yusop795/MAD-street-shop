@@ -1,6 +1,6 @@
-import React, {useState, useEffect, useRef} from 'react';
-import { useDispatch , useSelector} from 'react-redux';
-import { Redirect , withRouter } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Redirect, withRouter } from 'react-router-dom';
 
 // import AuthUtill from '../util/AuthUtill'
 
@@ -14,14 +14,26 @@ const KAKAO = window.Kakao
 const Splash = () => {
   const dispatch = useDispatch();
   const categoryList = useSelector(state => state.startReducer.shopCategory, []);
-  const token = useSelector(state => state.userReducer.token, {});   
+  const token = useSelector(state => state.userReducer.token, {});
   const [allState, setAllState] = useState(false);
 
   // const {setToken} = AuthUtill();
 
-  useEffect(() => { 
+  useEffect(() => {
     dispatch({
       type: startTypes.FETCH_SHOP_CATEGORY,
+    });
+    dispatch({
+      type: startTypes.FETCH_SHOP_LIST,
+      payload: {
+        type: "rank",
+      }
+    });
+    dispatch({
+      type: startTypes.FETCH_SHOP_LIST,
+      payload: {
+        type: "main",
+      }
     });
     // if(KAKAO.Auth.getAccessToken()){
     //   dispatch({
@@ -34,29 +46,29 @@ const Splash = () => {
     //     },
     //   })
     // } 
-  },[]);
+  }, []);
 
-  useEffect(() => { 
-    setTimeout(()=>{
+  useEffect(() => {
+    setTimeout(() => {
       setAllState(true)
-    },3000)
-    
-    if(categoryList.length > 0){
+    }, 3000)
+
+    if (categoryList.length > 0) {
       setAllState(true)
     }
 
-  },[categoryList]);
+  }, [categoryList]);
 
   return (allState ? (
-    <Redirect to="/test"/>
+    <Redirect to="/test" />
   ) : (
-    <div className="main splash">
-      <img src={imgLogoTruck} alt=""/>
-      <div className="loadingBar">
-        <span className="span"/>
+      <div className="main splash">
+        <img src={imgLogoTruck} alt="" />
+        <div className="loadingBar">
+          <span className="span" />
+        </div>
       </div>
-    </div>
-  ));
+    ));
 };
 
 export default withRouter(Splash);

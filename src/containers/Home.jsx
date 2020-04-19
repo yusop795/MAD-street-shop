@@ -12,11 +12,16 @@ const Home = () => {
   const [location, setLocation] = useState('');
   const [shopList] = useState([{ name: '토토네 튀김', latitude: 37.489524599999996, longitude: 126.98655099999998 }, { name: '네네치킨', latitude: 37.489524599999996, longitude: 126.98643099999998 }]);
   const [selectShop] = useState({
-    name: "석정포장마차",
-    category: "분식",
-    photo: "https://post-phinf.pstatic.net/MjAxOTEwMDFfNjkg/MDAxNTY5OTE5NzUxNDc2.mnGT1DcIaEY9os4ftETl5Bc_SudAwsUq8O3KaqlpQtQg.qhcMdUjcKqBoTC6hR1j7OnsY4BIpK1aulSmv0mlwO14g.JPEG/%EB%B6%84%EC%8B%9D.jpg?type=w1200",
-    open: true,
+    shopName: "석정포장마차",
+    shopTags: {
+      title: "분식"
+    },
+    imageUrl: ["https://post-phinf.pstatic.net/MjAxOTEwMDFfNjkg/MDAxNTY5OTE5NzUxNDc2.mnGT1DcIaEY9os4ftETl5Bc_SudAwsUq8O3KaqlpQtQg.qhcMdUjcKqBoTC6hR1j7OnsY4BIpK1aulSmv0mlwO14g.JPEG/%EB%B6%84%EC%8B%9D.jpg?type=w1200"],
+    now: {
+      active: true,
+    },
     link: "/",
+    vicinity: 8,
     info: {
       distance: 8,
       like: 674,
@@ -71,18 +76,18 @@ const Home = () => {
       case 'SettingLocation':
         return <SettingLocation isOpen={isModalOpen} onEvent={setModalPage} />;
       default:
-        return <ShopInfo shopInfo={selectShop} fetchGeolocation={fetchGeolocation} onEvent={setModalPage}/>;
+        return <ShopInfo shopInfo={selectShop} fetchGeolocation={fetchGeolocation} onEvent={setModalPage} />;
     }
   }
 
   return (
     <div>
       <HomeHeader fetchGeolocation={fetchGeolocation} setModalPage={setModalPage} />
-      <MainMap 
-        location={location} 
-        setLocation={setLocation} 
-        shopList={shopList} 
-        onEvent={setModalPage} 
+      <MainMap
+        location={location}
+        setLocation={setLocation}
+        shopList={shopList}
+        onEvent={setModalPage}
         containerId={'homeMap'}
       />
       {rederModalPage()}

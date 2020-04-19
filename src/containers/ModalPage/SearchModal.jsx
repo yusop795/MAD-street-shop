@@ -13,10 +13,10 @@ const SearchModal = ({ isOpen, onEvent }) => {
     const onKeywordRemove = useCallback(keyword => {
         keywordList.splice(keywordList.indexOf(keyword), 1)
         setKewordList([...keywordList]);
-    })
+    }, [keywordList])
 
-    const searchForKeyword = (keyword)=>{
-       window.location = `/searchResult?keyword=${keyword}`
+    const searchForKeyword = (keyword) => {
+        window.location = `/searchResult?keyword=${keyword}`
     }
 
     useEffect(() => {
@@ -30,7 +30,7 @@ const SearchModal = ({ isOpen, onEvent }) => {
 
     return (
         <div ref={modalPage} className={`searchModal modalPageRight ${isOpen ? 'open' : ''}`}>
-            <SearchModalHeader goBack={onEvent} goTo={'/searchResult'}/>
+            <SearchModalHeader goBack={onEvent} goTo={'/searchResult'} />
             <div className="currentSearch">
                 <div>최근검색어</div>
                 <ul>
@@ -38,7 +38,7 @@ const SearchModal = ({ isOpen, onEvent }) => {
                         keywordList.map((v, i) => {
                             return (
                                 <li key={i}>
-                                    <button className="searchForKeyword" onClick={() => searchForKeyword(v)}type="button">{v}</button>
+                                    <button className="searchForKeyword" onClick={() => searchForKeyword(v)} type="button">{v}</button>
                                     <button type="button" className="deleteKeyword" onClick={() => onKeywordRemove(v)}></button>
                                 </li>
                             )

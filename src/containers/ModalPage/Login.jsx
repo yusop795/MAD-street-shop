@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from "react-router-dom";
 
 
 import AuthUtill from '../../util/AuthUtill'
 
-import { userTypes,userApiTypes } from '../../reducers/userReducer';
+import { userTypes, userApiTypes } from '../../reducers/userReducer';
 
 // common components
 import { ModalHeader } from '../../components/Header';
@@ -31,7 +31,7 @@ const Login = ({ history, isOpen, onEvent }) => {
         dispatch({
           type: userTypes.SET_TOKEN,
           payload: {
-            token : {
+            token: {
               accessToken: authObj.access_token,
               refreshToken: authObj.refresh_token
             }
@@ -44,19 +44,19 @@ const Login = ({ history, isOpen, onEvent }) => {
         // 카카오 회원 정보 조회
         KAKAO.API.request({
           url: '/v2/user/me',
-          success: function(response) {
+          success: function (response) {
             console.log(response)
             dispatch({
               type: userTypes.SET_USER_INFO,
               payload: {
-                userInfo : {
+                userInfo: {
                   userId: response.id,
                 }
               }
             })
           },
-          fail: function(error) {
-              console.log(error);
+          fail: function (error) {
+            console.log(error);
           }
         });
       },
@@ -71,33 +71,33 @@ const Login = ({ history, isOpen, onEvent }) => {
   }
 
   useEffect(() => {
-    if(isOpen){
+    if (isOpen) {
       modalPage.current.style = 'transform: translateY(0)'
       modalPage.current.scrollTop = 0
     }
-  },[isOpen]);
+  }, [isOpen]);
 
   useEffect(() => {
-    if(loginOk){
+    if (loginOk) {
       history.push(`/signUp/account`)
     }
   });
-  
+
   return (
     <div ref={modalPage} className={`main login modalPage ${isOpen ? 'open' : ''}`}>
-      <ModalHeader onEvent={onEvent} border={false}/>
+      <ModalHeader onEvent={onEvent} border={false} />
       <div className="loginBox">
-        <img src={imgLogoTruck} alt=""/>
-        <p>매드스트릿샵의 모든 기능을<br/>이용하시려면 <b>로그인</b>해주세요</p>
-        <div className="kakaoBtn" onClick={()=>kakaoLogin()}>
-          <img src={iconKakao} alt=""/>
+        <img src={imgLogoTruck} alt="" />
+        <p>매드스트릿샵의 모든 기능을<br />이용하시려면 <b>로그인</b>해주세요</p>
+        <div className="kakaoBtn" onClick={() => kakaoLogin()}>
+          <img src={iconKakao} alt="" />
           <span>카카오톡으로 로그인</span>
         </div>
       </div>
       <div className="loginBox">
-        <p>아직 매드스트릿샵의 회원이<br/>아니신가요?</p>
-        <div className="kakaoBtn" onClick={()=>kakaoSignUp()}>
-          <img src={iconKakao} alt=""/>
+        <p>아직 매드스트릿샵의 회원이<br />아니신가요?</p>
+        <div className="kakaoBtn" onClick={() => kakaoSignUp()}>
+          <img src={iconKakao} alt="" />
           <span>카카오톡으로 회원가입</span>
         </div>
       </div>

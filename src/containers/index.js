@@ -9,4 +9,5 @@ export { default as Home } from './Home';
 export { default as Ranking } from './Ranking';
 export { default as Test } from './Test';
 export { default as MyPage } from './MyPage';
-export {default as SearchResult} from "./SearchResult";
+export { default as SearchResult } from "./SearchResult";
+export { default as WatchList } from "./WatchList";
