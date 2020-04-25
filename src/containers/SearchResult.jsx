@@ -60,9 +60,7 @@ const SearchResult = () => {
     const [enterKeyword, setKeyword] = useState('');
 
     useEffect(() => {
-
         let keyword = (decodeURI(window.location.search)).split('=');
-        console.log('window =>', keyword, keyword[1]);
         setKeyword(keyword[1]);
         document.querySelector('.textBoxWrapper input').value = keyword[1];
     });
@@ -78,7 +76,7 @@ const SearchResult = () => {
                 <div className="resultInfo">내 주변 <strong>3km</strong> 이내의 검색 결과입니다</div>
                 <div className="resultWrapper">
                     <div className="resultCounts">검색결과 <strong>5</strong></div>
-                    <ShopList items={dummyData} />
+                    <ShopList items={dummyData} type="serchResult" />
                 </div>
             </div>
         </div>

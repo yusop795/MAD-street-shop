@@ -42,7 +42,7 @@ const WatchList = ({ history }) => {
     return (
         <div className="main ranking">
             <Header title="관심리스트" onEvent={history.goBack} />
-            <ShopList items={storeShopList} />
+            <ShopList items={storeShopList} type="watchList" />
             {rederModalPage()}
         </div>
     );

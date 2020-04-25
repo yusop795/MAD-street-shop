@@ -2,6 +2,7 @@ import React from 'react';
 import './style.scss';
 
 import iconLikeOn from '../../assets/imgs/iconLikeOn.png'
+import { isEmpty } from '../../util/gm';
 
 const ShopList = ({ items = [], type = '', onEvent = null }) => {
   return (
@@ -22,10 +23,14 @@ export const ShopItem = ({ index = 10, data, type, onEvent, icon = false, iconEv
     <div
       className={`shopListItem ${type === "rank" && index < 5 ? "iconShow" : ""}`}
       onClick={() => {
-        if (!onEvent) return false
-        onEvent({
-          target: 'ShopDetailModal',
-        });
+        if (isEmpty(type)) {
+          onEvent({
+            target: 'ShopDetailModal',
+          });
+        } else {
+          /* 200425 => 여기서 아이디 받아서 리스트 띄우는 거 하면 될 듯 */
+          console.log('타입이 있는 리스트에서 넘어옴');
+        }
       }}
     >
       {type === "rank" && index < 5 ?

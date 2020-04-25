@@ -6,14 +6,18 @@ import { SearchModalHeader } from '../../components/Header';
 import '../../assets/styles/containers/setting.scss';
 import { isEmpty } from "../../util/gm";
 
-const SearchModal = ({ isOpen, onEvent }) => {
-    const [keywordList, setKewordList] = useState([]);
+import { localStorageSet } from '../../util/LocalStorage.js';
+
+const SearchModal = ({ isOpen, currentKeyword }) => {
+    const [keywordList, setKewordList] = useState(currentKeyword);
 
     const modalPage = useRef();
 
     const onKeywordRemove = useCallback(keyword => {
         keywordList.splice(keywordList.indexOf(keyword), 1)
         setKewordList([...keywordList]);
+        console.log('adgdsg', keywordList);
+        localStorageSet('MadShopCurrentKeyword', JSON.stringify(keywordList));
     }, [keywordList])
 
     const searchForKeyword = (keyword) => {
@@ -22,16 +26,21 @@ const SearchModal = ({ isOpen, onEvent }) => {
 
     useEffect(() => {
         if (isOpen) {
-            console.log(modalPage)
             modalPage.current.style = 'transform: translateX(0)'
             modalPage.current.scrollTop = 0
         }
     }, [isOpen]);
 
+    useEffect(() => {
+        if (isOpen) {
+            modalPage.current.style = 'transform: translateX(0)'
+            modalPage.current.scrollTop = 0
+        }
+    }, [keywordList]);
 
     return (
         <div ref={modalPage} className={`searchModal modalPageRight ${isOpen ? 'open' : ''}`}>
-            <SearchModalHeader goBack={onEvent} goTo={'/searchResult'} />
+            <SearchModalHeader goTo={'/searchResult'} />
             {
                 isEmpty(keywordList) ? <div className="currentSearch"><div>최근검색어가 없습니다</div></div> : (
                     <div className="currentSearch">

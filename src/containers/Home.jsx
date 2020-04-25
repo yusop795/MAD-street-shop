@@ -7,6 +7,8 @@ import { HomeHeader } from '../components/Header'
 import { MainMap } from '../components/Map';
 import { ShopInfo, ShopDetailModal } from '../components/Unit';
 import { SearchModal, SettingLocation } from '../containers/ModalPage';
+import { localStorageGet } from '../util/LocalStorage.js';
+import { isEmpty } from '../util/gm.js';
 
 const Home = () => {
   const [location, setLocation] = useState('');
@@ -30,6 +32,7 @@ const Home = () => {
   });
   // const loading = useSelector(({ authReducer }) => authReducer.loading, true);
 
+  const [currentKeyword, setCurrentKeyword] = useState([]);
   // 위치정보 조회
   const fetchGeolocation = () => {
     const options = {
@@ -66,15 +69,22 @@ const Home = () => {
     }
   }, [location]);
 
+  useEffect(() => {
+    let keywords = isEmpty(localStorageGet('MadShopCurrentKeyword')) ? [] : JSON.parse(localStorageGet('MadShopCurrentKeyword'));
+    setCurrentKeyword(keywords);
+
+  }, []);
 
   const rederModalPage = () => {
     switch (targetModalPage) {
       case 'SearchModal':
-        return <SearchModal isOpen={isModalOpen} onEvent={setModalPage} />;
+        return <SearchModal isOpen={isModalOpen} onEvent={setModalPage} currentKeyword={currentKeyword} />;
       case 'ShopDetailModal':
         return <ShopDetailModal shopInfo={selectShop} isOpen={isModalOpen} onEvent={setModalPage} />;
       case 'SettingLocation':
         return <SettingLocation isOpen={isModalOpen} onEvent={setModalPage} />;
+      case 'ShopInfoModal':
+        return <ShopInfo shopInfo={selectShop} fetchGeolocation={fetchGeolocation} onEvent={setModalPage} />;
       default:
         return <ShopInfo shopInfo={selectShop} fetchGeolocation={fetchGeolocation} onEvent={setModalPage} />;
     }
@@ -83,13 +93,15 @@ const Home = () => {
   return (
     <div>
       <HomeHeader fetchGeolocation={fetchGeolocation} setModalPage={setModalPage} />
-      <MainMap
-        location={location}
-        setLocation={setLocation}
-        shopList={shopList}
-        onEvent={setModalPage}
-        containerId={'homeMap'}
-      />
+      <div>
+        <MainMap
+          location={location}
+          setLocation={setLocation}
+          shopList={shopList}
+          onEvent={setModalPage}
+          containerId={'homeMap'}
+        />
+      </div>
       {rederModalPage()}
     </div >
   );
