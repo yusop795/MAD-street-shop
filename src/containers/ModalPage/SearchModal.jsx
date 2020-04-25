@@ -4,9 +4,10 @@ import { withRouter } from "react-router-dom";
 import { SearchModalHeader } from '../../components/Header';
 // style
 import '../../assets/styles/containers/setting.scss';
+import { isEmpty } from "../../util/gm";
 
 const SearchModal = ({ isOpen, onEvent }) => {
-    const [keywordList, setKewordList] = useState(['붕어빵', '호떡', '고구마', '순대', '철판']);
+    const [keywordList, setKewordList] = useState([]);
 
     const modalPage = useRef();
 
@@ -31,21 +32,25 @@ const SearchModal = ({ isOpen, onEvent }) => {
     return (
         <div ref={modalPage} className={`searchModal modalPageRight ${isOpen ? 'open' : ''}`}>
             <SearchModalHeader goBack={onEvent} goTo={'/searchResult'} />
-            <div className="currentSearch">
-                <div>최근검색어</div>
-                <ul>
-                    {
-                        keywordList.map((v, i) => {
-                            return (
-                                <li key={i}>
-                                    <button className="searchForKeyword" onClick={() => searchForKeyword(v)} type="button">{v}</button>
-                                    <button type="button" className="deleteKeyword" onClick={() => onKeywordRemove(v)}></button>
-                                </li>
-                            )
-                        })
-                    }
-                </ul>
-            </div>
+            {
+                isEmpty(keywordList) ? <div className="currentSearch"><div>최근검색어가 없습니다</div></div> : (
+                    <div className="currentSearch">
+                        <div>최근검색어</div>
+                        <ul>
+                            {
+                                keywordList.map((v, i) => {
+                                    return (
+                                        <li key={i}>
+                                            <button className="searchForKeyword" onClick={() => searchForKeyword(v)} type="button">{v}</button>
+                                            <button type="button" className="deleteKeyword" onClick={() => onKeywordRemove(v)}></button>
+                                        </li>
+                                    )
+                                })
+                            }
+                        </ul>
+                    </div>
+                )
+            }
         </div>
     );
 };
