@@ -23,12 +23,12 @@ const Ranking = ({ history }) => {
 
   useEffect(() => {
     console.log('userEffect', storeShopList);
-    // dispatch({
-    //   type: startTypes.FETCH_SHOP_LIST,
-    //   payload: {
-    //     type: "rank",
-    //   }
-    // });
+    dispatch({
+      type: startTypes.FETCH_SHOP_LIST,
+      payload: {
+        type: "rank",
+      }
+    });
   }, []);
 
   const rederModalPage = () => {

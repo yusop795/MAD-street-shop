@@ -6,6 +6,8 @@ import iconMenu from '../../assets/imgs/iconMenu.png';
 import iconSearch from '../../assets/imgs/iconSearch.png';
 import adressEdit from '../../assets/imgs/adressEdit.png';
 
+import { localStorageGet, localStorageSet } from '../../util/LocalStorage.js';
+import { isEmpty } from '../../util/gm';
 
 const Header = ({ onEvent, title = '' }) => {
   return (
@@ -27,18 +29,27 @@ export const ModalHeader = ({ onEvent, title = '', border = true }) => {
   );
 };
 
-export const SearchModalHeader = ({ goBack, textarea = '', goTo, textValue = '' }) => {
-  // const [focusOnTextbox, setFocusOnTextbox] = useState(false);
+export const SearchModalHeader = ({ textarea = '', goTo, textValue = '' }) => {
   const [enterKeyword, setKeyword] = useState('');
 
   const addKeyPress = (e) => {
     if (e.key === 'Enter') {
-      console.log('e', goTo);
-      window.location = `${goTo}?keyword=${e.target.value}`
+      const current_keyword = isEmpty(localStorageGet('MadShopCurrentKeyword')) ? [] : JSON.parse(localStorageGet('MadShopCurrentKeyword'));
+      current_keyword.unshift(e.target.value);
+      const set_keyword_arr = current_keyword.reduce((a, b) => {
+        if (a.indexOf(b) < 0) a.push(b);
+        return a;
+      }, [])
+      localStorageSet('MadShopCurrentKeyword', JSON.stringify(set_keyword_arr));
+      window.location = `${goTo}?keyword=${e.target.value}`;
     }
   }
+
+  const goBackToHome = () => {
+    window.location = '/home'
+  }
+
   useEffect(() => {
-    console.log('useEffect', textValue);
     if (textValue !== '') {
       setKeyword(textValue);
     }
@@ -54,7 +65,7 @@ export const SearchModalHeader = ({ goBack, textarea = '', goTo, textValue = '' 
           <input type="text" placeholder={(textarea) ? textarea : '검색어를 입력하세요'} value={enterKeyword} onChange={(e) => setKeyword(e.target.value)} onKeyPress={(e) => { addKeyPress(e) }} />
           <button type="button" className="deleteText" onClick={() => setKeyword('')}>입력 텍스트 삭제</button>
         </div>
-        <div className="cancel" onClick={goBack}>취소</div>
+        <div className="cancel" onClick={goBackToHome}>취소</div>
       </div>
     </div>
   );

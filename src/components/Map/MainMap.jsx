@@ -7,9 +7,9 @@ import { SettingLocation } from '../../containers/ModalPage';
 
 const kakaoMapScript = scriptUtill(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAP_KEY}&autoload=false&libraries=services`);
 
-const MainMap = ({ location, shopList=[], containerId= null, onEvent, getGeocoder }) => {
+const MainMap = ({ location, shopList = [], containerId = null, onEvent, getGeocoder }) => {
   const [crruntLocation, setCrruntLocation] = useState(location);
-  const [selectShop,setSelectShop] = useState(1);
+  const [selectShop, setSelectShop] = useState(1);
 
   // const moveMap = (kakaoMap, map) => {
   //   // 중심 좌표나 확대 수준이 변경되면 발생
@@ -28,9 +28,9 @@ const MainMap = ({ location, shopList=[], containerId= null, onEvent, getGeocode
   }
 
   const clickMap = (kakaoMap, map) => {
-    kakaoMap.event.addListener(map, 'click', () => {       
+    kakaoMap.event.addListener(map, 'click', () => {
       onEvent({
-        target: 'ShopDetailModal',
+        target: 'ShopInfoModal',
       });
     });
   }
@@ -38,16 +38,16 @@ const MainMap = ({ location, shopList=[], containerId= null, onEvent, getGeocode
   const setAddress = (kakaoMap, map) => {
     // 주소-좌표 변환 객체를 생성합니다
     const geocoder = new kakaoMap.services.Geocoder();
-    kakaoMap.event.addListener(map, 'click', (data) => {  
-      const latlng = data.latLng; 
+    kakaoMap.event.addListener(map, 'click', (data) => {
+      const latlng = data.latLng;
       // moveMap(kakaoMap, map, latlng)   
       geocoder.coord2Address(latlng.Ga, latlng.Ha, (result, status) => {
 
 
-        if(result[0].road_address){
-          getGeocoder(result[0].road_address.address_name, { long: latlng.Ga, lat: latlng.Ha})
-        }else {
-          getGeocoder(result[0].address.address_name,{ long: latlng.Ga, lat: latlng.Ha})
+        if (result[0].road_address) {
+          getGeocoder(result[0].road_address.address_name, { long: latlng.Ga, lat: latlng.Ha })
+        } else {
+          getGeocoder(result[0].address.address_name, { long: latlng.Ga, lat: latlng.Ha })
         }
       });
     });
@@ -56,16 +56,16 @@ const MainMap = ({ location, shopList=[], containerId= null, onEvent, getGeocode
   const createMarkerImage = (kakaoMap, src) => {
     const size = new kakaoMap.Size(43, 50);
     const options = {
-      spriteOrigin: new kakaoMap.Point(0, 0),    
-      spriteSize: new kakaoMap.Size(43, 50)  
+      spriteOrigin: new kakaoMap.Point(0, 0),
+      spriteSize: new kakaoMap.Size(43, 50)
     }
     const markerImage = new kakaoMap.MarkerImage(src, size, options);
-    return markerImage;            
+    return markerImage;
   }
 
   const createShopsMarker = (kakaoMap, map) => {
     for (let i = 0; i < shopList.length; i++) {
-      const src =  selectShop === i ? mapPinOn : iconMapPin;
+      const src = selectShop === i ? mapPinOn : iconMapPin;
       const image = createMarkerImage(kakaoMap, src);
       const marker = new kakaoMap.Marker({
         map,
@@ -95,7 +95,7 @@ const MainMap = ({ location, shopList=[], containerId= null, onEvent, getGeocode
     const container = document.getElementById(containerId);
     kakaoMapScript
       .then(() => {
-        const kakaoMap = window.kakao.maps;    
+        const kakaoMap = window.kakao.maps;
         kakaoMap.load(() => {
           // 지도 옵션
           const options = {
@@ -111,18 +111,18 @@ const MainMap = ({ location, shopList=[], containerId= null, onEvent, getGeocode
             position: new kakaoMap.LatLng(location.lat, location.long),
           });
           marker.setMap(map);
-          
+
           // shop list 마커
-          if(shopList.length > 0) {
+          if (shopList.length > 0) {
             createShopsMarker(kakaoMap, map);
             // 마커 이벤트
             // moveMap(kakaoMap, map);
           }
-          if(onEvent) {
+          if (onEvent) {
             clickMap(kakaoMap, map)
           }
 
-          if(getGeocoder){
+          if (getGeocoder) {
             setAddress(kakaoMap, map)
           }
           // 스핀 제거

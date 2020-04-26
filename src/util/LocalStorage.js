@@ -1,10 +1,17 @@
+import { storageAvailable } from "./gm";
 
-export const setLocalStorage = ({ name, data }) => {
-    let localStorageValue = localStorage.getItem(name);
-    if (localStorageValue) {
-        localStorage.setItem(name, data);
+export function localStorageSet(name, value) {
+    if (storageAvailable("localStorage")) {
+        localStorage[name] = value;
     } else {
-
+        console.log("localStorage error");
     }
-};
+}
 
+export function localStorageGet(name) {
+    if (storageAvailable("localStorage")) {
+        return localStorage.getItem(name);
+    } else {
+        console.log("localStorage error");
+    }
+}
