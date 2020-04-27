@@ -115,11 +115,9 @@
 .photoListBox {
   overflow: scroll;
   margin-left: 20px;
-  > div {
-  }
   .imgBox {
     float: left;
-    width: 90px;
+    width: 90px; 
     height: 90px;
     margin-right: 10px;
     border: 1px solid $black01;
@@ -127,5 +125,41 @@
     background-position: 50%;
     background-repeat: no-repeat;
     background-color: red;
+  }
+}
+
+/* notice 스타일 */
+
+.accordionItem {
+  .subject {
+    position: relative;
+    padding: 20px 58px 20px 44px;
+    background: #fff;
+    background-repeat: no-repeat;
+    &.announce {
+      background-image: url(../../assets/imgs/q.png);
+      background-size: 13px 16px;
+      background-position: 17px 19px;
+    }
+    img {
+      width: 14px;
+      height: 6px;
+      position: absolute;
+      top: 24px; 
+      right: 29px;
+    }
+  }
+  .desc {
+    height: 0;
+    padding: 0 20px;
+    line-height: 22px;
+    overflow: hidden;
+    background: rgba(251,251,251,1);
+    font-size: 14px; 
+    transition: all 0.25s ease;
+    &.on {
+      height: auto;
+      padding: 20px;
+    }
   }
 }

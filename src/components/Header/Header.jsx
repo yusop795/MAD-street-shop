@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './style.scss';
+import { Link } from 'react-router-dom';
 import iconBack from '../../assets/imgs/iconBack.png';
 import btnClose from '../../assets/imgs/btnClose.png';
 import iconMenu from '../../assets/imgs/iconMenu.png';
 import iconSearch from '../../assets/imgs/iconSearch.png';
 import adressEdit from '../../assets/imgs/adressEdit.png';
+
+import imgProfile01 from '../../assets/imgs/imgProfile01.png';
 
 import { localStorageGet, localStorageSet } from '../../util/LocalStorage.js';
 import { isEmpty } from '../../util/gm';
@@ -73,11 +76,18 @@ export const SearchModalHeader = ({ textarea = '', goTo, textValue = '' }) => {
 
 
 export const HomeHeader = ({ address = '서울 영등포구 여의도동 37', fetchGeolocation, setModalPage }) => {
+  console.log('iconMenu', iconMenu);
+
+  const goMyPage = () => {
+    window.location = '/myPage'
+  }
 
   return (
     <div className="header homeHeader">
       <div className="menu">
-        <img src={iconMenu} alt={'메뉴'} />
+        <Link to="/myPage">
+          <img src={imgProfile01} alt={'메뉴'} />
+        </Link>
       </div>
       <div className="address" onClick={() => setModalPage({ target: 'SettingLocation' })}>
         <span className="text">{address}</span>

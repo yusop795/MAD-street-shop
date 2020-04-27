@@ -58,3 +58,29 @@ export const fetchList = ({ type }) => {
       return error;
     });
 };
+
+/**
+ * notice
+ * @param 
+ * 경도 long : 123.45
+ * 위도 lat : 78.901
+ * 종류 type : rank/main
+ * 활성화 active : false
+ * 범위 range : 기본값은 10000(=10km)
+ */
+export const fetchEtc = ({ type }) => {
+  return API_INSTANCE.get('/etc',
+    {
+      params: {
+        type: type,
+      }
+    },
+  )
+    .then(response => {
+      return response
+    })
+    .catch(error => {
+      console.log('get fetchEtc error >>>>', error);
+      return error;
+    });
+};

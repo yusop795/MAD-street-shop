@@ -11,3 +11,5 @@ export { default as Test } from './Test';
 export { default as MyPage } from './MyPage';
 export { default as SearchResult } from "./SearchResult";
 export { default as WatchList } from "./WatchList";
+export { default as Notice } from "./Notice";
+export { default as Faq } from "./Faq";

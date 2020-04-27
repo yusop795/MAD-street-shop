@@ -72,20 +72,24 @@
   }
   .settingList {
     .settingItem {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 60px;
-      margin: 0px 30px;
-      border-bottom: 1px solid $black01;
-      img {
-        width: 7px;
-        height: 13px;
+      a{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 60px;
+        margin: 0px 30px;
+        border-bottom: 1px solid $black01;
+        img {
+          width: 7px;
+          height: 13px;
+        }
       }
       &.border {
-        margin: 0px;
-        padding: 0px 30px;
-        border-bottom: 10px solid $mainBgColor;
+        a{
+          margin: 0px;
+          padding: 0px 30px;
+          border-bottom: 10px solid $mainBgColor;
+        }
       }
     }
   }

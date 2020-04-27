@@ -15,6 +15,9 @@ const Splash = () => {
   const dispatch = useDispatch();
   const [location, setLocation] = useState('');
   const categoryList = useSelector(state => state.startReducer.shopCategory, []);
+  const noticeList = useSelector(state => state.startReducer.ntc, []);
+  const faqList = useSelector(state => state.startReducer.faq, []);
+
   const token = useSelector(state => state.userReducer.token, {});
   const [allState, setAllState] = useState(false);
 
@@ -38,18 +41,58 @@ const Splash = () => {
     );
   };
 
-  useEffect(() => {
-    dispatch({
+  const api_call_list = [
+    {
       type: startTypes.FETCH_SHOP_CATEGORY,
-    });
-
-    // console.log(location)
-    dispatch({
+    },
+    {
       type: startTypes.FETCH_SHOP_LIST,
       payload: {
         type: "rank",
       }
+    },
+    {
+      type: startTypes.FETCH_ETC_LIST,
+      payload: {
+        type: "ntc",
+      }
+    },
+    {
+      type: startTypes.FETCH_ETC_LIST,
+      payload: {
+        type: "faq",
+      }
+    }
+  ];
+  useEffect(() => {
+    api_call_list.map(d => {
+      return dispatch(d);
     });
+    
+    // dispatch({
+    //   type: startTypes.FETCH_SHOP_CATEGORY,
+    // });
+
+    // // console.log(location)
+    // dispatch({
+    //   type: startTypes.FETCH_SHOP_LIST,
+    //   payload: {
+    //     type: "rank",
+    //   }
+    // });
+    // dispatch({
+    //   type: startTypes.FETCH_ETC_LIST,
+    //   payload: {
+    //     type: "faq",
+    //   }
+    // });
+    // dispatch({
+    //   type: startTypes.FETCH_ETC_LIST,
+    //   payload: {
+    //     type: "ntc",
+    //   }
+    // });
+
     // fetchGeolocation();
     // dispatch({
     //   type: startTypes.FETCH_SHOP_LIST,
@@ -70,12 +113,14 @@ const Splash = () => {
     // } 
   }, []);
 
+  
+
   useEffect(() => {
     setTimeout(() => {
       setAllState(true)
     }, 3000)
 
-    if (categoryList.length > 0) {
+    if (categoryList.length > 0 && noticeList > 0 && faqList > 0) {
       setAllState(true)
     }
 
