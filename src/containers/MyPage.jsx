@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { userTypes } from '../reducers/userReducer';
 
@@ -52,7 +52,6 @@ const MyPage = ({ history, match }) => {
 
   // alert
   const { isShowing, title, contents, setAlert } = AlertUtil();
-
   return (
     <div className="main myPage">
       <ModalHeader onEvent={history.goBack} border={false} />
@@ -108,9 +107,21 @@ const MyPage = ({ history, match }) => {
         </div>
       ) : null}
       <ul className="settingList">
-        <li className="settingItem">공지사항<img src={iconChevronRight} alt="이동" /></li>
-        <li className="settingItem border">FAQ<img src={iconChevronRight} alt="이동" /></li>
-        <li className="settingItem" onClick={kakaoLogout}>로그아웃<img src={iconChevronRight} alt="이동" /></li>
+        <li className="settingItem">
+          <Link to="/notice">
+            공지사항<img src={iconChevronRight} alt="이동" />
+          </Link>
+        </li>
+        <li className="settingItem border">
+          <Link to="/faq">
+            FAQ<img src={iconChevronRight} alt="이동" />
+          </Link>
+        </li>
+        <li className="settingItem" onClick={kakaoLogout}>
+          <Link to="myPage">
+            로그아웃<img src={iconChevronRight} alt="이동" />
+          </Link>
+        </li>
       </ul>
       <p className="notice">매드스트릿샵을 탈퇴하려면 <b>여기</b>를 눌러주세요.</p>
       <Alert isShowing={isShowing} hide={setAlert} title={title} contents={contents} />

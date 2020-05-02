@@ -10,6 +10,7 @@ import { localStorageSet } from '../../util/LocalStorage.js';
 
 const SearchModal = ({ isOpen, currentKeyword }) => {
     const [keywordList, setKewordList] = useState(currentKeyword);
+    const [location, setLocation] = useState('');
 
     const modalPage = useRef();
 
@@ -23,6 +24,23 @@ const SearchModal = ({ isOpen, currentKeyword }) => {
     const searchForKeyword = (keyword) => {
         window.location = `/searchResult?keyword=${keyword}`
     }
+    // 위치정보 조회
+    const fetchGeolocation = () => {
+        const options = {
+            enableHighAccuracy: true,
+            maximumAge: 300000,
+            timeout: 50000,
+        };
+
+        navigator.geolocation.getCurrentPosition(
+            ({ coords }) => {
+                console.log('SearchModal coords', coords);
+                setLocation({ lat: coords.latitude, long: coords.longitude });
+            },
+            e => console.log(`Geolocation 오류 [${e.code}] : ${e.message}`),
+            options,
+        );
+    };
 
     useEffect(() => {
         if (isOpen) {
@@ -37,6 +55,12 @@ const SearchModal = ({ isOpen, currentKeyword }) => {
             modalPage.current.scrollTop = 0
         }
     }, [keywordList]);
+
+    useEffect(() => {
+        if (navigator.geolocation) {
+            fetchGeolocation();
+        }
+    }, []);
 
     return (
         <div ref={modalPage} className={`searchModal modalPageRight ${isOpen ? 'open' : ''}`}>
