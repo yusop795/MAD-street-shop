@@ -36,21 +36,22 @@ export const fetchCategory = () => {
  * 활성화 active : false
  * 범위 range : 기본값은 10000(=10km)
  */
-export const fetchList = ({ type }) => {
-  console.log('fetchList>>', type);
+export const fetchList = ({ type = "main", long = 37.4983608, lat = 127.02650489999999, active = false, range = 10000, search = "", name = "" }) => {
+  console.log('fetchList>>', type, "fetchList NAME>>>>", name);
   return API_INSTANCE.get('/shops/list',
     {
       params: {
-        long: 123.45,
-        lat: 78.901,
+        long: long,
+        lat: lat,
         type: type,
-        active: false,
-        range: 10000,
-        search: "투데이",
+        active: active,
+        range: range,
+        search: search
       }
     },
   )
     .then(response => {
+      console.log('response List >>>', response);
       return response
     })
     .catch(error => {

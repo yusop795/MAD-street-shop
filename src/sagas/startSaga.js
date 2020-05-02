@@ -1,6 +1,8 @@
 import { takeEvery, takeLatest, put, call } from "redux-saga/effects";
 import { startTypes } from "../reducers/startReducer";
 import { fetchCategory, fetchList, fetchEtc } from './api/startApi';
+import { isEmpty } from "../util/gm";
+
 
 export function* fetchCategorySaga({ payload }) {
   // console.log('fetchCategorySaga')
@@ -18,12 +20,12 @@ export function* fetchCategorySaga({ payload }) {
 export function* fetchShopListSaga({ payload }) {
   // console.log('fetchShopListSaga');
   const response = yield call(fetchList, payload);
-  if (response.data) {
-    // console.log('fetchShopList 있음 >>', response.data);
+  if (response.data || response.statusText === "No Content") {
+    console.log('fetchShopList 있음 >>', response.data, payload.type);
     yield put({
       type: startTypes.SET_SHOP_LIST,
-      name: payload.type,
-      payload: response.data,
+      name: payload.name,
+      payload: isEmpty(response.data) ? "No Content" : response.data,
     });
   } else {
     console.log('fetchShopList >>', response.data);

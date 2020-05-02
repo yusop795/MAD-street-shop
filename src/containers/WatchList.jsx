@@ -13,10 +13,15 @@ import { SettingCategory, SettingTime } from './ModalPage';
 import '../assets/styles/containers/favorite.scss';
 import { ShopList } from '../components/List';
 
+import { isEmpty } from "../util/gm";
+
+import Spinner from "../components/Unit/Spinner";
+
 const WatchList = ({ history }) => {
     const { targetModalPage, isModalOpen, setModalPage } = ModalPageUtill();
     const dispatch = useDispatch();
     const storeShopList = useSelector(state => state.startReducer.main, {});
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         console.log('userEffect', storeShopList);
@@ -24,6 +29,7 @@ const WatchList = ({ history }) => {
             type: startTypes.FETCH_SHOP_LIST,
             payload: {
                 type: "main",
+                name: "main",
             }
         });
     }, []);
@@ -39,10 +45,18 @@ const WatchList = ({ history }) => {
         }
     };
 
+    useEffect(() => {
+        if(!isEmpty(storeShopList)){
+            setLoading(false); 
+        }
+    }, [storeShopList])
+
     return (
         <div className="main ranking">
             <Header title="관심리스트" onEvent={history.goBack} />
-            <ShopList items={storeShopList} type="watchList" />
+            {
+                loading ? <Spinner /> : <ShopList items={storeShopList} type="watchList" />
+            }
             {rederModalPage()}
         </div>
     );

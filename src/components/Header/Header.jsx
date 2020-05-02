@@ -32,18 +32,21 @@ export const ModalHeader = ({ onEvent, title = '', border = true }) => {
   );
 };
 
-export const SearchModalHeader = ({ textarea = '', goTo, textValue = '' }) => {
+export const SearchModalHeader = ({ textarea = '', goTo, textValue = '', location = {} }) => {
   const [enterKeyword, setKeyword] = useState('');
 
   const addKeyPress = (e) => {
     if (e.key === 'Enter') {
       const current_keyword = isEmpty(localStorageGet('MadShopCurrentKeyword')) ? [] : JSON.parse(localStorageGet('MadShopCurrentKeyword'));
-      current_keyword.unshift(e.target.value);
-      const set_keyword_arr = current_keyword.reduce((a, b) => {
-        if (a.indexOf(b) < 0) a.push(b);
-        return a;
-      }, [])
-      localStorageSet('MadShopCurrentKeyword', JSON.stringify(set_keyword_arr));
+      if (e.target.value !== "") {
+        current_keyword.unshift(e.target.value);
+        const set_keyword_arr = current_keyword.reduce((a, b) => {
+          if (a.indexOf(b) < 0) a.push(b);
+          return a;
+        }, [])
+        localStorageSet('MadShopCurrentKeyword', JSON.stringify(set_keyword_arr));
+
+      }
       window.location = `${goTo}?keyword=${e.target.value}`;
     }
   }

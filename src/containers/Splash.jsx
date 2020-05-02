@@ -30,7 +30,7 @@ const Splash = () => {
       maximumAge: 300000,
       timeout: 50000,
     };
-  
+
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
         console.log('coords', coords);
@@ -49,6 +49,14 @@ const Splash = () => {
       type: startTypes.FETCH_SHOP_LIST,
       payload: {
         type: "rank",
+        name: "rank",
+      }
+    },
+    {
+      type: startTypes.FETCH_SHOP_LIST,
+      payload: {
+        type: "main",
+        name: "main",
       }
     },
     {
@@ -68,7 +76,7 @@ const Splash = () => {
     api_call_list.map(d => {
       return dispatch(d);
     });
-    
+
     // dispatch({
     //   type: startTypes.FETCH_SHOP_CATEGORY,
     // });
@@ -113,7 +121,7 @@ const Splash = () => {
     // } 
   }, []);
 
-  
+
 
   useEffect(() => {
     setTimeout(() => {
