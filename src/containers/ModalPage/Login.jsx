@@ -18,7 +18,6 @@ import iconKakao from '../../assets/imgs/iconKakao.png';
 const KAKAO = window.Kakao
 const Login = ({ history, isOpen, onEvent }) => {
   const dispatch = useDispatch();
-  const loginOk = useSelector(state => state.userReducer.loginOk, []);
   const isUser = useSelector(state => state.userReducer.isUser, []);
   const modalPage = useRef();
 
@@ -81,7 +80,7 @@ const Login = ({ history, isOpen, onEvent }) => {
   }, [isOpen]);
 
   useEffect(() => {
-    console.log(isUser)
+    console.log('Login', isUser)
     if (isUser) {
       history.push(`/home`)
     }

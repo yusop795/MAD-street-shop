@@ -43,7 +43,6 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, getGeoc
       // moveMap(kakaoMap, map, latlng)   
       geocoder.coord2Address(latlng.Ga, latlng.Ha, (result, status) => {
 
-
         if (result[0].road_address) {
           getGeocoder(result[0].road_address.address_name, { long: latlng.Ga, lat: latlng.Ha })
         } else {
@@ -65,11 +64,11 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, getGeoc
 
   const createShopsMarker = (kakaoMap, map) => {
     for (let i = 0; i < shopList.length; i++) {
-      const src = selectShop === i ? mapPinOn : iconMapPin;
+      const src = selectShop === i+1 ? mapPinOn : iconMapPin;
       const image = createMarkerImage(kakaoMap, src);
       const marker = new kakaoMap.Marker({
         map,
-        position: new kakaoMap.LatLng(shopList[i].latitude, shopList[i].longitude),
+        position: new kakaoMap.LatLng(shopList[i].location.latitude.$numberDecimal, shopList[i].location.longitude.$numberDecimal),
         title: shopList[i].name,
         image,
       });
@@ -78,7 +77,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, getGeoc
 
       // 마커 이벤트 등록
       kakaoMap.event.addListener(marker, 'click', () => {
-        setSelectShop(i)
+        setSelectShop(i+1)
         onEvent({
           target: 'ShopDetailModal',
         });
@@ -99,8 +98,8 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, getGeoc
         kakaoMap.load(() => {
           // 지도 옵션
           const options = {
-            center: new kakaoMap.LatLng(location.lat, location.long), // 지도의 중심좌표.
-            level: 2, // 지도의 레벨(확대, 축소 정도)
+            center: new kakaoMap.LatLng(37.486450, 126.980934), // 지도의 중심좌표.
+            level: 3, // 지도의 레벨(확대, 축소 정도)
           };
           // 지도 생성
           const map = new kakaoMap.Map(container, options);
@@ -108,7 +107,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, getGeoc
           // 마커 생성
           const marker = new kakaoMap.Marker({
             map,
-            position: new kakaoMap.LatLng(location.lat, location.long),
+            position: new kakaoMap.LatLng(37.486450, 126.980934),
           });
           marker.setMap(map);
 
@@ -118,13 +117,13 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, getGeoc
             // 마커 이벤트
             // moveMap(kakaoMap, map);
           }
-          if (onEvent) {
-            clickMap(kakaoMap, map)
-          }
+          // if (onEvent) {
+          //   clickMap(kakaoMap, map)
+          // }
 
-          if (getGeocoder) {
-            setAddress(kakaoMap, map)
-          }
+          // if (getGeocoder) {
+          //   setAddress(kakaoMap, map)
+          // }
           // 스핀 제거
           // setisSpin(false);
         });

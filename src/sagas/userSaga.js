@@ -10,18 +10,18 @@ export function* loginSaga({ payload }) {
   const response = yield call(login, payload);
   if (response.data) {
     yield put({
-      type: userTypes.SET_LOGIN_OK,
+      type: userTypes.SET_LOGIN,
       payload: {
-        loginOk: true,
+        isLogin: true,
         isUser: response.data.isUser,
         userId: response.data.userId
       },
     });
   } else {
     yield put({
-      type: userTypes.SET_LOGIN_OK,
+      type: userTypes.SET_LOGIN,
       payload: {
-        loginOk: false,
+        isLogin: false,
         isUser: '',
         userId: ''
       },
@@ -51,11 +51,11 @@ export function* fetchKaKaoInfoSaga({ payload }) {
 export function* postSignUpUserSaga({ payload }) {
   const response = yield call(postSignUpUser, payload);
 
-  // if (response.data) {
-  //   console.log(response)
-  // } else {
-  //   console.log(response);
-  // }
+  if (response.data) {
+    console.log(response)
+  } else {
+    console.log(response);
+  }
 }
 
 /**

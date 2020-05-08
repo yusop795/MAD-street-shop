@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
-import { initializeState, startReducer, userReducer } from './reducers';
+import { initializeState, startReducer, userReducer, shopReducer } from './reducers';
 import rootSaga from './sagas';
 import Router from './router';
 import * as serviceWorker from './serviceWorker';
@@ -25,6 +25,7 @@ AuthUtill.setUserStore(KAKAO.Auth.getAccessToken())
 const rootReducer = combineReducers({
   startReducer,
   userReducer,
+  shopReducer,
 });
 
 /* SagaMiddleware 생성 */

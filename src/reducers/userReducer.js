@@ -12,7 +12,6 @@ export const userTypes = {
   SET_LOADING: 'user/LOADING',
   SET_TOKEN: 'user/SET_TOKEN',
   SET_LOGIN: 'user/SET_LOGIN',
-  SET_LOGIN_OK: 'user/SET_LOGIN_OK',
 
   SET_USER_INFO: 'user/SET_USER_INFO',
   SET_OWNER_INFO: 'user/SET_USER_INFO',
@@ -47,11 +46,6 @@ export const userAction = {
     time,
   }),
 
-  setLoginOk: isLogin => ({
-    type: userTypes.SET_LOGIN_OK,
-    isLogin,
-  }),
-
   updateLoading: loading => ({ type: userTypes.SET_LOADING, loading }),
   setToken: token => ({
     type: userTypes.SET_TOKEN,
@@ -82,7 +76,6 @@ const initialState = {
   storeCategory: [],
   token: {},
   isLogin: false,
-  loginOk: false,
 };
 
 /**
@@ -95,12 +88,6 @@ export default function userReducer(state = initialState, action) {
       return {
         ...state,
         userId: payload.userInfo.userId,
-      };
-    case userTypes.SET_LOGIN:
-      return {
-        ...state,
-        token: payload.token,
-        isLogin: payload.isLogin,
       };
     case userTypes.SET_TOKEN:
       return {
@@ -125,10 +112,10 @@ export default function userReducer(state = initialState, action) {
         storeCloseTime: payload.storeCloseTime
       };
 
-    case userTypes.SET_LOGIN_OK:
+    case userTypes.SET_LOGIN:
       return {
         ...state,
-        loginOk: payload.loginOk,
+        isLogin: payload.isLogin,
         isUser: payload.isUser,
         userId: payload.userId
       };

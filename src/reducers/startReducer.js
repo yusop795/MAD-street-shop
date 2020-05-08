@@ -42,7 +42,6 @@ const initialState = {
  */
 export default function startReducer(state = initialState, action) {
   const { type, payload } = action;
-  console.log('startReducer', type, payload);
   switch (type) {
     case startTypes.SET_SHOP_CATEGORY:
       return {

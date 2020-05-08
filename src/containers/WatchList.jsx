@@ -20,12 +20,12 @@ const WatchList = ({ history }) => {
 
     useEffect(() => {
         console.log('userEffect', storeShopList);
-        dispatch({
-            type: startTypes.FETCH_SHOP_LIST,
-            payload: {
-                type: "main",
-            }
-        });
+        // dispatch({
+        //     type: startTypes.FETCH_SHOP_LIST,
+        //     payload: {
+        //         type: "main",
+        //     }
+        // });
     }, []);
 
     const rederModalPage = () => {

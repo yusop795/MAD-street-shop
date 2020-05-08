@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 import ModalPageUtill from '../util/ModalPageUtill.js';
+
+import { shopTypes } from '../reducers/shopReducer'
 
 import { HomeHeader } from '../components/Header'
 import { MainMap } from '../components/Map';
@@ -11,8 +15,10 @@ import { localStorageGet } from '../util/LocalStorage.js';
 import { isEmpty } from '../util/gm.js';
 
 const Home = () => {
+  const dispatch = useDispatch();
   const [location, setLocation] = useState('');
-  const [shopList] = useState([{ name: '토토네 튀김', latitude: 37.489524599999996, longitude: 126.98655099999998 }, { name: '네네치킨', latitude: 37.489524599999996, longitude: 126.98643099999998 }]);
+  const shopList = useSelector(state => state.shopReducer.shopList, []);
+
   const [selectShop] = useState({
     shopName: "석정포장마차",
     shopTags: {
@@ -30,7 +36,6 @@ const Home = () => {
       userLike: true,
     }
   });
-  // const loading = useSelector(({ authReducer }) => authReducer.loading, true);
 
   const [currentKeyword, setCurrentKeyword] = useState([]);
   // 위치정보 조회
@@ -62,17 +67,17 @@ const Home = () => {
   // location 변경될때
   useEffect(() => {
     if (location) {
-      // dispatch({
-      //   type: homeTypes.FETCH_SHOP_LIST,
-      //   payload: { location, type: 'main' },
-      // });
+      dispatch({
+        type: shopTypes.FETCH_SHOP_LIST,
+        payload: { location, type: 'main' },
+      });
     }
   }, [location]);
 
   useEffect(() => {
-    let keywords = isEmpty(localStorageGet('MadShopCurrentKeyword')) ? [] : JSON.parse(localStorageGet('MadShopCurrentKeyword'));
-    setCurrentKeyword(keywords);
-
+    // let keywords = isEmpty(localStorageGet('MadShopCurrentKeyword')) ? [] : JSON.parse(localStorageGet('MadShopCurrentKeyword'));
+    // setCurrentKeyword(keywords);
+    // console.log(123123123,shopList)
   }, []);
 
   const rederModalPage = () => {
@@ -93,6 +98,7 @@ const Home = () => {
   return (
     <div>
       <HomeHeader fetchGeolocation={fetchGeolocation} setModalPage={setModalPage} />
+      <Link to='/test' style={{ position: "fixed", top: '100px', zIndex: 999999 }}>test</Link>
       <div>
         <MainMap
           location={location}

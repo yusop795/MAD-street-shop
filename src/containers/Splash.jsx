@@ -27,7 +27,7 @@ const Splash = () => {
       maximumAge: 300000,
       timeout: 50000,
     };
-  
+
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
         console.log('coords', coords);
@@ -44,12 +44,12 @@ const Splash = () => {
     });
 
     // console.log(location)
-    dispatch({
-      type: startTypes.FETCH_SHOP_LIST,
-      payload: {
-        type: "rank",
-      }
-    });
+    // dispatch({
+    //   type: startTypes.FETCH_SHOP_LIST,
+    //   payload: {
+    //     type: "rank",
+    //   }
+    // });
     // fetchGeolocation();
     // dispatch({
     //   type: startTypes.FETCH_SHOP_LIST,
