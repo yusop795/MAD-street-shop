@@ -18,7 +18,7 @@ const SettingLocation = ({ isOpen, onEvent }) => {
   const dispatch = useDispatch();
   const store = useSelector(state => state.userReducer.storeLocation, {});
   const [location, setLocation] = useState('');
-  const [setStoreLocation] = useState('');
+  const [storeLocation, setStoreLocation] = useState('');
   const [address, setAddress] = useState('');
   const [locationComment, setLocationComment] = useState('');
   const modalPage = useRef();
@@ -85,6 +85,7 @@ const SettingLocation = ({ isOpen, onEvent }) => {
         }
       },
     })
+    onEvent({ target: null })
   }
 
   return (
@@ -103,7 +104,6 @@ const SettingLocation = ({ isOpen, onEvent }) => {
         <InputText placeholder={'상세주소 입력 (예 : OO빌딩 앞, OO아파트 단지 내)'} defaultValue={locationComment} onEvent={setText} />
         <Button fullmode={true} text={'선택한 위치로 설정'} onEvent={() => {
           setData()
-          onEvent({ target: null })
         }} />
       </div>
     </div>

@@ -47,7 +47,6 @@ const SettingTime = ({ isOpen, onEvent }) => {
   }, [isOpen]);
 
   const setData = () => {
-    console.log(selectTag, openTime, closeTime)
     dispatch({
       type: userTypes.SET_STORE_TIME,
       payload: {
@@ -56,6 +55,7 @@ const SettingTime = ({ isOpen, onEvent }) => {
         storeCloseTime: closeTime,
       },
     })
+    onEvent({ target: null })
   }
 
 

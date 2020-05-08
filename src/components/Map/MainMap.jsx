@@ -40,7 +40,6 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
   // };
 
   const moveMap = (kakaoMap, map, latlng) => {
-    console.log(latlng)
     // 이동할 위도 경도 위치를 생성합니다 
     // const moveLatLon = new kakaoMap.LatLng(latlng.Ga, latlng.Ha);
     const moveLatLon = new kakaoMap.LatLng(latlng.Ha, latlng.Ga);
@@ -65,7 +64,6 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
       const latlng = data.latLng;
       // moveMap(kakaoMap, map, latlng)
       geocoder.coord2Address(latlng.Ga, latlng.Ha, (result, status) => {
-
         if (result[0].road_address) {
           getGeocoder(result[0].road_address.address_name, { long: latlng.Ga, lat: latlng.Ha })
         } else {
@@ -87,7 +85,6 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
 
   const createShopsMarker = (kakaoMap, map) => {
     for (let i = 0; i < shopList.length; i++) {
-      console.log(selectShopId)
       const src = selectShopId === shopList[i]._id ? mapPinOn : adressEdit;
       const image = createMarkerImage(kakaoMap, src);
       const latitude = shopList[i].location.latitude.$numberDecimal
