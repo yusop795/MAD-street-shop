@@ -30,10 +30,10 @@ const Router = a => {
           <Route exact path="/ranking" component={Ranking} />
           <Route exact path="/watchList" component={WatchList} />
           <Route exact path="/myPage" component={MyPage} />
+          <Route exact path="/myPage/user" component={SignUpUser} />
           <Route exact path="/searchResult" component={SearchResult} />
-
           <Route exact path="/notice" component={Notice} />
-           <Route exact path="/faq" component={Faq} />
+          <Route exact path="/faq" component={Faq} />
         </Switch>
       </Switch>
     </BrowserRouter>

@@ -23,7 +23,6 @@ const SignUpUser = ({ history }) => {
   const [tagList, setTagList] = useState([]);
   const [selectTag, setSelectTag] = useState([]);
 
-
   // alert
   const { isShowing, title, contents, setAlert } = AlertUtil();
 
@@ -42,7 +41,6 @@ const SignUpUser = ({ history }) => {
           contents: '대표메뉴는 최대 3개까지만<br/> 선택할 수 있어요.'
         })
       } else {
-        console.log(categoryList, tag)
         const key = selectCategory
         const data = { ...selectTag, [tag]: categoryList[key].title }
         setSelectTag(data)
@@ -71,14 +69,23 @@ const SignUpUser = ({ history }) => {
         item: data[v]
       }
     })
-
-    dispatch({
-      type: userApiTypes.POST_SIGNUP_USER,
-      payload: {
-        userId,
-        userTags
-      }
-    })
+    if (history.location.pathname === "/myPage/user") {
+      dispatch({
+        type: userApiTypes.PUT_USER,
+        payload: {
+          userId,
+          userTags
+        }
+      })
+    } else {
+      dispatch({
+        type: userApiTypes.POST_SIGNUP_USER,
+        payload: {
+          userId,
+          userTags
+        }
+      })
+    }
   }
 
   return (

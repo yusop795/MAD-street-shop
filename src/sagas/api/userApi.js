@@ -5,7 +5,6 @@ import AuthUtill from '../../util/AuthUtill'
 const API_INSTANCE = axios.create({
   baseURL: 'https://mad-street-shop.herokuapp.com/api',
   headers: {
-    'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/x-www-form-urlencoded'
   },
 });
@@ -13,7 +12,6 @@ const API_INSTANCE = axios.create({
 const KAKAO_API_INSTANCE = axios.create({
   baseURL: 'https://kapi.kakao.com',
   headers: {
-    'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
   },
 });
@@ -78,6 +76,29 @@ export const postSignUpUser = ({ userId, userTags }) => {
     })
     .catch(error => {
       console.log('postSignUpUser', error);
+      return error;
+    });
+};
+
+/**
+ * 카카오 사용자 회원수정
+ * @param
+ */
+export const putUser = ({ userId, userTags }) => {
+  return API_INSTANCE.put(`/users/${userId}`,
+    { userTags },
+    {
+      headers: {
+        'Authorization': `Bearer ${AuthUtill.accessToken}`
+      }
+    }
+  )
+    .then(response => {
+      console.log('putUser')
+      return response
+    })
+    .catch(error => {
+      console.log('putUser', error);
       return error;
     });
 };

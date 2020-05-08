@@ -25,6 +25,7 @@ export const userApiTypes = {
   LOGIN: 'user/LOGIN',
   POST_SIGNUP_USER: 'user/POST_SIGNUP_USER',
   POST_SIGNUP_OWNER: 'user/POST_SIGNUP_OWNER',
+  PUT_USER: 'user/PUT_USER',
 };
 
 /**

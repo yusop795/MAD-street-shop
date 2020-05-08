@@ -76,7 +76,7 @@ const MyPage = ({ history, match }) => {
               </div>
             </div>
             <div className="menuList">
-              <Link to='/signup/user' className="menuItem">
+              <Link to='/myPage/user' className="menuItem">
                 <img src={iconSettings} alt="취향설정" />
                 <p>취향설정</p>
               </Link>
