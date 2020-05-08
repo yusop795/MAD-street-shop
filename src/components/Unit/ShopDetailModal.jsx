@@ -6,7 +6,6 @@ import iconMapPin from '../../assets/imgs/iconMapPin.png'
 import iconPhone from '../../assets/imgs/iconPhone.png'
 
 const shopDetailModal = ({ shopInfo, isOpen = true, onEvent = null, }) => {
-
   return (
     <div
       className={`shopDetailModal ${isOpen ? 'open' : ''}`}

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const ModalPageUtill = () => {
-  const [isModalOpen, setIsModalPageOpen] = useState(false);
+  const [isModalOpen, setIsModalPageOpen] = useState(true);
   const [targetModalPage, setTargetModalPage] = useState(null);
   const [beforeTargetModalPage, setBeforeTargetModalPage] = useState('');
 

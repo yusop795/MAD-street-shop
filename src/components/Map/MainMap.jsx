@@ -2,14 +2,33 @@ import React, { useState, useEffect } from 'react';
 import scriptUtill from '../../util/scriptUtill';
 import './style.scss';
 import mapPinOn from '../../assets/imgs/mapPinOn.png';
-import iconMapPin from '../../assets/imgs/iconMapPin.png';
-import { SettingLocation } from '../../containers/ModalPage';
+import adressEdit from '../../assets/imgs/adressEdit.png';
 
 const kakaoMapScript = scriptUtill(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAP_KEY}&autoload=false&libraries=services`);
 
-const MainMap = ({ location, shopList = [], containerId = null, onEvent, getGeocoder }) => {
-  const [crruntLocation, setCrruntLocation] = useState(location);
-  const [selectShop, setSelectShop] = useState(1);
+const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectShopId, setSelectShopId, getGeocoder }) => {
+  const [crrlocation, setCrrLocation] = useState({})
+  const [kaka, setkaka] = useState(null)
+  const [maps, setmaps] = useState(null)
+
+  useEffect(() => {
+    if (location) {
+      setCrrLocation(location)
+    }
+  }, [location]);
+
+  useEffect(() => {
+    if (crrlocation) {
+      renderMap()
+    }
+  }, [crrlocation, selectShopId]);
+
+  // useEffect(() => {
+  //   if (shopList.length > 0) {
+  //     createShopsMarker(kaka, maps);
+  //   }
+  // }, [selectShopId]);
+
 
   // const moveMap = (kakaoMap, map) => {
   //   // 중심 좌표나 확대 수준이 변경되면 발생
@@ -21,26 +40,30 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, getGeoc
   // };
 
   const moveMap = (kakaoMap, map, latlng) => {
+    console.log(latlng)
     // 이동할 위도 경도 위치를 생성합니다 
-    const moveLatLon = new kakaoMap.LatLng(latlng.Ga, latlng.Ha);
-    // 지도 중심을 이동 시킵니다
+    // const moveLatLon = new kakaoMap.LatLng(latlng.Ga, latlng.Ha);
+    const moveLatLon = new kakaoMap.LatLng(latlng.Ha, latlng.Ga);
+    setCrrLocation({ lat: latlng.Ha, long: latlng.Ga });
+
+    // 지도 중심을 부드럽게 이동 시킵니다
     map.panTo(moveLatLon);
   }
 
-  const clickMap = (kakaoMap, map) => {
-    kakaoMap.event.addListener(map, 'click', () => {
-      onEvent({
-        target: 'ShopInfoModal',
-      });
-    });
-  }
+  // const clickMap = (kakaoMap, map) => {
+  //   kakaoMap.event.addListener(map, 'click', () => {
+  //     onEvent({
+  //       target: 'ShopInfoModal',
+  //     });
+  //   });
+  // }
 
   const setAddress = (kakaoMap, map) => {
     // 주소-좌표 변환 객체를 생성합니다
     const geocoder = new kakaoMap.services.Geocoder();
     kakaoMap.event.addListener(map, 'click', (data) => {
       const latlng = data.latLng;
-      // moveMap(kakaoMap, map, latlng)   
+      // moveMap(kakaoMap, map, latlng)
       geocoder.coord2Address(latlng.Ga, latlng.Ha, (result, status) => {
 
         if (result[0].road_address) {
@@ -64,11 +87,15 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, getGeoc
 
   const createShopsMarker = (kakaoMap, map) => {
     for (let i = 0; i < shopList.length; i++) {
-      const src = selectShop === i+1 ? mapPinOn : iconMapPin;
+      console.log(selectShopId)
+      const src = selectShopId === shopList[i]._id ? mapPinOn : adressEdit;
       const image = createMarkerImage(kakaoMap, src);
+      const latitude = shopList[i].location.latitude.$numberDecimal
+      const longitude = shopList[i].location.longitude.$numberDecimal
+      const position = new kakaoMap.LatLng(latitude, longitude)
       const marker = new kakaoMap.Marker({
         map,
-        position: new kakaoMap.LatLng(shopList[i].location.latitude.$numberDecimal, shopList[i].location.longitude.$numberDecimal),
+        position,
         title: shopList[i].name,
         image,
       });
@@ -77,10 +104,11 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, getGeoc
 
       // 마커 이벤트 등록
       kakaoMap.event.addListener(marker, 'click', () => {
-        setSelectShop(i+1)
+        setSelectShopId(shopList[i]._id)
         onEvent({
           target: 'ShopDetailModal',
         });
+        moveMap(kakaoMap, map, position)
         // if(marker.getZIndex() ===0){
         //   marker.setZIndex(1);
         // }else {
@@ -98,32 +126,30 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, getGeoc
         kakaoMap.load(() => {
           // 지도 옵션
           const options = {
-            center: new kakaoMap.LatLng(37.486450, 126.980934), // 지도의 중심좌표.
+            center: new kakaoMap.LatLng(crrlocation.lat, crrlocation.long), // 지도의 중심좌표.
             level: 3, // 지도의 레벨(확대, 축소 정도)
           };
           // 지도 생성
           const map = new kakaoMap.Map(container, options);
 
-          // 마커 생성
+          // 현재 내위치 마커 생성
           const marker = new kakaoMap.Marker({
             map,
-            position: new kakaoMap.LatLng(37.486450, 126.980934),
+            position: new kakaoMap.LatLng(crrlocation.lat, crrlocation.long),
           });
           marker.setMap(map);
-
           // shop list 마커
           if (shopList.length > 0) {
             createShopsMarker(kakaoMap, map);
-            // 마커 이벤트
-            // moveMap(kakaoMap, map);
           }
+
           // if (onEvent) {
           //   clickMap(kakaoMap, map)
           // }
 
-          // if (getGeocoder) {
-          //   setAddress(kakaoMap, map)
-          // }
+          if (getGeocoder) {
+            setAddress(kakaoMap, map)
+          }
           // 스핀 제거
           // setisSpin(false);
         });
@@ -132,12 +158,6 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, getGeoc
         console.log(e);
       });
   };
-
-  useEffect(() => {
-    if (location) {
-      renderMap();
-    }
-  });
 
   return <div id={containerId} className="mapBox"></div>;
 };

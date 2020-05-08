@@ -16,9 +16,11 @@ import imgLogoTruck from '../../assets/imgs/imgLogoTruck.png';
 import iconKakao from '../../assets/imgs/iconKakao.png';
 
 const KAKAO = window.Kakao
+
 const Login = ({ history, isOpen, onEvent }) => {
   const dispatch = useDispatch();
   const isUser = useSelector(state => state.userReducer.isUser, []);
+  const isLogin = useSelector(state => state.userReducer.isLogin);
   const modalPage = useRef();
 
   const kakaoSignUp = (url) => {
@@ -44,7 +46,6 @@ const Login = ({ history, isOpen, onEvent }) => {
         KAKAO.API.request({
           url: '/v2/user/me',
           success: function (response) {
-            console.log(response)
             dispatch({
               type: userTypes.SET_USER_INFO,
               payload: {
@@ -65,13 +66,6 @@ const Login = ({ history, isOpen, onEvent }) => {
     })
   }
 
-  const kakaoLogin = (url) => {
-    // 앱 로그인
-    dispatch({
-      type: userApiTypes.LOGIN,
-    })
-  }
-
   useEffect(() => {
     if (isOpen) {
       modalPage.current.style = 'transform: translateY(0)'
@@ -84,7 +78,7 @@ const Login = ({ history, isOpen, onEvent }) => {
     if (isUser) {
       history.push(`/home`)
     }
-  });
+  }, [isUser]);
 
   return (
     <div ref={modalPage} className={`main login modalPage ${isOpen ? 'open' : ''}`}>
@@ -92,7 +86,7 @@ const Login = ({ history, isOpen, onEvent }) => {
       <div className="loginBox">
         <img src={imgLogoTruck} alt="" />
         <p>매드스트릿샵의 모든 기능을<br />이용하시려면 <b>로그인</b>해주세요</p>
-        <div className="kakaoBtn" onClick={() => kakaoLogin()}>
+        <div className="kakaoBtn" onClick={() => kakaoSignUp()}>
           <img src={iconKakao} alt="" />
           <span>카카오톡으로 로그인</span>
         </div>

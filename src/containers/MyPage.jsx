@@ -1,9 +1,7 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-
+import { useSelector, useDispatch } from 'react-redux';
 import { userTypes } from '../reducers/userReducer';
-
 import AlertUtil from '../util/AlertUtil.js';
 import ModalPageUtill from '../util/ModalPageUtill.js';
 
@@ -29,16 +27,14 @@ const MyPage = ({ history, match }) => {
   const isLogin = useSelector(state => state.userReducer.isLogin);
   const type = 'user';
 
-  console.log(4, isLogin);
-
-  // const kakaoLogout = () => {
-  //   KAKAO.Auth.logout(() => {
-  //     dispatch({
-  //       type: userTypes.SET_LOGIN,
-  //       payload: { token: {}, isLogin: false },
-  //     })
-  //   });
-  // }
+  const kakaoLogout = () => {
+    KAKAO.Auth.logout(() => {
+      dispatch({
+        type: userTypes.SET_LOGIN,
+        payload: { token: {}, isLogin: false },
+      })
+    });
+  }
 
   const { targetModalPage, isModalOpen, setModalPage } = ModalPageUtill();
 
@@ -119,9 +115,9 @@ const MyPage = ({ history, match }) => {
           </Link>
         </li>
         <li className="settingItem" onClick={kakaoLogout}>
-          <Link to="myPage">
+          <a>
             로그아웃<img src={iconChevronRight} alt="이동" />
-          </Link>
+          </a>
         </li>
       </ul>
       <p className="notice">매드스트릿샵을 탈퇴하려면 <b>여기</b>를 눌러주세요.</p>

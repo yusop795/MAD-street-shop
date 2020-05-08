@@ -5,11 +5,11 @@ import { Redirect, withRouter } from 'react-router-dom';
 // import AuthUtill from '../util/AuthUtill'
 
 import { startTypes } from '../reducers/startReducer';
-import { userTypes } from '../reducers/userReducer';
+// import { userTypes } from '../reducers/userReducer';
 import '../assets/styles/containers/splash.scss';
 import imgLogoTruck from '../assets/imgs/imgLogoTruck.png';
 
-const KAKAO = window.Kakao
+// const KAKAO = window.Kakao
 
 const Splash = () => {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ const Splash = () => {
   const noticeList = useSelector(state => state.startReducer.ntc, []);
   const faqList = useSelector(state => state.startReducer.faq, []);
 
-  const token = useSelector(state => state.userReducer.token, {});
+  // const token = useSelector(state => state.userReducer.token, {});
   const [allState, setAllState] = useState(false);
 
   // const {setToken} = AuthUtill();
@@ -78,11 +78,6 @@ const Splash = () => {
     });
 
     // dispatch({
-    //   type: startTypes.FETCH_SHOP_CATEGORY,
-    // });
-
-    // // console.log(location)
-    // dispatch({
     //   type: startTypes.FETCH_SHOP_LIST,
     //   payload: {
     //     type: "rank",
@@ -95,6 +90,7 @@ const Splash = () => {
     //     type: "faq",
     //   }
     // });
+
     // dispatch({
     //   type: startTypes.FETCH_ETC_LIST,
     //   payload: {
@@ -125,18 +121,16 @@ const Splash = () => {
 
 
   useEffect(() => {
-    setTimeout(() => {
-      setAllState(true)
-    }, 3000)
-
-    if (categoryList.length > 0 && noticeList > 0 && faqList > 0) {
+    if (categoryList.length > 0 && noticeList.length > 0 && faqList.length > 0) {
       setAllState(true)
     }
-
-  }, [categoryList]);
+    return () => {
+      setAllState(false)
+    }
+  }, [categoryList, noticeList, faqList]);
 
   return (allState ? (
-    <Redirect to="/test" />
+    <Redirect to="/home" />
   ) : (
       <div className="main splash">
         <img src={imgLogoTruck} alt="" />

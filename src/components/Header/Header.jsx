@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import './style.scss';
 import { Link } from 'react-router-dom';
 import iconBack from '../../assets/imgs/iconBack.png';
 import btnClose from '../../assets/imgs/btnClose.png';
-import iconMenu from '../../assets/imgs/iconMenu.png';
 import iconSearch from '../../assets/imgs/iconSearch.png';
 import adressEdit from '../../assets/imgs/adressEdit.png';
 
 import imgProfile01 from '../../assets/imgs/imgProfile01.png';
+import imgProfile02 from '../../assets/imgs/imgProfile02.png';
+import imgProfile03 from '../../assets/imgs/imgProfile03.png';
 
 import { localStorageGet, localStorageSet } from '../../util/LocalStorage.js';
 import { isEmpty } from '../../util/gm';
+
 
 const Header = ({ onEvent, title = '' }) => {
   return (
@@ -79,17 +82,24 @@ export const SearchModalHeader = ({ textarea = '', goTo, textValue = '', locatio
 
 
 export const HomeHeader = ({ address = '서울 영등포구 여의도동 37', fetchGeolocation, setModalPage }) => {
-  console.log('iconMenu', iconMenu);
-
-  const goMyPage = () => {
-    window.location = '/myPage'
+  const isLogin = useSelector(state => state.userReducer.isLogin);
+  const type = 'user'
+  let img = ''
+  if (isLogin) {
+    if (type === 'user') {
+      img = imgProfile01
+    } else {
+      img = imgProfile02
+    }
+  } else {
+    img = imgProfile03
   }
 
   return (
     <div className="header homeHeader">
       <div className="menu">
         <Link to="/myPage">
-          <img src={imgProfile01} alt={'메뉴'} />
+          <img src={img} alt={'메뉴'} />
         </Link>
       </div>
       <div className="address" onClick={() => setModalPage({ target: 'SettingLocation' })}>
