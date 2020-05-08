@@ -36,17 +36,44 @@ export const fetchCategory = () => {
  * 활성화 active : false
  * 범위 range : 기본값은 10000(=10km)
  */
-export const fetchList = ({ type }) => {
-  console.log('fetchList>>', type);
+export const fetchList = ({ type = "main", long = 37.4983608, lat = 127.02650489999999, active = false, range = 10000, search = "", name = "" }) => {
+  console.log('fetchList>>', type, "fetchList NAME>>>>", name);
   return API_INSTANCE.get('/shops/list',
     {
       params: {
-        long: 123.45,
-        lat: 78.901,
+        long: long,
+        lat: lat,
         type: type,
-        active: false,
-        range: 10000,
-        search: "투데이",
+        active: active,
+        range: range,
+        search: search
+      }
+    },
+  )
+    .then(response => {
+      console.log('response List >>>', response);
+      return response
+    })
+    .catch(error => {
+      console.log('get list error >>>>', error);
+      return error;
+    });
+};
+
+/**
+ * notice
+ * @param 
+ * 경도 long : 123.45
+ * 위도 lat : 78.901
+ * 종류 type : rank/main
+ * 활성화 active : false
+ * 범위 range : 기본값은 10000(=10km)
+ */
+export const fetchEtc = ({ type }) => {
+  return API_INSTANCE.get('/etc',
+    {
+      params: {
+        type: type,
       }
     },
   )
@@ -54,7 +81,7 @@ export const fetchList = ({ type }) => {
       return response
     })
     .catch(error => {
-      console.log('get list error >>>>', error);
+      console.log('get fetchEtc error >>>>', error);
       return error;
     });
 };

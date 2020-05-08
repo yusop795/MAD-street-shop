@@ -10,6 +10,8 @@ export const startTypes = {
   SET_SHOP_CATEGORY: 'start/SET_SHOP_CATEGORY',
   FETCH_SHOP_LIST: 'start/FETCH_SHOP_LIST',
   SET_SHOP_LIST: 'start/SET_SHOP_LIST',
+  FETCH_ETC_LIST: 'start/FETCH_ETC_LIST',
+  SET_ETC_LIST: 'start/SET_ETC_LIST',
 }
 /**
  * 액션 생섬함수 정의
@@ -25,6 +27,10 @@ export const startAction = {
     type: startTypes.SET_SHOP_LIST,
     shopList,
   }),
+  setEtcList: etcList => ({
+    type: startTypes.SET_ETC_LIST,
+    etcList,
+  }),
 };
 
 /**
@@ -35,6 +41,9 @@ const initialState = {
   shopCategory: [],
   rank: [],
   main: [],
+  ntc: [],
+  faq: [],
+  searchResult: [],
 };
 
 /**
@@ -49,7 +58,12 @@ export default function startReducer(state = initialState, action) {
         shopCategory: payload,
       };
     case startTypes.SET_SHOP_LIST:
-      console.log('start/FETCH_SHOP_LIST');
+      console.log('startTypes.SET_SHOP_LIST', action.name, payload);
+      return {
+        ...state,
+        [action.name]: payload,
+      };
+    case startTypes.SET_ETC_LIST:
       return {
         ...state,
         [action.name]: payload,
