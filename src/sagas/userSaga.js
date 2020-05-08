@@ -14,7 +14,9 @@ export function* loginSaga({ payload }) {
       payload: {
         isLogin: true,
         isUser: response.data.isUser,
-        userId: response.data.userId
+        userId: response.data.userInfo.userId,
+        userType: (response.data.userInfo.owner) ? 'owner' : 'user',
+        userInfo: response.data.userInfo.kakao
       },
     });
   } else {
@@ -64,11 +66,11 @@ export function* postSignUpUserSaga({ payload }) {
 export function* postSignUpOwnerSaga({ payload }) {
   const response = yield call(postSignUpOwner, payload);
 
-  // if (response.data) {
-  //   console.log(response)
-  // } else {
-  //   console.log(response);
-  // }
+  if (response.data) {
+    console.log(response)
+  } else {
+    console.log(response);
+  }
 }
 
 export function* fetchWhoamiSaga({ payload }) {

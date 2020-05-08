@@ -10,44 +10,46 @@ import { Button } from '../components/Unit';
 import { Alert } from '../components/Alert';
 import '../assets/styles/containers/signUpUser.scss';
 
-import { useDispatch , useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userApiTypes } from '../reducers/userReducer';
 
 
 
 const SignUpUser = ({ history }) => {
   const dispatch = useDispatch();
-  const userId = useSelector(state => state.userReducer.userId, ''); 
-  const categoryList = useSelector(state => state.startReducer.shopCategory, []);       
+  const userId = useSelector(state => state.userReducer.userId, '');
+  const categoryList = useSelector(state => state.startReducer.shopCategory, []);
   const [selectCategory, setSelectCategory] = useState(1);
   const [tagList, setTagList] = useState([]);
   const [selectTag, setSelectTag] = useState([]);
 
 
   // alert
-  const { isShowing, title, contents, setAlert} = AlertUtil();
+  const { isShowing, title, contents, setAlert } = AlertUtil();
 
   // tag 선택 기능
   useEffect(() => {
-    if(categoryList.length > 0){
-      setTagList(categoryList[selectCategory-1].item)
+    if (categoryList.length > 0) {
+      setTagList(categoryList[selectCategory - 1].item)
     }
-  },[categoryList,selectCategory]);
+  }, [categoryList, selectCategory]);
 
   const onChangeTag = (tag) => {
-    if(!Object.keys(selectTag).includes(tag)){
-      if(selectTag.length > 2) {
+    const tags = Object.keys(selectTag)
+    if (!tags.includes(tag)) {
+      if (tags.length > 2) {
         setAlert({
-          contents:'대표메뉴는 최대 3개까지만<br/> 선택할 수 있어요.'
+          contents: '대표메뉴는 최대 3개까지만<br/> 선택할 수 있어요.'
         })
-      }else {
-        const key = selectCategory-1
-        const data = {...selectTag, [tag]: categoryList[key].title}
+      } else {
+        console.log(categoryList, tag)
+        const key = selectCategory
+        const data = { ...selectTag, [tag]: categoryList[key].title }
         setSelectTag(data)
       }
-    }else {
+    } else {
       delete selectTag[tag]
-      setSelectTag({...selectTag})
+      setSelectTag({ ...selectTag })
     }
   }
 
@@ -63,7 +65,7 @@ const SignUpUser = ({ history }) => {
       }
     })
 
-    const userTags =Object.keys(data).map((v)=>{
+    const userTags = Object.keys(data).map((v) => {
       return {
         title: v,
         item: data[v]
@@ -82,35 +84,36 @@ const SignUpUser = ({ history }) => {
   return (
     <div className="main signUpUser">
       <ModalHeader onEvent={history.goBack} title={'취향 설정'} />
-      <div className="titleBox"> 가장 좋아하는 음식 3가지를<br/>알려주세요 </div>
+      <div className="titleBox"> 가장 좋아하는 음식 3가지를<br />알려주세요 </div>
       <div className="categoryBox">
         <div className="sideCategoryBox">
           {
-            categoryList.map((v,i)=>{
+            categoryList.map((v, i) => {
               return (
-                <div onClick={()=>setSelectCategory(i+1)} className={`category ${(i+1 === selectCategory)?'active': ''}`} key={i}>
+                <div onClick={() => setSelectCategory(i + 1)} className={`category ${(i + 1 === selectCategory) ? 'active' : ''}`} key={i}>
                   <div className="icon">{v.icon}</div>
-                  <span className="title" dangerouslySetInnerHTML={{__html: v.title.replace('/','<br/>')}} />
+                  <span className="title" dangerouslySetInnerHTML={{ __html: v.title.replace('/', '<br/>') }} />
                 </div>
-            )})
+              )
+            })
           }
         </div>
         <div className="menuTagBox">
-          <InputTag 
+          <InputTag
             item={tagList}
             selectTag={selectTag}
             onEvent={onChangeTag}
           />
         </div>
       </div>
-      <Button 
-        fullmode={true} 
-        active={Object.keys(selectTag).length === 3} 
-        bottom={true} 
-        onEvent={submitData} 
+      <Button
+        fullmode={true}
+        active={Object.keys(selectTag).length === 3}
+        bottom={true}
+        onEvent={submitData}
         text={`선택 완료(${Object.keys(selectTag).length}/3)`}
       />
-      <Alert isShowing={isShowing} hide={setAlert} title={title} contents={contents}/>
+      <Alert isShowing={isShowing} hide={setAlert} title={title} contents={contents} />
     </div>
   );
 };

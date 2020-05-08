@@ -83,13 +83,13 @@ export const SearchModalHeader = ({ textarea = '', goTo, textValue = '', locatio
 
 export const HomeHeader = ({ address = '서울 영등포구 여의도동 37', fetchGeolocation, setModalPage }) => {
   const isLogin = useSelector(state => state.userReducer.isLogin);
-  const type = 'user'
+  const type = useSelector(state => state.userReducer.userType);
   let img = ''
   if (isLogin) {
     if (type === 'user') {
-      img = imgProfile01
-    } else {
       img = imgProfile02
+    } else {
+      img = imgProfile01
     }
   } else {
     img = imgProfile03

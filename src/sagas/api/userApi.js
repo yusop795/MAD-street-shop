@@ -23,7 +23,6 @@ const KAKAO_API_INSTANCE = axios.create({
  * @param
  */
 export const login = () => {
-  console.log('login', AuthUtill.accessToken)
   return API_INSTANCE.post('/users/login',
     null,
     { headers: { 'Authorization': `Bearer ${AuthUtill.accessToken}` } }

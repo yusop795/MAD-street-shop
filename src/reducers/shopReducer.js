@@ -32,7 +32,6 @@ const initialState = {
  */
 export default function shopReducer(state = initialState, action) {
   const { type, payload } = action;
-  console.log('shop', payload)
   switch (type) {
     case shopTypes.SET_SHOP_CATEGORY:
       return {

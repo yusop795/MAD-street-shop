@@ -25,7 +25,8 @@ const KAKAO = window.Kakao
 const MyPage = ({ history, match }) => {
   const dispatch = useDispatch();
   const isLogin = useSelector(state => state.userReducer.isLogin);
-  const type = 'user';
+  const userInfo = useSelector(state => state.userReducer.userInfo);
+  const type = useSelector(state => state.userReducer.userType);
 
   const kakaoLogout = () => {
     KAKAO.Auth.logout(() => {
@@ -49,6 +50,7 @@ const MyPage = ({ history, match }) => {
 
   // alert
   const { isShowing, title, contents, setAlert } = AlertUtil();
+  console.log(type)
   return (
     <div className="main myPage">
       <ModalHeader onEvent={history.goBack} border={false} />
@@ -67,10 +69,10 @@ const MyPage = ({ history, match }) => {
         ) : (
           <>
             <div className="userInfoBox">
-              <img src={type === 'user' ? imgProfile01 : imgProfile02} className="userImg" alt="기본 프로필 이미지" />
+              <img src={type === 'user' ? imgProfile02 : imgProfile01} className="userImg" alt="기본 프로필 이미지" />
               <div className="userInfo">
                 {type === 'user' ? <span>일반회원</span> : <span>사장님</span>}
-                <p>김키모</p>
+                <p>{userInfo.nickname}</p>
               </div>
             </div>
             <div className="menuList">
