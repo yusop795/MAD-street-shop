@@ -17,6 +17,7 @@ import { userApiTypes } from '../reducers/userReducer';
 
 const SignUpUser = ({ history }) => {
   const dispatch = useDispatch();
+  const isUser = useSelector(state => state.userReducer.isUser);
   const userId = useSelector(state => state.userReducer.userId, '');
   const categoryList = useSelector(state => state.startReducer.shopCategory, []);
   const [selectCategory, setSelectCategory] = useState(1);
@@ -41,7 +42,8 @@ const SignUpUser = ({ history }) => {
           contents: '대표메뉴는 최대 3개까지만<br/> 선택할 수 있어요.'
         })
       } else {
-        const key = selectCategory
+        console.log(selectCategory)
+        const key = selectCategory - 1
         const data = { ...selectTag, [tag]: categoryList[key].title }
         setSelectTag(data)
       }
@@ -69,7 +71,9 @@ const SignUpUser = ({ history }) => {
         item: data[v]
       }
     })
+
     if (history.location.pathname === "/myPage/user") {
+      // 사용자 정보수정
       dispatch({
         type: userApiTypes.PUT_USER,
         payload: {
@@ -78,6 +82,7 @@ const SignUpUser = ({ history }) => {
         }
       })
     } else {
+      // 사용자 가입
       dispatch({
         type: userApiTypes.POST_SIGNUP_USER,
         payload: {
@@ -87,6 +92,12 @@ const SignUpUser = ({ history }) => {
       })
     }
   }
+
+  useEffect(() => {
+    if (isUser && history.location.pathname !== "/myPage/user") {
+      history.push(`/signup/complet/user`)
+    }
+  }, [isUser])
 
   return (
     <div className="main signUpUser">

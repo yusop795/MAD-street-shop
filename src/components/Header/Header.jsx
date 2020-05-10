@@ -81,11 +81,12 @@ export const SearchModalHeader = ({ textarea = '', goTo, textValue = '', locatio
 }
 
 
-export const HomeHeader = ({ address = '서울 영등포구 여의도동 37', fetchGeolocation, setModalPage }) => {
+export const HomeHeader = ({ address = '서울 영등포구 여의도동 37', setModalPage }) => {
   const isLogin = useSelector(state => state.userReducer.isLogin);
+  const isUser = useSelector(state => state.userReducer.isUser);
   const type = useSelector(state => state.userReducer.userType);
   let img = ''
-  if (isLogin) {
+  if (isLogin && isUser) {
     if (type === 'user') {
       img = imgProfile02
     } else {

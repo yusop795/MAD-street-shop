@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { useDispatch , useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { userTypes, userApiTypes } from '../reducers/userReducer';
@@ -19,10 +19,10 @@ import { SettingCategory, SettingTime, SettingLocation } from './ModalPage';
 const SignUpOwner = ({ history, match }) => {
   const dispatch = useDispatch();
   // 스토어 값 가져오기
-  const userId = useSelector(state => state.userReducer.userId, ''); 
+  const userId = useSelector(state => state.userReducer.userId, '');
   const storeLocation = useSelector(state => state.userReducer.storeLocation, {});
   const storeCategory = useSelector(state => state.userReducer.storeCategory, {});
-  const storeOpenDays = useSelector(state => state.userReducer.storeOpenDays, {} );
+  const storeOpenDays = useSelector(state => state.userReducer.storeOpenDays, {});
   const storeOpenTime = useSelector(state => state.userReducer.storeOpenTime, '');
   const storeCloseTime = useSelector(state => state.userReducer.storeCloseTime, '');
   const [userName, setUserName] = useState('');
@@ -32,19 +32,23 @@ const SignUpOwner = ({ history, match }) => {
   const [shopComment, setShopComment] = useState('');
   const [firstFiles, setFirstFiles] = useState('');
   const [files, setFiles] = useState('');
-  
+
   // 모달
   const { isShowing, title, contents, setAlert } = AlertUtil();
   const { targetModalPage, isModalOpen, setModalPage } = ModalPageUtill();
 
   const submitData = () => {
-    const formData = new FormData();
-    formData.append('file', firstFiles[0].imgFile);
-    if(files.length > 0){
-      files.map((v)=>{
-        formData.append('file', v.imgFile);
-      })
+    if (!userId || !storeLocation || !storeCategory || !storeOpenDays || !storeOpenTime || !storeCloseTime || !userName || !mobile || !useMobile || !shopName || !shopComment) {
+      alert("가입 안됨")
+      return false
     }
+    // const formData = new FormData();
+    // formData.append('file', firstFiles[0].imgFile);
+    // if (files.length > 0) {
+    //   files.map((v) => {
+    //     formData.append('file', v.imgFile);
+    //   })
+    // }
 
     dispatch({
       type: userApiTypes.POST_SIGNUP_OWNER,
@@ -57,15 +61,23 @@ const SignUpOwner = ({ history, match }) => {
         category: storeCategory,
         latitude: storeLocation.location.lat,
         longitude: storeLocation.location.long,
-        locationComment:storeLocation.locationComment,
+        locationComment: storeLocation.locationComment,
         shopComment,
         openDays: Object.keys(storeOpenDays).join(','),
         openTime: storeOpenTime,
         closeTime: storeCloseTime,
-        files: formData,
         useKakao: false,
       },
     })
+
+    // dispatch({
+    //   type: userApiTypes.POST_SIGNUP_OWNER_IMG,
+    //   payload: {
+    //     userId,
+    //     shopId,
+    //     files: formData,
+    //   },
+    // })
   }
 
 
@@ -94,20 +106,20 @@ const SignUpOwner = ({ history, match }) => {
         회원가입을 진행합니다<br />
       </h2>
       <FormGroup title={'기본 정보'} outline={true}>
-        <InputText label={'이름'} onEvent={(e)=>{setUserName(e.target.value)}}/>
-        <InputText label={'휴대전화 번호'} type="tel" onEvent={(e)=>{setMobile(e.target.value)}}/>
+        <InputText label={'이름'} onEvent={(e) => { setUserName(e.target.value) }} />
+        <InputText label={'휴대전화 번호'} type="tel" onEvent={(e) => { setMobile(e.target.value) }} />
       </FormGroup>
       <FormGroup
         title={'가게 정보'}
         outline={true}
         info={'※ 가게 이름이 없는 경우 판매하는 음식명으로 대체 가능합니다.'}
       >
-        <InputText label={'가게 이름'} onEvent={(e)=>{setShopName(e.target.value)}}/>
+        <InputText label={'가게 이름'} onEvent={(e) => { setShopName(e.target.value) }} />
         <InputText
           label={'음식 카테고리'}
           type="openModal"
           selcetData={
-            Object.keys(storeCategory).length > 0 ? 
+            Object.keys(storeCategory).length > 0 ?
               {
                 main: storeCategory.title,
                 sub: storeCategory.item.join(','),
@@ -120,10 +132,10 @@ const SignUpOwner = ({ history, match }) => {
             });
           }}
         />
-        <InputText 
-          label={'주 영업 위치'} 
+        <InputText
+          label={'주 영업 위치'}
           selcetData={{ main: storeLocation.address, sub: storeLocation.locationComment }}
-          type="openModal" 
+          type="openModal"
           onEvent={() => {
             setModalPage({
               target: 'SettingLocation',
@@ -134,19 +146,19 @@ const SignUpOwner = ({ history, match }) => {
           label={'주 영업 시간'}
           type="openModal"
           selcetData={
-            Object.keys(storeOpenDays).length > 0 ? 
-            {
-              main: `${Object.keys(storeOpenDays).join(',')} ${storeOpenTime} ~ ${storeCloseTime}`
-            }
-            : null
+            Object.keys(storeOpenDays).length > 0 ?
+              {
+                main: `${Object.keys(storeOpenDays).join(',')} ${storeOpenTime} ~ ${storeCloseTime}`
+              }
+              : null
           }
-            onEvent={() => {
+          onEvent={() => {
             setModalPage({
               target: 'SettingTime',
             });
           }}
         />
-        <InputText label={'매장소개'} type="textarea" onEvent={(e)=>{setShopComment(e.target.value)}}/>
+        <InputText label={'매장소개'} type="textarea" onEvent={(e) => { setShopComment(e.target.value) }} />
       </FormGroup>
       <FormGroup title={'휴대폰 번호 노출 여부'} info={'※ 휴대폰 번호 노출 선택 시 가게정보에 함께 노출됩니다.'}>
         <Radio

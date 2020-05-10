@@ -12,6 +12,8 @@ export const userTypes = {
   SET_LOADING: 'user/LOADING',
   SET_TOKEN: 'user/SET_TOKEN',
   SET_LOGIN: 'user/SET_LOGIN',
+  SET_SIGNUP: 'user/SET_SIGNUP',
+  SET_LEAVE: 'user/SET_LEAVE',
 
   SET_USER_INFO: 'user/SET_USER_INFO',
   SET_OWNER_INFO: 'user/SET_USER_INFO',
@@ -23,8 +25,10 @@ export const userTypes = {
  */
 export const userApiTypes = {
   LOGIN: 'user/LOGIN',
+  LEAVE: 'user/LEAVE',
   POST_SIGNUP_USER: 'user/POST_SIGNUP_USER',
   POST_SIGNUP_OWNER: 'user/POST_SIGNUP_OWNER',
+  POST_SIGNUP_OWNER_IMG: 'user/POST_SIGNUP_OWNER_IMG',
   PUT_USER: 'user/PUT_USER',
 };
 
@@ -114,15 +118,22 @@ export default function userReducer(state = initialState, action) {
         storeOpenTime: payload.storeOpenTime,
         storeCloseTime: payload.storeCloseTime
       };
-
     case userTypes.SET_LOGIN:
       return {
         ...state,
         isLogin: payload.isLogin,
         isUser: payload.isUser,
         userId: payload.userId,
-        userType: payload.userType,
-        userInfo: payload.userInfo,
+      };
+    case userTypes.SET_SIGNUP:
+      return {
+        ...state,
+        isLogin: payload.isLogin,
+        isUser: payload.isUser,
+      };
+    case userTypes.SET_LEAVE:
+      return {
+        initialState
       };
     case userTypes.SET_LOADING:
       return {

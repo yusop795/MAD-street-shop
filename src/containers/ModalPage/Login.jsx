@@ -43,23 +43,6 @@ const Login = ({ history, isOpen, onEvent }) => {
         dispatch({
           type: userApiTypes.LOGIN,
         })
-        // 카카오 회원 정보 조회
-        KAKAO.API.request({
-          url: '/v2/user/me',
-          success: function (response) {
-            dispatch({
-              type: userTypes.SET_USER_INFO,
-              payload: {
-                userInfo: {
-                  userId: response.id,
-                }
-              }
-            })
-          },
-          fail: function (error) {
-            console.log(error);
-          }
-        });
       },
       fail: (err) => {
         console.log(JSON.stringify(err))
@@ -75,15 +58,13 @@ const Login = ({ history, isOpen, onEvent }) => {
   }, [isOpen]);
 
   useEffect(() => {
-    if (isLogin) {
-      if (isUser) {
-        history.push(`/home`)
-      } else {
-        history.push(`/signup/account`)
-      }
+    console.log(isLogin, isUser)
+    if (isLogin && isUser) {
+      history.push(`/home`)
+    } else if (isLogin && !isUser) {
+      history.push(`/signup/account`)
     }
-
-  }, [isUser]);
+  }, [isLogin]);
 
   return (
     <div ref={modalPage} className={`main login modalPage ${isOpen ? 'open' : ''}`}>

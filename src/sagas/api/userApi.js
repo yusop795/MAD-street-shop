@@ -5,6 +5,7 @@ import AuthUtill from '../../util/AuthUtill'
 const API_INSTANCE = axios.create({
   baseURL: 'https://mad-street-shop.herokuapp.com/api',
   headers: {
+    'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/x-www-form-urlencoded'
   },
 });
@@ -63,7 +64,7 @@ export const fetchKaKaoInfo = () => {
  */
 export const postSignUpUser = ({ userId, userTags }) => {
   return API_INSTANCE.post('/users/join/user',
-    { userId, category: userTags },
+    qs.stringify({ userId: `${userId}`, category: JSON.stringify(userTags) }),
     {
       headers: {
         'Authorization': `Bearer ${AuthUtill.accessToken}`
@@ -86,7 +87,7 @@ export const postSignUpUser = ({ userId, userTags }) => {
  */
 export const putUser = ({ userId, userTags }) => {
   return API_INSTANCE.put(`/users/${userId}`,
-    { userTags },
+    qs.stringify({ userTags: JSON.stringify(userTags) }),
     {
       headers: {
         'Authorization': `Bearer ${AuthUtill.accessToken}`
@@ -145,6 +146,26 @@ export const putImgUpload = ({ files, userId, shopId }) => {
       return error;
     });
 };
+
+/**
+ * 사용자 탈퇴
+ * @param
+ */
+export const deleteUser = ({ userId }) => {
+  console.log(AuthUtill.accessToken)
+  return API_INSTANCE.delete(`users/${userId}/leave`,
+    { headers: { 'Authorization': `Bearer ${AuthUtill.accessToken}` } }
+  )
+    .then(response => {
+      console.log('putImgUpload')
+      return response
+    })
+    .catch(error => {
+      console.log('putImgUpload', error);
+      return error;
+    });
+};
+
 
 
 export const fetchWhoami = () => {

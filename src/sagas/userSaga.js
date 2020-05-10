@@ -1,6 +1,6 @@
 import { takeEvery, put, call } from "redux-saga/effects";
 import { userTypes, userApiTypes } from "../reducers/userReducer";
-import { login, fetchWhoami, fetchKaKaoInfo, postSignUpUser, postSignUpOwner, putUser } from './api/userApi';
+import { login, fetchWhoami, postSignUpUser, postSignUpOwner, putImgUpload, putUser, deleteUser } from './api/userApi';
 
 
 /**
@@ -14,9 +14,7 @@ export function* loginSaga({ payload }) {
       payload: {
         isLogin: true,
         isUser: response.data.isUser,
-        userId: response.data.userInfo.userId,
-        userType: (response.data.userInfo.owner) ? 'owner' : 'user',
-        userInfo: response.data.userInfo.kakao
+        userId: response.data.userId,
       },
     });
   } else {
@@ -24,27 +22,10 @@ export function* loginSaga({ payload }) {
       type: userTypes.SET_LOGIN,
       payload: {
         isLogin: false,
-        isUser: '',
         userId: ''
       },
     });
   }
-}
-/**
- * 카카오 회원정보 조회
- */
-export function* fetchKaKaoInfoSaga({ payload }) {
-  const response = yield call(fetchKaKaoInfo, payload);
-
-  // if (response.data) {
-  //   console.log(response)
-  // yield put({
-  //   type: userTypes.SET_SHOP_CATEGORY,
-  //   payload: response.data,
-  // });
-  // } else {
-  //   console.log(response);
-  // }
 }
 
 /**
@@ -52,11 +33,22 @@ export function* fetchKaKaoInfoSaga({ payload }) {
  */
 export function* postSignUpUserSaga({ payload }) {
   const response = yield call(postSignUpUser, payload);
-
   if (response.data) {
-    console.log(response)
+    yield put({
+      type: userTypes.SET_SIGNUP,
+      payload: {
+        isLogin: true,
+        isUser: true,
+      },
+    });
   } else {
-    console.log(response);
+    yield put({
+      type: userTypes.SET_SIGNUP,
+      payload: {
+        isLogin: false,
+        isUser: false,
+      },
+    });
   }
 }
 
@@ -77,9 +69,33 @@ export function* putUserSaga({ payload }) {
  */
 export function* postSignUpOwnerSaga({ payload }) {
   const response = yield call(postSignUpOwner, payload);
-
   if (response.data) {
-    console.log(response)
+    console.log(response.data)
+    // yield postSignUpImgOwnerSaga({ files: payload.files })
+  } else {
+    console.log(response);
+  }
+}
+
+/**
+ * 카카오 사장닙 회원가입 이미지 없로드
+ */
+export function* postSignUpImgOwnerSaga({ payload }) {
+  const response = yield call(putImgUpload, payload);
+  if (response.data) {
+    console.log(response.data)
+  } else {
+    console.log(response);
+  }
+}
+
+/**
+ * 사용자 탈퇴
+ */
+export function* deleteUserSaga({ payload }) {
+  const response = yield call(deleteUser, payload);
+  if (response.data) {
+    yield put({ type: userTypes.SET_LEAVE });
   } else {
     console.log(response);
   }
@@ -96,9 +112,10 @@ export function* fetchWhoamiSaga({ payload }) {
 }
 
 export default function* userSaga() {
-  // yield takeEvery(userTypes.FETCH_KAKAO_INFO, fetchKaKaoInfoSaga);
   yield takeEvery(userApiTypes.LOGIN, loginSaga);
   yield takeEvery(userApiTypes.POST_SIGNUP_USER, postSignUpUserSaga);
   yield takeEvery(userApiTypes.POST_SIGNUP_OWNER, postSignUpOwnerSaga);
+  yield takeEvery(userApiTypes.POST_SIGNUP_OWNER_IMG, postSignUpImgOwnerSaga);
   yield takeEvery(userApiTypes.PUT_USER, putUserSaga);
+  yield takeEvery(userApiTypes.LEAVE, deleteUserSaga);
 }

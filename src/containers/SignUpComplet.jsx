@@ -11,10 +11,10 @@ const SignUpComplet = ({ history, match }) => {
 
   return (
     <div className="signUpComplet">
-      <img src={imgLogoTruck} alt={'이미지'}/>
+      <img src={imgLogoTruck} alt={'이미지'} />
       <h1>매드스트릿샵<br />회원가입을 환영합니다!</h1>
       <p dangerouslySetInnerHTML={{ __html: contents }}></p>
-      <RoundButton text={"확인"} onEvent={() => history.push('/')} />
+      <RoundButton text={"확인"} onEvent={() => history.push('/home')} />
       <IconBox />
     </div>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { userTypes } from '../reducers/userReducer';
+import { userTypes, userApiTypes } from '../reducers/userReducer';
 import AlertUtil from '../util/AlertUtil.js';
 import ModalPageUtill from '../util/ModalPageUtill.js';
 
@@ -25,16 +25,24 @@ const KAKAO = window.Kakao
 const MyPage = ({ history, match }) => {
   const dispatch = useDispatch();
   const isLogin = useSelector(state => state.userReducer.isLogin);
-  const userInfo = useSelector(state => state.userReducer.userInfo);
+  const isUser = useSelector(state => state.userReducer.isUser);
+  const userId = useSelector(state => state.userReducer.userId);
   const type = useSelector(state => state.userReducer.userType);
 
   const kakaoLogout = () => {
     KAKAO.Auth.logout(() => {
       dispatch({
         type: userTypes.SET_LOGIN,
-        payload: { token: {}, isLogin: false },
+        payload: { token: {}, isLogin: false, isUser: false },
       })
     });
+  }
+
+  const leave = () => {
+    dispatch({
+      type: userApiTypes.LEAVE,
+      payload: { userId },
+    })
   }
 
   const { targetModalPage, isModalOpen, setModalPage } = ModalPageUtill();
@@ -50,11 +58,10 @@ const MyPage = ({ history, match }) => {
 
   // alert
   const { isShowing, title, contents, setAlert } = AlertUtil();
-  console.log(type)
   return (
     <div className="main myPage">
       <ModalHeader onEvent={history.goBack} border={false} />
-      {!isLogin ?
+      {!isUser ?
         (
           <div className="userInfoBox">
             <img src={imgProfile03} className="userImg" alt="기본 프로필 이미지" />
@@ -72,7 +79,7 @@ const MyPage = ({ history, match }) => {
               <img src={type === 'user' ? imgProfile02 : imgProfile01} className="userImg" alt="기본 프로필 이미지" />
               <div className="userInfo">
                 {type === 'user' ? <span>일반회원</span> : <span>사장님</span>}
-                <p>{userInfo.nickname}</p>
+                <p>{1}</p>
               </div>
             </div>
             <div className="menuList">
@@ -122,7 +129,7 @@ const MyPage = ({ history, match }) => {
           </a>
         </li>
       </ul>
-      <p className="notice">매드스트릿샵을 탈퇴하려면 <b>여기</b>를 눌러주세요.</p>
+      <p className="notice">매드스트릿샵을 탈퇴하려면 <b onClick={leave}>여기</b>를 눌러주세요.</p>
       <Alert isShowing={isShowing} hide={setAlert} title={title} contents={contents} />
       {rederModalPage()}
     </div>
