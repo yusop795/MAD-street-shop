@@ -46,7 +46,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
     setCrrLocation({ lat: latlng.Ha, long: latlng.Ga });
 
     // 지도 중심을 부드럽게 이동 시킵니다
-    map.panTo(moveLatLon);
+    map.setCenter(moveLatLon);
   }
 
   // const clickMap = (kakaoMap, map) => {

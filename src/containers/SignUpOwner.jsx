@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -20,6 +20,7 @@ const SignUpOwner = ({ history, match }) => {
   const dispatch = useDispatch();
   // 스토어 값 가져오기
   const userId = useSelector(state => state.userReducer.userId, '');
+  const isUser = useSelector(state => state.userReducer.isUser);
   const storeLocation = useSelector(state => state.userReducer.storeLocation, {});
   const storeCategory = useSelector(state => state.userReducer.storeCategory, {});
   const storeOpenDays = useSelector(state => state.userReducer.storeOpenDays, {});
@@ -94,7 +95,11 @@ const SignUpOwner = ({ history, match }) => {
     }
   };
 
-  console.log(files)
+  useEffect(() => {
+    if (isUser) {
+      history.push(`/signup/complet/owner`)
+    }
+  }, [isUser])
 
 
   return (

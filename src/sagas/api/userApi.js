@@ -109,14 +109,13 @@ export const putUser = ({ userId, userTags }) => {
  * @param
  */
 export const postSignUpOwner = (data) => {
-  console.log('postSignUpOwner', data)
+  data.category = JSON.stringify(data.category)
   return API_INSTANCE.post('/users/join/owner',
     qs.stringify(data),
     {
       headers: {
         'Authorization': `Bearer ${AuthUtill.accessToken}`,
-        'Content-Type': 'multipart/form-data'
-      },
+      }
     })
     .then(response => {
       console.log('postSignUpUser')

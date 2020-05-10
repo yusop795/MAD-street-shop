@@ -58,9 +58,21 @@ export function* postSignUpUserSaga({ payload }) {
 export function* putUserSaga({ payload }) {
   const response = yield call(putUser, payload);
   if (response.data) {
-    console.log(response)
+    yield put({
+      type: userTypes.SET_SIGNUP,
+      payload: {
+        isLogin: true,
+        isUser: true,
+      },
+    });
   } else {
-    console.log(response);
+    yield put({
+      type: userTypes.SET_SIGNUP,
+      payload: {
+        isLogin: false,
+        isUser: false,
+      },
+    });
   }
 }
 
