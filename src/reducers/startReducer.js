@@ -18,20 +18,7 @@ export const startTypes = {
  * @param 변경할 텍스트 값
  * { type: 액션타입, 데이터}
  */
-export const startAction = {
-  setShopCategory: category => ({
-    type: startTypes.SET_SHOP_CATEGORY,
-    category,
-  }),
-  setShopList: shopList => ({
-    type: startTypes.SET_SHOP_LIST,
-    shopList,
-  }),
-  setEtcList: etcList => ({
-    type: startTypes.SET_ETC_LIST,
-    etcList,
-  }),
-};
+export const startAction = {};
 
 /**
  * 리듀서의 초기 값 설정

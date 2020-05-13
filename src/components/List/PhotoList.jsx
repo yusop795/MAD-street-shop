@@ -1,28 +1,16 @@
 import React from 'react';
 import './style.scss';
 
-const PhotoList = ({ items = [], type = '', onEvent = null}) => {
+const PhotoList = ({ items = [], type = '', onEvent = null }) => {
   return (
     <div className="photoListBox">
-      <div style={{width:`${102 * 5}px`}}>
-        <div className='imgBox'>
-          {/* style={{backgroundImage:`url(${imgFiles[0].imgBase64})` */}
-        </div>
-        <div className='imgBox'>
-          {/* style={{backgroundImage:`url(${imgFiles[0].imgBase64})` */}
-        </div>
-        <div className='imgBox'>
-          {/* style={{backgroundImage:`url(${imgFiles[0].imgBase64})` */}
-        </div>
-        <div className='imgBox'>
-          {/* style={{backgroundImage:`url(${imgFiles[0].imgBase64})` */}
-        </div>
-        <div className='imgBox'>
-          {/* style={{backgroundImage:`url(${imgFiles[0].imgBase64})` */}
-        </div>
-
+      <div style={{ width: `${102 * 5}px` }}>
+        {items.map((v, i) => {
+          return (
+            <div className='imgBox' key={`imgBox-${i}`} style={{ backgroundImage: `url(${v})` }} />
+          )
+        })}
       </div>
-
     </div>
   );
 };

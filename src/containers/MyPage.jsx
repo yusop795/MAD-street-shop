@@ -55,7 +55,6 @@ const MyPage = ({ history, match }) => {
         return null;
     }
   };
-  console.log(userInfo)
   // alert
   const { isShowing, title, contents, setAlert } = AlertUtil();
   return (

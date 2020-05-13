@@ -4,7 +4,6 @@ import AuthUtill from '../../util/AuthUtill'
 const API_INSTANCE = axios.create({
   baseURL: 'https://mad-street-shop.herokuapp.com/api',
   headers: {
-    'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/x-www-form-urlencoded'
   },
 });
@@ -39,3 +38,13 @@ export const fetchShopList = (data) => {
       return error;
     });
 };
+
+export const fetchShopDetail = ({ shopId }) => {
+  return API_INSTANCE.get(`/shops/${shopId}`)
+    .then(response => {
+      return response
+    })
+    .catch(error => {
+      return error;
+    });
+}

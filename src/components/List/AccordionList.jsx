@@ -7,7 +7,6 @@ import chevronDown from '../../assets/imgs/chevronDown.png';
 import { toHtml } from "../../util/gm";
 
 const AccordionList = ({ items = [], listType = '' }) => {
-  console.log('AccordionList', items);
   return (
     <div className="accordionMenu">
       {

@@ -3,7 +3,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 
-import ModalPageUtill from '../util/ModalPageUtill.js';
+import ModalPageUtill from '../util/ModalPageUtill';
 
 import { shopTypes } from '../reducers/shopReducer'
 
@@ -14,10 +14,11 @@ import { SearchModal, SettingLocation } from '../containers/ModalPage';
 import { localStorageGet } from '../util/LocalStorage.js';
 import { isEmpty } from '../util/gm.js';
 
-const Home = () => {
+const Home = ({ history }) => {
   const dispatch = useDispatch();
   const [location, setLocation] = useState('');
   const shopList = useSelector(state => state.shopReducer.shopList, []);
+  const shopDetail = useSelector(state => state.shopReducer.shopDetail, {});
   const [selectShop, setSelectShop] = useState({});
   const [selectShopId, setSelectShopId] = useState('');
   const [currentKeyword, setCurrentKeyword] = useState([]);
@@ -59,7 +60,6 @@ const Home = () => {
 
   useEffect(() => {
     if (shopList.length > 0) {
-      setSelectShop(shopList[0])
       setSelectShopId(shopList[0]._id)
     }
   }, [shopList]);
@@ -67,24 +67,29 @@ const Home = () => {
   useEffect(() => {
     shopList.forEach(v => {
       if (selectShopId === v._id) {
-        setSelectShop(v)
+        dispatch({
+          type: shopTypes.FETCH_SHOP_DETAIL,
+          payload: {
+            shopId: selectShopId
+          }
+        });
       }
     });
   }, [selectShopId]);
 
   const rederModalPage = () => {
-    if (Object.keys(selectShop).length > 0) {
+    if (Object.keys(shopDetail).length > 0) {
       switch (targetModalPage) {
         case 'SearchModal':
-          return <SearchModal isOpen={isModalOpen} onEvent={setModalPage} currentKeyword={currentKeyword} />;
+          return <SearchModal history={history} isOpen={isModalOpen} onEvent={setModalPage} currentKeyword={currentKeyword} />;
         case 'ShopDetailModal':
-          return <ShopDetailModal shopInfo={selectShop} isOpen={isModalOpen} onEvent={setModalPage} />;
+          return <ShopDetailModal shopInfo={shopDetail} isOpen={isModalOpen} onEvent={setModalPage} />;
         case 'SettingLocation':
-          return <SettingLocation isOpen={isModalOpen} onEvent={setModalPage} />;
+          return <SettingLocation type={'home'} isOpen={isModalOpen} onEvent={setModalPage} />;
         case 'ShopInfoModal':
-          return <ShopInfo shopInfo={selectShop} fetchGeolocation={fetchGeolocation} onEvent={setModalPage} />;
+          return <ShopInfo shopInfo={shopDetail} fetchGeolocation={fetchGeolocation} onEvent={setModalPage} />;
         default:
-          return <ShopInfo shopInfo={selectShop} fetchGeolocation={fetchGeolocation} onEvent={setModalPage} />;
+          return <ShopInfo shopInfo={shopDetail} fetchGeolocation={fetchGeolocation} onEvent={setModalPage} />;
       }
     }
   }

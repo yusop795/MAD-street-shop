@@ -47,25 +47,35 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
     map.setCenter(moveLatLon);
   }
 
-  // const clickMap = (kakaoMap, map) => {
-  //   kakaoMap.event.addListener(map, 'click', () => {
-  //     onEvent({
-  //       target: 'ShopInfoModal',
-  //     });
-  //   });
-  // }
+  const clickMap = (kakaoMap, map) => {
+    kakaoMap.event.addListener(map, 'click', () => {
+      onEvent({
+        target: 'ShopInfoModal',
+      });
+    });
+  }
 
   const setAddress = (kakaoMap, map) => {
     // 주소-좌표 변환 객체를 생성합니다
     const geocoder = new kakaoMap.services.Geocoder();
+    const coord = new kakaoMap.LatLng(crrlocation.long, crrlocation.lat);
+    geocoder.coord2Address(coord.Ha, coord.Ga, (result, status) => {
+      if (result[0].road_address) {
+        getGeocoder(result[0].road_address.address_name)
+      } else {
+        getGeocoder(result[0].address.address_name)
+      }
+    });
+
+    // 지도 클릭시 이벤트 추가
     kakaoMap.event.addListener(map, 'click', (data) => {
       const latlng = data.latLng;
       // moveMap(kakaoMap, map, latlng)
       geocoder.coord2Address(latlng.Ga, latlng.Ha, (result, status) => {
         if (result[0].road_address) {
-          getGeocoder(result[0].road_address.address_name, { long: latlng.Ga, lat: latlng.Ha })
+          getGeocoder(result[0].road_address.address_name)
         } else {
-          getGeocoder(result[0].address.address_name, { long: latlng.Ga, lat: latlng.Ha })
+          getGeocoder(result[0].address.address_name)
         }
       });
     });
@@ -100,9 +110,6 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
       // 마커 이벤트 등록
       kakaoMap.event.addListener(marker, 'click', () => {
         setSelectShopId(shopList[i]._id)
-        onEvent({
-          target: 'ShopDetailModal',
-        });
         moveMap(kakaoMap, map, position)
         // if(marker.getZIndex() ===0){
         //   marker.setZIndex(1);
@@ -138,11 +145,10 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
             createShopsMarker(kakaoMap, map);
           }
 
-          // if (onEvent) {
-          //   clickMap(kakaoMap, map)
-          // }
-
-          if (getGeocoder) {
+          if (onEvent) {
+            clickMap(kakaoMap, map)
+          }
+          if (getGeocoder && Object.keys(crrlocation).length > 0) {
             setAddress(kakaoMap, map)
           }
           // 스핀 제거

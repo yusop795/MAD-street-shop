@@ -35,7 +35,7 @@ export const ModalHeader = ({ onEvent, title = '', border = true }) => {
   );
 };
 
-export const SearchModalHeader = ({ textarea = '', goTo, textValue = '', location = {} }) => {
+export const SearchModalHeader = ({ history, textarea = '', goTo, textValue = '', location = {}, onEvent }) => {
   const [enterKeyword, setKeyword] = useState('');
 
   const addKeyPress = (e) => {
@@ -50,12 +50,8 @@ export const SearchModalHeader = ({ textarea = '', goTo, textValue = '', locatio
         localStorageSet('MadShopCurrentKeyword', JSON.stringify(set_keyword_arr));
 
       }
-      window.location = `${goTo}?keyword=${e.target.value}`;
+      history.push(`${goTo}?keyword=${e.target.value}`)
     }
-  }
-
-  const goBackToHome = () => {
-    window.location = '/home'
   }
 
   useEffect(() => {
@@ -74,7 +70,7 @@ export const SearchModalHeader = ({ textarea = '', goTo, textValue = '', locatio
           <input type="text" placeholder={(textarea) ? textarea : '검색어를 입력하세요'} value={enterKeyword} onChange={(e) => setKeyword(e.target.value)} onKeyPress={(e) => { addKeyPress(e) }} />
           <button type="button" className="deleteText" onClick={() => setKeyword('')}>입력 텍스트 삭제</button>
         </div>
-        <div className="cancel" onClick={goBackToHome}>취소</div>
+        <div className="cancel" onClick={onEvent}>취소</div>
       </div>
     </div>
   );

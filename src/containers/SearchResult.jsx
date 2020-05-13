@@ -12,7 +12,7 @@ import { startTypes } from '../reducers/startReducer';
 import { isEmpty } from "../util/gm";
 
 import Spinner from "../components/Unit/Spinner";
-const SearchResult = () => {
+const SearchResult = ({ onEvent }) => {
     const dummyData = [
         {
             shopName: "석정포장마차",
@@ -137,14 +137,10 @@ const SearchResult = () => {
         }
     }, [getResult])
 
-    const goBackToHome = () => {
-        window.location = '/home'
-    }
-
     console.log('검색 결과??', getResult, loading);
     return (
         <div ref={modalPage}>
-            <SearchModalHeader goBack={goBackToHome} goTo={'/searchResult'} textValue={(decodeURI(window.location.search)).split('=')[1]} />
+            <SearchModalHeader goBack={onEvent} goTo={'/searchResult'} textValue={(decodeURI(window.location.search)).split('=')[1]} />
             <div className="searchResult">
                 <div className="resultInfo">내 주변 <strong>3km</strong> 이내의 검색 결과입니다</div>
                 {

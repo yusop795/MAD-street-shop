@@ -69,6 +69,7 @@ const SettingCategory = ({ isOpen, onEvent }) => {
         }
       },
     });
+    onEvent({ target: 'SettingCategory' })
   }
 
 

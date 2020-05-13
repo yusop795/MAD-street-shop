@@ -37,34 +37,7 @@ export const userApiTypes = {
  * @param 변경할 텍스트 값
  * { type: 액션타입, 데이터}
  */
-export const userAction = {
-  setStoreCategory: category => ({
-    type: userTypes.SET_STORE_CATEGORY,
-    category,
-  }),
-  setStoreLocation: storeLocation => ({
-    type: userTypes.SET_STORE_LOCATION,
-    storeLocation,
-  }),
-  setStoreTime: time => ({
-    type: userTypes.SET_STORE_TIME,
-    time,
-  }),
-
-  updateLoading: loading => ({ type: userTypes.SET_LOADING, loading }),
-  setToken: token => ({
-    type: userTypes.SET_TOKEN,
-    token,
-  }),
-  setLogin: isLogin => ({
-    type: userTypes.SET_TOKEN,
-    isLogin,
-  }),
-  setUserInfo: userinfo => ({
-    type: userTypes.SET_USER_INFO,
-    userinfo,
-  }),
-};
+export const userAction = {};
 
 /**
  * 리듀서의 초기 값 설정

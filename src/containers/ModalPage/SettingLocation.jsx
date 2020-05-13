@@ -14,11 +14,10 @@ import { MainMap } from '../../components/Map';
 import '../../assets/styles/containers/setting.scss';
 import btnHere from '../../assets/imgs/btnHere.png';
 
-const SettingLocation = ({ isOpen, onEvent }) => {
+const SettingLocation = ({ isOpen, onEvent, type }) => {
   const dispatch = useDispatch();
   const store = useSelector(state => state.userReducer.storeLocation, {});
   const [location, setLocation] = useState('');
-  const [storeLocation, setStoreLocation] = useState('');
   const [address, setAddress] = useState('');
   const [locationComment, setLocationComment] = useState('');
   const modalPage = useRef();
@@ -67,25 +66,28 @@ const SettingLocation = ({ isOpen, onEvent }) => {
   // 도로명 주소 가져오기
   const getGeocoder = (address) => {
     setAddress(address)
-    setStoreLocation(location)
   }
 
   const setText = (e) => {
     setLocationComment(e.target.value)
   }
   const setData = () => {
-    console.log(address, locationComment, location)
-    dispatch({
-      type: userTypes.SET_STORE_LOCATION,
-      payload: {
-        storeLocation: {
-          address,
-          locationComment,
-          location,
-        }
-      },
-    })
-    onEvent({ target: null })
+    if (type === 'home') {
+      onEvent({ target: 'SettingLocation' })
+    } else {
+      dispatch({
+        type: userTypes.SET_STORE_LOCATION,
+        payload: {
+          storeLocation: {
+            address,
+            locationComment,
+            location,
+          }
+        },
+      })
+      onEvent({ target: 'SettingLocation' })
+    }
+
   }
 
   return (
@@ -100,11 +102,9 @@ const SettingLocation = ({ isOpen, onEvent }) => {
         <div className="loactionBtn" onClick={fetchGeolocation}>
           <img src={btnHere} alt="현재위치" />
         </div>
-        <p className="location">{address}</p>
-        <InputText placeholder={'상세주소 입력 (예 : OO빌딩 앞, OO아파트 단지 내)'} defaultValue={locationComment} onEvent={setText} />
-        <Button fullmode={true} text={'선택한 위치로 설정'} onEvent={() => {
-          setData()
-        }} />
+        <p className="location" style={type === 'home' ? { marginBottom: 20 } : null}>{address}</p>
+        {type !== 'home' ? (<InputText placeholder={'상세주소 입력 (예 : OO빌딩 앞, OO아파트 단지 내)'} defaultValue={locationComment} onEvent={setText} />) : null}
+        <Button fullmode={true} text={'선택한 위치로 설정'} onEvent={setData} />
       </div>
     </div>
   );

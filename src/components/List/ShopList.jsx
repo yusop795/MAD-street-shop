@@ -43,7 +43,7 @@ export const ShopItem = ({ index = 10, data, type, onEvent, icon = false, iconEv
           </span>
         </div>
         <div className="shopSubInfo">
-          <span className="distance">{data.vicinity.toFixed(0)}m</span>
+          <span className="distance">{'data.vicinity.toFixed(0)'}m</span>
           <span className={`heart ${data.likeScore ? "on" : ""}`}>{data.likeScore}</span>
         </div>
       </div>

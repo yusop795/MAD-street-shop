@@ -8,6 +8,8 @@
 export const shopTypes = {
   FETCH_SHOP_LIST: 'shop/FETCH_SHOP_LIST',
   SET_SHOP_LIST: 'shop/SET_SHOP_LIST',
+  FETCH_SHOP_DETAIL: 'shop/FETCH_SHOP_DETAILL',
+  SET_SHOP_DETAIL: 'shop/SET_SHOP_DETAILL'
 }
 /**
  * 액션 생섬함수 정의
@@ -25,6 +27,7 @@ const initialState = {
   shopList: [],
   rank: [],
   main: [],
+  shopDetail: {}
 };
 
 /**
@@ -42,6 +45,11 @@ export default function shopReducer(state = initialState, action) {
       return {
         ...state,
         shopList: payload.shopList,
+      };
+    case shopTypes.SET_SHOP_DETAIL:
+      return {
+        ...state,
+        shopDetail: payload.shopDetail,
       };
     default:
       return state;
