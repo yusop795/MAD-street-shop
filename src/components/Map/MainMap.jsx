@@ -8,8 +8,6 @@ const kakaoMapScript = scriptUtill(`https://dapi.kakao.com/v2/maps/sdk.js?appkey
 
 const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectShopId, setSelectShopId, getGeocoder }) => {
   const [crrlocation, setCrrLocation] = useState({})
-  const [kaka, setkaka] = useState(null)
-  const [maps, setmaps] = useState(null)
 
   useEffect(() => {
     if (location) {

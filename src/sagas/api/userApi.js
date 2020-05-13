@@ -110,6 +110,7 @@ export const putUser = ({ userId, userTags }) => {
  */
 export const postSignUpOwner = (data) => {
   data.category = JSON.stringify(data.category)
+  console.log('postSignUpOwner', data)
   return API_INSTANCE.post('/users/join/owner',
     qs.stringify(data),
     {
@@ -133,8 +134,14 @@ export const postSignUpOwner = (data) => {
  */
 export const putImgUpload = ({ files, userId, shopId }) => {
   console.log('putImgUpload', files, userId, shopId)
+  const data = { files }
   return API_INSTANCE.put(`/upload-img/${userId}/${shopId}`,
-    qs.stringify(files)
+    qs.stringify(data),
+    {
+      headers: {
+        'Content-type': ' multipart/form-data'
+      }
+    }
   )
     .then(response => {
       console.log('putImgUpload')

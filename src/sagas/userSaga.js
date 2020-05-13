@@ -15,6 +15,7 @@ export function* loginSaga({ payload }) {
         isLogin: true,
         isUser: response.data.isUser,
         userId: response.data.userId,
+        userInfo: (response.data.isUser) ? response.data.userInfo : {}
       },
     });
   } else {
@@ -77,25 +78,43 @@ export function* putUserSaga({ payload }) {
 }
 
 /**
- * 카카오 사장닙 회원가입
+ * 카카오 사장닙 회원가입 이미지 업로드
  */
-export function* postSignUpOwnerSaga({ payload }) {
-  const response = yield call(postSignUpOwner, payload);
+export function* postSignUpImgOwnerSaga(data) {
+  const response = yield call(putImgUpload, data);
   if (response.data) {
     console.log(response.data)
-    // yield postSignUpImgOwnerSaga({ files: payload.files })
   } else {
     console.log(response);
   }
 }
 
 /**
- * 카카오 사장닙 회원가입 이미지 없로드
+ * 카카오 사장님 회원가입
  */
-export function* postSignUpImgOwnerSaga({ payload }) {
-  const response = yield call(putImgUpload, payload);
+export function* postSignUpOwnerSaga({ payload }) {
+  const response = yield call(postSignUpOwner, payload);
   if (response.data) {
-    console.log(response.data)
+    const data = { files: payload.files, userId: payload.userId, shopId: response.data.shopId }
+    console.log('data', data)
+    const imgUploadResponse = yield postSignUpImgOwnerSaga(data)
+    if (imgUploadResponse.data) {
+      yield put({
+        type: userTypes.SET_SIGNUP,
+        payload: {
+          isLogin: true,
+          isUser: true,
+        },
+      });
+    } else {
+      yield put({
+        type: userTypes.SET_SIGNUP,
+        payload: {
+          isLogin: false,
+          isUser: false,
+        },
+      });
+    }
   } else {
     console.log(response);
   }

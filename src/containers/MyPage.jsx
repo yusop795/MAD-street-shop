@@ -24,10 +24,10 @@ import '../assets/styles/containers/myPage.scss';
 const KAKAO = window.Kakao
 const MyPage = ({ history, match }) => {
   const dispatch = useDispatch();
-  const isLogin = useSelector(state => state.userReducer.isLogin);
+  const userInfo = useSelector(state => state.userReducer.userInfo);
   const isUser = useSelector(state => state.userReducer.isUser);
   const userId = useSelector(state => state.userReducer.userId);
-  const type = useSelector(state => state.userReducer.userType);
+  // const type = useSelector(state => state.userReducer.userType);
 
   const kakaoLogout = () => {
     KAKAO.Auth.logout(() => {
@@ -55,7 +55,7 @@ const MyPage = ({ history, match }) => {
         return null;
     }
   };
-
+  console.log(userInfo)
   // alert
   const { isShowing, title, contents, setAlert } = AlertUtil();
   return (
@@ -76,10 +76,10 @@ const MyPage = ({ history, match }) => {
         ) : (
           <>
             <div className="userInfoBox">
-              <img src={type === 'user' ? imgProfile02 : imgProfile01} className="userImg" alt="기본 프로필 이미지" />
+              <img src={!userInfo.owner ? imgProfile02 : imgProfile01} className="userImg" alt="기본 프로필 이미지" />
               <div className="userInfo">
-                {type === 'user' ? <span>일반회원</span> : <span>사장님</span>}
-                <p>{1}</p>
+                {!userInfo.owner ? <span>일반회원</span> : <span>사장님</span>}
+                <p>{userInfo.kakao.nickname}</p>
               </div>
             </div>
             <div className="menuList">
@@ -103,7 +103,7 @@ const MyPage = ({ history, match }) => {
             </div>
           </>
         )}
-      {type === 'user' ? (
+      {userInfo.owner === 'user' ? (
         <div className="banner">
           <p>
             <span>스트릿푸드를 판매하고 계신가요?</span>
@@ -123,13 +123,14 @@ const MyPage = ({ history, match }) => {
             FAQ<img src={iconChevronRight} alt="이동" />
           </Link>
         </li>
-        <li className="settingItem" onClick={kakaoLogout}>
-          <a>
-            로그아웃<img src={iconChevronRight} alt="이동" />
-          </a>
-        </li>
+        {isUser ?
+          (<li className="settingItem" onClick={kakaoLogout}>
+            <a>
+              로그아웃<img src={iconChevronRight} alt="이동" />
+            </a>
+          </li>) : null}
       </ul>
-      <p className="notice">매드스트릿샵을 탈퇴하려면 <b onClick={leave}>여기</b>를 눌러주세요.</p>
+      {isUser ? <p className="notice">매드스트릿샵을 탈퇴하려면 <b onClick={leave}>여기</b>를 눌러주세요.</p> : null}
       <Alert isShowing={isShowing} hide={setAlert} title={title} contents={contents} />
       {rederModalPage()}
     </div>

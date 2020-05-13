@@ -84,10 +84,10 @@ export const SearchModalHeader = ({ textarea = '', goTo, textValue = '', locatio
 export const HomeHeader = ({ address = '서울 영등포구 여의도동 37', setModalPage }) => {
   const isLogin = useSelector(state => state.userReducer.isLogin);
   const isUser = useSelector(state => state.userReducer.isUser);
-  const type = useSelector(state => state.userReducer.userType);
+  const userInfo = useSelector(state => state.userReducer.userInfo);
   let img = ''
   if (isLogin && isUser) {
-    if (type === 'user') {
+    if (userInfo.owner === 'user') {
       img = imgProfile02
     } else {
       img = imgProfile01

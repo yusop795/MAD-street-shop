@@ -20,7 +20,6 @@ const Home = () => {
   const shopList = useSelector(state => state.shopReducer.shopList, []);
   const [selectShop, setSelectShop] = useState({});
   const [selectShopId, setSelectShopId] = useState('');
-
   const [currentKeyword, setCurrentKeyword] = useState([]);
   // 위치정보 조회
   const fetchGeolocation = () => {
@@ -32,7 +31,8 @@ const Home = () => {
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
         console.log('coords', coords);
-        setLocation({ lat: coords.latitude, long: coords.longitude });
+        setLocation({ lat: 37.486107, long: 126.982643 });
+        // setLocation({ lat: coords.latitude, long: coords.longitude });
       },
       e => console.log(`Geolocation 오류 [${e.code}] : ${e.message}`),
       options,
