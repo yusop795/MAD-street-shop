@@ -5,6 +5,8 @@ import { startTypes } from '../reducers/startReducer';
 import '../assets/styles/containers/splash.scss';
 import imgLogoTruck from '../assets/imgs/imgLogoTruck.png';
 
+const KAKAO = window.Kakao
+
 const Splash = () => {
   const dispatch = useDispatch();
   const [location, setLocation] = useState('');
@@ -67,6 +69,15 @@ const Splash = () => {
     api_call_list.map(d => {
       return dispatch(d);
     });
+    // KAKAO.Auth.login({
+    //   success: (authObj) => {
+    //     // 사용자 토큰 저장
+    //     console.log(authObj)
+    //   },
+    //   fail: (err) => {
+    //     console.log(JSON.stringify(err))
+    //   },
+    // })
   }, []);
 
   useEffect(() => {

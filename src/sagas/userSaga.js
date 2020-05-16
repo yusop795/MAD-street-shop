@@ -1,6 +1,6 @@
 import { takeEvery, put, call } from "redux-saga/effects";
 import { userTypes, userApiTypes } from "../reducers/userReducer";
-import { login, fetchWhoami, postSignUpUser, postSignUpOwner, putImgUpload, putUser, deleteUser } from './api/userApi';
+import { login, logout, fetchWhoami, postSignUpUser, postSignUpOwner, putImgUpload, putUser, deleteUser } from './api/userApi';
 
 
 /**
@@ -26,6 +26,18 @@ export function* loginSaga({ payload }) {
         userId: ''
       },
     });
+  }
+}
+
+/**
+ * 앱 로그인
+ */
+export function* logoutSaga({ payload }) {
+  const response = yield call(logout, payload);
+  if (response.data) {
+    yield put({ type: userTypes.SET_USER_RESET });
+  } else {
+    console.log(response);
   }
 }
 
@@ -144,6 +156,7 @@ export function* fetchWhoamiSaga({ payload }) {
 
 export default function* userSaga() {
   yield takeEvery(userApiTypes.LOGIN, loginSaga);
+  yield takeEvery(userApiTypes.LOGOUT, logoutSaga);
   yield takeEvery(userApiTypes.POST_SIGNUP_USER, postSignUpUserSaga);
   yield takeEvery(userApiTypes.POST_SIGNUP_OWNER, postSignUpOwnerSaga);
   yield takeEvery(userApiTypes.POST_SIGNUP_OWNER_IMG, postSignUpImgOwnerSaga);

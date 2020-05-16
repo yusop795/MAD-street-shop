@@ -36,6 +36,24 @@ export const login = () => {
 };
 
 /**
+ * 앱 로그아웃
+ * @param
+ */
+export const logout = () => {
+  return API_INSTANCE.post('/users/logout',
+    null,
+    { headers: { 'Authorization': `Bearer ${AuthUtill.accessToken}` } }
+  )
+    .then(response => {
+      return response
+    })
+    .catch(error => {
+      console.log('logout', error);
+      return error;
+    });
+};
+
+/**
  * 카카오 회원정보 조회
  * @param
  */

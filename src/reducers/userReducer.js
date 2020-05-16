@@ -5,6 +5,7 @@
  * 타입 = '리듀서명/타입'
  */
 export const userTypes = {
+  SET_USER_RESET: 'user/SET_USER_RESET',
   SET_STORE_CATEGORY: 'user/SET_STORE_CATEGORY',
   SET_STORE_LOCATION: 'user/SET_STORE_LOCATION',
   SET_STORE_TIME: 'user/SET_STORE_TIME',
@@ -25,6 +26,7 @@ export const userTypes = {
  */
 export const userApiTypes = {
   LOGIN: 'user/LOGIN',
+  LOGOUT: 'user/LOGOUT',
   LEAVE: 'user/LEAVE',
   POST_SIGNUP_USER: 'user/POST_SIGNUP_USER',
   POST_SIGNUP_OWNER: 'user/POST_SIGNUP_OWNER',
@@ -64,6 +66,10 @@ const initialState = {
 export default function userReducer(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
+    case userTypes.SET_USER_RESET:
+      return {
+        ...initialState,
+      };
     case userTypes.SET_USER_INFO:
       return {
         ...state,
@@ -107,7 +113,7 @@ export default function userReducer(state = initialState, action) {
       };
     case userTypes.SET_LEAVE:
       return {
-        initialState
+        ...initialState
       };
     case userTypes.SET_LOADING:
       return {

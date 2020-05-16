@@ -20,6 +20,7 @@ import iconChevronRight from '../assets/imgs/iconChevronRight.png';
 import more from '../assets/imgs/more.png';
 
 import '../assets/styles/containers/myPage.scss';
+import { useEffect } from 'react';
 
 const KAKAO = window.Kakao
 const MyPage = ({ history, match }) => {
@@ -30,12 +31,9 @@ const MyPage = ({ history, match }) => {
   // const type = useSelector(state => state.userReducer.userType);
 
   const kakaoLogout = () => {
-    KAKAO.Auth.logout(() => {
-      dispatch({
-        type: userTypes.SET_LOGIN,
-        payload: { token: {}, isLogin: false, isUser: false },
-      })
-    });
+    dispatch({
+      type: userApiTypes.LOGOUT,
+    })
   }
 
   const leave = () => {
@@ -44,6 +42,12 @@ const MyPage = ({ history, match }) => {
       payload: { userId },
     })
   }
+
+  useEffect(() => {
+    // if (!isUser) {
+    //   history.push('/home')
+    // }
+  }, [isUser])
 
   const { targetModalPage, isModalOpen, setModalPage } = ModalPageUtill();
 
