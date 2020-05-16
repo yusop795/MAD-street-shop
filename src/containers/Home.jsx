@@ -97,7 +97,6 @@ const Home = ({ history }) => {
   return (
     <div>
       <HomeHeader fetchGeolocation={fetchGeolocation} setModalPage={setModalPage} />
-      <Link to='/test' style={{ position: "fixed", top: '100px', zIndex: 999999 }}>test</Link>
       <div>
         <MainMap
           location={location}

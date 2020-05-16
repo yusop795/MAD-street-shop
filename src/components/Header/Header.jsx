@@ -84,9 +84,9 @@ export const HomeHeader = ({ address = '서울 영등포구 여의도동 37', se
   let img = ''
   if (isLogin && isUser) {
     if (userInfo.owner === 'user') {
-      img = imgProfile02
-    } else {
       img = imgProfile01
+    } else {
+      img = imgProfile02
     }
   } else {
     img = imgProfile03

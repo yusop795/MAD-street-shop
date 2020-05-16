@@ -51,28 +51,32 @@ const SignUpOwner = ({ history, match }) => {
       })
     }
 
-    console.log(files)
+    if (history.location.pathname === "/myPage/owner") {
+      console.log('owner 수정')
+    } else {
+      dispatch({
+        type: userApiTypes.POST_SIGNUP_OWNER,
+        payload: {
+          userId,
+          userName,
+          mobile,
+          useMobile: useMobile ? true : false,
+          shopName,
+          category: storeCategory,
+          latitude: storeLocation.location.lat,
+          longitude: storeLocation.location.long,
+          locationComment: storeLocation.locationComment,
+          shopComment,
+          openDays: Object.keys(storeOpenDays).join(','),
+          openTime: storeOpenTime,
+          closeTime: storeCloseTime,
+          useKakao: false,
+          files: formData,
+        },
+      })
+    }
 
-    dispatch({
-      type: userApiTypes.POST_SIGNUP_OWNER,
-      payload: {
-        userId,
-        userName,
-        mobile,
-        useMobile: useMobile ? true : false,
-        shopName,
-        category: storeCategory,
-        latitude: storeLocation.location.lat,
-        longitude: storeLocation.location.long,
-        locationComment: storeLocation.locationComment,
-        shopComment,
-        openDays: Object.keys(storeOpenDays).join(','),
-        openTime: storeOpenTime,
-        closeTime: storeCloseTime,
-        useKakao: false,
-        files: formData,
-      },
-    })
+
   }
 
 
@@ -90,10 +94,12 @@ const SignUpOwner = ({ history, match }) => {
   };
 
   useEffect(() => {
-    if (isUser) {
+    if (isUser && history.location.pathname !== "/myPage/owner") {
       history.push(`/signup/complet/owner`)
     }
   }, [isUser])
+
+
   return (
     <div className="main signUpOwner">
       <Header onEvent={history.goBack} />

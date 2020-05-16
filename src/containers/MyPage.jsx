@@ -75,17 +75,24 @@ const MyPage = ({ history, match }) => {
         ) : (
           <>
             <div className="userInfoBox">
-              <img src={!userInfo.owner ? imgProfile02 : imgProfile01} className="userImg" alt="기본 프로필 이미지" />
+              <img src={!userInfo.owner ? imgProfile01 : imgProfile02} className="userImg" alt="기본 프로필 이미지" />
               <div className="userInfo">
                 {!userInfo.owner ? <span>일반회원</span> : <span>사장님</span>}
                 <p>{userInfo.kakao.nickname}</p>
               </div>
             </div>
             <div className="menuList">
-              <Link to='/myPage/user' className="menuItem">
-                <img src={iconSettings} alt="취향설정" />
-                <p>취향설정</p>
-              </Link>
+              {!userInfo.owner ? (
+                <Link to='/myPage/user' className="menuItem">
+                  <img src={iconSettings} alt="취향설정" />
+                  <p>취향설정</p>
+                </Link>
+              ) : (
+                  <Link to='/myPage/owner' className="menuItem">
+                    <img src={iconSettings} alt="가게설정" />
+                    <p>가게설정</p>
+                  </Link>
+                )}
               <Link to='/watchList' className="menuItem">
                 <img src={iconHeart} alt="관심리스트" />
                 <p>관심리스트</p>
