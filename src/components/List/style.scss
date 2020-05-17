@@ -138,13 +138,17 @@
 .accordionItem {
   .subject {
     position: relative;
-    padding: 20px 58px 20px 44px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 58px;
     background: #fff;
     background-repeat: no-repeat;
-    &.announce {
+    &.faq {
       background-image: url(../../assets/imgs/q.png);
       background-size: 13px 16px;
       background-position: 17px 19px;
+      padding-left: 44px;
     }
     img {
       width: 14px;

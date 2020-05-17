@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { withRouter } from "react-router-dom";
+import { useSelector } from 'react-redux';
 // common components
 import { SearchModalHeader } from '../../components/Header';
 // style
@@ -7,10 +8,18 @@ import '../../assets/styles/containers/setting.scss';
 import { isEmpty } from "../../util/gm";
 
 import { localStorageSet } from '../../util/LocalStorage.js';
+import { useDispatch } from 'react-redux';
+import { startTypes } from '../../reducers/startReducer';
+
+import SearchResult from "../SearchResult";;
 
 const SearchModal = ({ history, isOpen, currentKeyword, onEvent }) => {
   const [keywordList, setKewordList] = useState(currentKeyword);
   const [location, setLocation] = useState('');
+  const [isSearch, setIsSearch] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const dispatch = useDispatch();
 
   const modalPage = useRef();
 
@@ -22,9 +31,27 @@ const SearchModal = ({ history, isOpen, currentKeyword, onEvent }) => {
   }, [keywordList])
 
   const searchForKeyword = (keyword) => {
-    history.push(`/searchResult?keyword=${keyword}`)
-  }
+    console.log('ddd', keyword);
+    // history.push(`/searchResult?keyword=${keyword}`)
 
+    setIsSearch(true);
+    if (!isEmpty(location)) {
+      dispatch({
+        type: startTypes.FETCH_SHOP_LIST,
+        payload: {
+          type: "main",
+          long: location.long,
+          lat: location.lat,
+          type: "main",
+          active: false,
+          range: 30000,
+          search: keyword,
+          name: "searchResult",
+        }
+      });
+    }
+    return setLoading(false);
+  }
   // 위치정보 조회
   const fetchGeolocation = () => {
     const options = {
@@ -63,28 +90,40 @@ const SearchModal = ({ history, isOpen, currentKeyword, onEvent }) => {
     }
   }, []);
 
+  const searchEvent = (keyword) => {
+    searchForKeyword(keyword)
+    setIsSearch(true);
+  }
+
+  const renderRightContent = () => {
+    return isSearch === false ? (
+      currentKeywordList()
+    ) : (<div><SearchResult loading={loading} /></div>)
+  }
+
+  const currentKeywordList = () => {
+    return isEmpty(keywordList) ? <div className="currentSearch"><div>최근검색어가 없습니다</div></div> : (
+      <div className="currentSearch">
+        <div>최근검색어</div>
+        <ul>
+          {
+            keywordList.map((v, i) => {
+              return (
+                <li key={i}>
+                  <button className="searchForKeyword" onClick={() => searchForKeyword(v)} type="button">{v}</button>
+                  <button type="button" className="deleteKeyword" onClick={() => onKeywordRemove(v)}></button>
+                </li>
+              )
+            })
+          }
+        </ul>
+      </div>)
+  }
+
   return (
     <div ref={modalPage} className={`searchModal modalPageRight ${isOpen ? 'open' : ''}`}>
-      <SearchModalHeader history={history} goTo={'/searchResult'} onEvent={onEvent} />
-      {
-        isEmpty(keywordList) ? <div className="currentSearch"><div>최근검색어가 없습니다</div></div> : (
-          <div className="currentSearch">
-            <div>최근검색어</div>
-            <ul>
-              {
-                keywordList.map((v, i) => {
-                  return (
-                    <li key={i}>
-                      <button className="searchForKeyword" onClick={() => searchForKeyword(v)} type="button">{v}</button>
-                      <button type="button" className="deleteKeyword" onClick={() => onKeywordRemove(v)}></button>
-                    </li>
-                  )
-                })
-              }
-            </ul>
-          </div>
-        )
-      }
+      <SearchModalHeader history={history} onEvent={onEvent} searchEvent={searchEvent} />
+      {renderRightContent()}
     </div>
   );
 };

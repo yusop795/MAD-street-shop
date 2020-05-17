@@ -35,9 +35,8 @@ export const ModalHeader = ({ onEvent, title = '', border = true }) => {
   );
 };
 
-export const SearchModalHeader = ({ history, textarea = '', goTo, textValue = '', location = {}, onEvent }) => {
+export const SearchModalHeader = ({ history, textarea = '', textValue = '', searchEvent, onEvent }) => {
   const [enterKeyword, setKeyword] = useState('');
-
   const addKeyPress = (e) => {
     if (e.key === 'Enter') {
       const current_keyword = isEmpty(localStorageGet('MadShopCurrentKeyword')) ? [] : JSON.parse(localStorageGet('MadShopCurrentKeyword'));
@@ -48,9 +47,8 @@ export const SearchModalHeader = ({ history, textarea = '', goTo, textValue = ''
           return a;
         }, [])
         localStorageSet('MadShopCurrentKeyword', JSON.stringify(set_keyword_arr));
-
+        searchEvent(e.target.value);
       }
-      history.push(`${goTo}?keyword=${e.target.value}`)
     }
   }
 

@@ -125,14 +125,12 @@ height: 100vh;
     }
 }
 
-.searchResult {
-  padding-top: 66px;
-}
 .resultInfo{
   line-height: 19px;
   padding: 22px 0 19px;
   text-align: center;
   font-size: 15px;
+  background:rgb(247,247,247);
   color: rgba(0,0,0,0.5);
   strong {
     font-weight: bold;

@@ -34,7 +34,6 @@ const Router = a => {
           <Route exact path="/myPage" component={MyPage} />
           <Route exact path="/myPage/user" component={SignUpUser} />
           <Route exact path="/myPage/owner" component={SignUpOwner} />
-          <Route exact path="/searchResult" component={SearchResult} />
           <Route exact path="/notice" component={Notice} />
           <Route exact path="/faq" component={Faq} />
         </Switch>
