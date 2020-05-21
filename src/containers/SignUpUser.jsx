@@ -17,16 +17,16 @@ import { userApiTypes } from '../reducers/userReducer';
 
 const SignUpUser = ({ history }) => {
   const dispatch = useDispatch();
+  const userInfo = useSelector(state => state.userReducer.userInfo);
   const isUser = useSelector(state => state.userReducer.isUser);
   const userId = useSelector(state => state.userReducer.userId, '');
   const categoryList = useSelector(state => state.startReducer.shopCategory, []);
   const [selectCategory, setSelectCategory] = useState(1);
   const [tagList, setTagList] = useState([]);
-  const [selectTag, setSelectTag] = useState([]);
+  const [selectTag, setSelectTag] = useState(userInfo.userTags);
 
   // alert
   const { isShowing, title, contents, setAlert } = AlertUtil();
-
   // tag 선택 기능
   useEffect(() => {
     if (categoryList.length > 0) {
@@ -81,6 +81,7 @@ const SignUpUser = ({ history }) => {
           userTags
         }
       })
+      history.goBack()
     } else {
       // 사용자 가입
       dispatch({

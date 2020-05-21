@@ -20,39 +20,59 @@ const SignUpOwner = ({ history, match }) => {
   const dispatch = useDispatch();
   // 스토어 값 가져오기
   const userId = useSelector(state => state.userReducer.userId, '');
+  const shopId = useSelector(state => state.userReducer.shopId, '');
   const isUser = useSelector(state => state.userReducer.isUser);
-  const storeLocation = useSelector(state => state.userReducer.storeLocation, {});
-  const storeCategory = useSelector(state => state.userReducer.storeCategory, {});
-  const storeOpenDays = useSelector(state => state.userReducer.storeOpenDays, {});
-  const storeOpenTime = useSelector(state => state.userReducer.storeOpenTime, '');
-  const storeCloseTime = useSelector(state => state.userReducer.storeCloseTime, '');
-  const [userName, setUserName] = useState('');
-  const [mobile, setMobile] = useState('');
+  const shopInfo = useSelector(state => state.userReducer.shopInfo, {});
+  const storeLocation = useSelector(state => state.userReducer.storeLocation);
+  const storeCategory = useSelector(state => state.userReducer.storeCategory);
+  const storeOpenDays = useSelector(state => state.userReducer.storeOpenDays);
+  const storeOpenTime = useSelector(state => state.userReducer.storeOpenTime);
+  const storeCloseTime = useSelector(state => state.userReducer.storeCloseTime);
+  const [userName, setUserName] = useState(shopInfo.ownerName || '');
+  const [mobile, setMobile] = useState(shopInfo.mobile || '');
   const [useMobile, setUseMobile] = useState(0);
-  const [shopName, setShopName] = useState('');
-  const [shopComment, setShopComment] = useState('');
+  const [shopName, setShopName] = useState(shopInfo.shopName || '');
+  const [shopComment, setShopComment] = useState(shopInfo.ownerComment || '');
   const [firstFile, setFirstFile] = useState('');
   const [files, setFiles] = useState('');
-
   // 모달
   const { isShowing, title, contents, setAlert } = AlertUtil();
   const { targetModalPage, isModalOpen, setModalPage } = ModalPageUtill();
 
   const submitData = () => {
-    if (!userId || !storeLocation || !storeCategory || !storeOpenDays || !storeOpenTime || !storeCloseTime || !userName || !mobile || !shopName || !shopComment || !firstFile || !files) {
+    if (!userId || !storeLocation || !storeCategory || !storeOpenDays || !storeOpenTime || !storeCloseTime || !userName || !mobile || !shopName || !shopComment || firstFile.length <= 0 || files.length <= 0) {
       alert("가입 안됨")
       return false
     }
     const formData = new FormData();
-    formData.append('file', firstFile[0].imgFile);
-    if (files.length > 0) {
-      files.map((v) => {
-        formData.append('file', v.imgFile);
-      })
-    }
+    formData.append('files', firstFile[0].imgFile);
+    files.map((v) => {
+      formData.append('files', v.imgFile);
+    })
 
     if (history.location.pathname === "/myPage/owner") {
-      console.log('owner 수정')
+      dispatch({
+        type: userApiTypes.PUT_OWNER,
+        payload: {
+          shopId,
+          userId,
+          userName,
+          mobile,
+          useMobile: useMobile ? true : false,
+          shopName,
+          category: storeCategory,
+          latitude: storeLocation.location.lat,
+          longitude: storeLocation.location.long,
+          subLocation: storeLocation.address,
+          locationComment: storeLocation.locationComment,
+          shopComment,
+          openDays: Object.keys(storeOpenDays).join(','),
+          openTime: storeOpenTime,
+          closeTime: storeCloseTime,
+          useKakao: false,
+          files: formData,
+        },
+      })
     } else {
       dispatch({
         type: userApiTypes.POST_SIGNUP_OWNER,
@@ -110,15 +130,15 @@ const SignUpOwner = ({ history, match }) => {
         회원가입을 진행합니다<br />
       </h2>
       <FormGroup title={'기본 정보'} outline={true}>
-        <InputText label={'이름'} onEvent={(e) => { setUserName(e.target.value) }} />
-        <InputText label={'휴대전화 번호'} type="tel" onEvent={(e) => { setMobile(e.target.value) }} />
+        <InputText label={'이름'} onEvent={(e) => { setUserName(e.target.value) }} defaultValue={userName} />
+        <InputText label={'휴대전화 번호'} type="tel" onEvent={(e) => { setMobile(e.target.value) }} defaultValue={mobile} />
       </FormGroup>
       <FormGroup
         title={'가게 정보'}
         outline={true}
         info={'※ 가게 이름이 없는 경우 판매하는 음식명으로 대체 가능합니다.'}
       >
-        <InputText label={'가게 이름'} onEvent={(e) => { setShopName(e.target.value) }} />
+        <InputText label={'가게 이름'} onEvent={(e) => { setShopName(e.target.value) }} defaultValue={shopName} />
         <InputText
           label={'음식 카테고리'}
           type="openModal"
@@ -162,7 +182,7 @@ const SignUpOwner = ({ history, match }) => {
             });
           }}
         />
-        <InputText label={'매장소개'} type="textarea" onEvent={(e) => { setShopComment(e.target.value) }} />
+        <InputText label={'매장소개'} type="textarea" onEvent={(e) => { setShopComment(e.target.value) }} defaultValue={shopComment} />
       </FormGroup>
       <FormGroup title={'휴대폰 번호 노출 여부'} info={'※ 휴대폰 번호 노출 선택 시 가게정보에 함께 노출됩니다.'}>
         <Radio

@@ -95,7 +95,7 @@ const Home = ({ history }) => {
         case 'ShopDetailModal':
           return <ShopDetailModal shopInfo={shopDetail} isOpen={isModalOpen} onEvent={setModalPage} />;
         case 'SettingLocation':
-          return <SettingLocation type={'home'} isOpen={isModalOpen} onEvent={setModalPage} location={location} />;
+          return <SettingLocation type={'home'} isOpen={isModalOpen} onEvent={setModalPage} />;
         case 'ShopInfoModal':
           return <ShopInfo shopInfo={shopDetail} fetchGeolocation={fetchGeolocation} onEvent={setModalPage} />;
         default:

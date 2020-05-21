@@ -90,7 +90,6 @@ const Splash = () => {
   }, []);
 
   useEffect(() => {
-    console.log(11, Object.keys(location).length)
     if (categoryList.length > 0 && noticeList.length > 0 && faqList.length > 0 && Object.keys(location).length > 0) {
       setAllState(true)
     }

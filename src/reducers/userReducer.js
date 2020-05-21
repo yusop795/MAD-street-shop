@@ -17,7 +17,8 @@ export const userTypes = {
   SET_LEAVE: 'user/SET_LEAVE',
 
   SET_USER_INFO: 'user/SET_USER_INFO',
-  SET_OWNER_INFO: 'user/SET_USER_INFO',
+  SET_OWNER_INFO: 'user/SET_OWNER_INFO',
+  SET_SHOP_INFO: 'user/SET_SHOP_INFO',
 };
 
 /**
@@ -32,6 +33,7 @@ export const userApiTypes = {
   POST_SIGNUP_OWNER: 'user/POST_SIGNUP_OWNER',
   POST_SIGNUP_OWNER_IMG: 'user/POST_SIGNUP_OWNER_IMG',
   PUT_USER: 'user/PUT_USER',
+  PUT_OWNER: 'user/PUT_OWNER',
   WHO_AM_I: 'user/WHO_AM_I',
 };
 
@@ -50,7 +52,8 @@ const initialState = {
   isUser: false,
   userType: '',
   userInfo: {},
-  storeCategory: '',
+  shopInfo: {},
+  shopId: '',
   storeLocation: '',
   storeOpenDays: '',
   storeOpenTime: '',
@@ -74,7 +77,7 @@ export default function userReducer(state = initialState, action) {
     case userTypes.SET_USER_INFO:
       return {
         ...state,
-        userId: payload.userInfo.userId,
+        userInfo: payload.userInfo,
       };
     case userTypes.SET_TOKEN:
       return {
@@ -121,6 +124,18 @@ export default function userReducer(state = initialState, action) {
         ...state,
         loading: payload.loading,
       };
+    case userTypes.SET_SHOP_INFO:
+      return {
+        ...state,
+        shopId: payload.shopId,
+        storeLocation: payload.storeLocation,
+        storeCategory: payload.storeCategory,
+        storeOpenDays: payload.storeOpenDays,
+        storeOpenTime: payload.storeOpenTime,
+        storeCloseTime: payload.storeCloseTime,
+        shopInfo: payload.shopInfo,
+      };
+
     default:
       return state;
   }

@@ -81,7 +81,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
           }
         });
         if (setLocation) {
-          console.log(1)
+          console.log(1, { lat: latlng.Ha, long: latlng.Ga })
           setLocation({ lat: latlng.Ha, long: latlng.Ga })
         }
       });

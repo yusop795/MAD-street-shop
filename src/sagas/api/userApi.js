@@ -148,17 +148,41 @@ export const postSignUpOwner = (data) => {
 };
 
 /**
+ * 카카오 사장님 회원수정
+ * @param
+ */
+export const putOwner = (data) => {
+  data.category = JSON.stringify(data.category)
+  return API_INSTANCE.put(`/shops/${data.shopId}`,
+    qs.stringify(data),
+    {
+      headers: {
+        'Authorization': `Bearer ${AuthUtill.accessToken}`
+      }
+    }
+  )
+    .then(response => {
+      return response
+    })
+    .catch(error => {
+      console.log('putOwner', error);
+      return error;
+    });
+};
+
+/**
  * 카카오 사장님 회원가입 이미지 업로드
  * @param
  */
 export const putImgUpload = ({ files, userId, shopId }) => {
   console.log('putImgUpload', files, userId, shopId)
   const data = { files }
-  return API_INSTANCE.put(`/upload-img/${userId}/${shopId}`,
-    qs.stringify(data),
+  return API_INSTANCE.put(`/users/upload-img/${userId}/${shopId}`,
+    files,
     {
       headers: {
-        'Content-type': ' multipart/form-data'
+        'Content-type': ' multipart/form-data',
+        'Authorization': `Bearer ${AuthUtill.accessToken}`
       }
     }
   )

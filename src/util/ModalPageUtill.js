@@ -14,7 +14,6 @@ const ModalPageUtill = () => {
       setBeforeTargetModalPage(target);
       setIsModalPageOpen(true);
     } else {
-      console.log(111)
       setTargetModalPage(target);
       setBeforeTargetModalPage('');
       setIsModalPageOpen(!isModalOpen);

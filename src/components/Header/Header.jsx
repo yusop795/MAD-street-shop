@@ -83,10 +83,10 @@ export const HomeHeader = ({ address = '서울 영등포구 여의도동 37', se
   const userInfo = useSelector(state => state.userReducer.userInfo);
   let img = ''
   if (isLogin && isUser) {
-    if (userInfo.owner === 'user') {
-      img = imgProfile01
-    } else {
+    if (userInfo.owner) {
       img = imgProfile02
+    } else {
+      img = imgProfile01
     }
   } else {
     img = imgProfile03

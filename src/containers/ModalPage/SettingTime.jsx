@@ -17,12 +17,12 @@ import '../../assets/styles/containers/setting.scss';
 const SettingTime = ({ isOpen, onEvent }) => {
   const dispatch = useDispatch();
   const tagList = ['월', '화', '수', '목', '금', '토', '일']
-  const storeOpenDays = useSelector(state => state.userReducer.storeOpenDays, []);
-  const storeOpenTime = useSelector(state => state.userReducer.storeOpenTime, []);
-  const storeCloseTime = useSelector(state => state.userReducer.storeCloseTime, []);
+  const storeOpenDays = useSelector(state => state.userReducer.storeOpenDays);
+  const storeOpenTime = useSelector(state => state.userReducer.storeOpenTime);
+  const storeCloseTime = useSelector(state => state.userReducer.storeCloseTime);
   const [selectTag, setSelectTag] = useState(storeOpenDays);
-  const [openTime, setOpenTime] = useState(storeOpenTime);
-  const [closeTime, setCloseTime] = useState(storeCloseTime);
+  const [openTime, setOpenTime] = useState(storeOpenTime, '01:00');
+  const [closeTime, setCloseTime] = useState(storeCloseTime, '01:00');
 
   const modalPage = useRef();
 
@@ -57,8 +57,6 @@ const SettingTime = ({ isOpen, onEvent }) => {
     })
     onEvent({ target: null })
   }
-
-
 
   return (
     <div ref={modalPage} className={`main settingTime modalPage ${isOpen ? 'open' : ''}`}>
