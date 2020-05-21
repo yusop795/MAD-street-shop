@@ -1,6 +1,7 @@
 import axios from 'axios';
 import qs from 'qs'
 import AuthUtill from '../../util/AuthUtill'
+import { localStorageGet } from '../../util/LocalStorage';
 
 const API_INSTANCE = axios.create({
   baseURL: 'https://mad-street-shop.herokuapp.com/api',
@@ -192,19 +193,13 @@ export const deleteUser = ({ userId }) => {
 
 
 
-export const fetchWhoami = () => {
-  console.log('fetchWhoami', AuthUtill.accessToken)
-  return API_INSTANCE.get('/users/whoami',
-    {
-      params: {
-        // userId: 1
-      }
-    },
+export const fetchWhoami = ({ token, userId }) => {
+  return API_INSTANCE.get(`/users/${userId}/whoami`,
     {
       headers: {
-        'Authorization': `Bearer ${AuthUtill.accessToken}`
+        'Authorization': `Bearer ${token}`
       }
-    }
+    },
   )
     .then(response => {
       console.log('whoami')

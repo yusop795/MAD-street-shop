@@ -15,7 +15,7 @@ import AuthUtill from './util/AuthUtill'
 
 /* KAKAO 생성 */
 const KAKAO = window.Kakao;
-KAKAO.init(process.env.REACT_APP_KAKAO_AUTH_KEY);
+KAKAO.init('50f610fa79a77c874e8d4bacc049aaa3');
 KAKAO.isInitialized();
 /* KAKAO accessToken 저장 */
 AuthUtill.setUserStore(KAKAO.Auth.getAccessToken())

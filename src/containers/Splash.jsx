@@ -4,15 +4,18 @@ import { Redirect, withRouter } from 'react-router-dom';
 import { startTypes } from '../reducers/startReducer';
 import '../assets/styles/containers/splash.scss';
 import imgLogoTruck from '../assets/imgs/imgLogoTruck.png';
-
-const KAKAO = window.Kakao
+import { userApiTypes } from '../reducers/userReducer';
+import { localStorageGet } from '../util/LocalStorage.js';
 
 const Splash = () => {
   const dispatch = useDispatch();
   const [location, setLocation] = useState('');
+  const [token] = useState(localStorageGet('MAD_KAKAO_ACCESS_TOKEN'));
+  const [userId] = useState(localStorageGet('MAD_USER_ID'));
   const categoryList = useSelector(state => state.startReducer.shopCategory, []);
   const noticeList = useSelector(state => state.startReducer.ntc, []);
   const faqList = useSelector(state => state.startReducer.faq, []);
+  const isLogin = useSelector(state => state.userReducer.isLogin, []);
   const [allState, setAllState] = useState(false);
 
   // 위치정보 조회
@@ -69,15 +72,15 @@ const Splash = () => {
     api_call_list.map(d => {
       return dispatch(d);
     });
-    // KAKAO.Auth.login({
-    //   success: (authObj) => {
-    //     // 사용자 토큰 저장
-    //     console.log(authObj)
-    //   },
-    //   fail: (err) => {
-    //     console.log(JSON.stringify(err))
-    //   },
-    // })
+    if (token && userId) {
+      dispatch({
+        type: userApiTypes.WHO_AM_I,
+        payload: {
+          token,
+          userId
+        }
+      })
+    }
   }, []);
 
   useEffect(() => {

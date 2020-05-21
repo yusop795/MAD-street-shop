@@ -13,7 +13,7 @@ const shopDetailModal = ({ shopInfo, isOpen = true, onEvent = null, }) => {
         <li className="infoList">
           <img src={iconMapPin} alt={'위치'} />
           <div className="info">
-            <p>-</p>
+            <p>{shopInfo.location.subLocation}</p>
             <span className="subLocation">{shopInfo.now.locationComment}</span>
           </div>
         </li>

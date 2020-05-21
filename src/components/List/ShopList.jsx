@@ -43,17 +43,19 @@ export const ShopItem = ({ index = 10, data, type, onEvent, icon = false, iconEv
           </span>
         </div>
         <div className="shopSubInfo">
-          <span className="distance">{'data.vicinity.toFixed(0)'}m</span>
+          <span className="distance">{data.vicinity.toFixed(2)}m</span>
           <span className={`heart ${data.likeScore ? "on" : ""}`}>{data.likeScore}</span>
         </div>
       </div>
-      {type === 'icon' ? <img src={iconLikeOn} alt={'좋아요'} /> : (
-        <div className="listPhoto">
-          <img src={data.imageUrl[0]} alt="가게 사진" />
-          {data.now.active ? null : <div className="getReady">준비중</div>}
-        </div>
-      )}
-    </div>
+      {
+        type === 'icon' ? <img src={iconLikeOn} alt={'좋아요'} /> : (
+          <div className="listPhoto">
+            <img src={data.imageUrl[0]} alt="가게 사진" />
+            {data.now.active ? null : <div className="getReady">준비중</div>}
+          </div>
+        )
+      }
+    </div >
   )
 }
 

@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 
 
 import AuthUtill from '../../util/AuthUtill'
+import { localStorageSet } from '../../util/LocalStorage.js';
 
 import { userTypes, userApiTypes } from '../../reducers/userReducer';
 
@@ -21,15 +22,18 @@ const Login = ({ history, isOpen, onEvent }) => {
   const dispatch = useDispatch();
   const isUser = useSelector(state => state.userReducer.isUser, []);
   const isLogin = useSelector(state => state.userReducer.isLogin);
+  const userId = useSelector(state => state.userReducer.userId);
   const [type, setType] = useState('')
   const modalPage = useRef();
 
   const kakaoSignUp = (url) => {
     // 카카오 로그인
     KAKAO.Auth.login({
+      throughTalk: false,
       success: (authObj) => {
         // 사용자 토큰 저장
         AuthUtill.setUserStore(authObj.access_token)
+        localStorageSet('MAD_KAKAO_ACCESS_TOKEN', JSON.stringify(authObj.access_token));
         dispatch({
           type: userTypes.SET_TOKEN,
           payload: {
@@ -58,9 +62,9 @@ const Login = ({ history, isOpen, onEvent }) => {
   }, [isOpen]);
 
   useEffect(() => {
-    console.log(isLogin, isUser)
     if (isLogin && isUser) {
       history.push(`/home`)
+      localStorageSet('MAD_USER_ID', JSON.stringify(userId));
     } else if (isLogin && !isUser) {
       history.push(`/signup/account`)
     }

@@ -24,7 +24,7 @@ export function* fetchShopDetailSaga({ payload }) {
     yield put({
       type: shopTypes.SET_SHOP_DETAIL,
       payload: {
-        shopDetail: response.data
+        shopDetail: response.data[0]
       },
     });
   } else {

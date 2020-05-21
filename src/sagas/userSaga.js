@@ -146,9 +146,8 @@ export function* deleteUserSaga({ payload }) {
 
 export function* fetchWhoamiSaga({ payload }) {
   const response = yield call(fetchWhoami, payload);
-
   if (response.data) {
-    console.log(response)
+    yield loginSaga(payload)
   } else {
     console.log(response);
   }
@@ -157,9 +156,11 @@ export function* fetchWhoamiSaga({ payload }) {
 export default function* userSaga() {
   yield takeEvery(userApiTypes.LOGIN, loginSaga);
   yield takeEvery(userApiTypes.LOGOUT, logoutSaga);
+  yield takeEvery(userApiTypes.LEAVE, deleteUserSaga);
   yield takeEvery(userApiTypes.POST_SIGNUP_USER, postSignUpUserSaga);
   yield takeEvery(userApiTypes.POST_SIGNUP_OWNER, postSignUpOwnerSaga);
   yield takeEvery(userApiTypes.POST_SIGNUP_OWNER_IMG, postSignUpImgOwnerSaga);
   yield takeEvery(userApiTypes.PUT_USER, putUserSaga);
-  yield takeEvery(userApiTypes.LEAVE, deleteUserSaga);
+  yield takeEvery(userApiTypes.WHO_AM_I, fetchWhoamiSaga);
+
 }

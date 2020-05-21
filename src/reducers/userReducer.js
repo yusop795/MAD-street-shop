@@ -32,6 +32,7 @@ export const userApiTypes = {
   POST_SIGNUP_OWNER: 'user/POST_SIGNUP_OWNER',
   POST_SIGNUP_OWNER_IMG: 'user/POST_SIGNUP_OWNER_IMG',
   PUT_USER: 'user/PUT_USER',
+  WHO_AM_I: 'user/WHO_AM_I',
 };
 
 /**

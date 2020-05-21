@@ -39,8 +39,15 @@ export const fetchShopList = (data) => {
     });
 };
 
-export const fetchShopDetail = ({ shopId }) => {
-  return API_INSTANCE.get(`/shops/${shopId}`)
+export const fetchShopDetail = ({ shopId, long, lat }) => {
+  console.log(shopId, long, lat)
+  return API_INSTANCE.get(`/shops/${shopId}`,
+    {
+      params: {
+        long,
+        lat,
+      }
+    })
     .then(response => {
       return response
     })

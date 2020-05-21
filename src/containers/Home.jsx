@@ -70,7 +70,9 @@ const Home = ({ history }) => {
         dispatch({
           type: shopTypes.FETCH_SHOP_DETAIL,
           payload: {
-            shopId: selectShopId
+            shopId: selectShopId,
+            long: location.long,
+            lat: location.lat
           }
         });
       }

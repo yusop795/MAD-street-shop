@@ -4,7 +4,7 @@ import './style.scss';
 import mapPinOn from '../../assets/imgs/mapPinOn.png';
 import adressEdit from '../../assets/imgs/adressEdit.png';
 
-const kakaoMapScript = scriptUtill(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAP_KEY}&autoload=false&libraries=services`);
+const kakaoMapScript = scriptUtill(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=a2634b699ee1deee53b339a1835cca33&autoload=false&libraries=services`);
 
 const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectShopId, setSelectShopId, getGeocoder }) => {
   const [crrlocation, setCrrLocation] = useState({})
