@@ -6,8 +6,8 @@ import adressEdit from '../../assets/imgs/adressEdit.png';
 
 const kakaoMapScript = scriptUtill(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=a2634b699ee1deee53b339a1835cca33&autoload=false&libraries=services`);
 
-const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectShopId, setSelectShopId, getGeocoder }) => {
-  const [crrlocation, setCrrLocation] = useState({})
+const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectShopId, setSelectShopId, getGeocoder, setLocation }) => {
+  const [crrlocation, setCrrLocation] = useState(location)
 
   useEffect(() => {
     if (location) {
@@ -16,7 +16,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
   }, [location]);
 
   useEffect(() => {
-    if (crrlocation) {
+    if (location) {
       renderMap()
     }
   }, [crrlocation, selectShopId]);
@@ -43,14 +43,14 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
     const moveLatLon = new kakaoMap.LatLng(latlng.Ha, latlng.Ga);
     setCrrLocation({ lat: latlng.Ha, long: latlng.Ga });
 
-    // 지도 중심을 부드럽게 이동 시킵니다
+    // 지도 중심을 이동
     map.setCenter(moveLatLon);
   }
 
   const clickMap = (kakaoMap, map) => {
     kakaoMap.event.addListener(map, 'click', () => {
       onEvent({
-        target: 'ShopInfoModal',
+        target: null,
       });
     });
   }
@@ -58,6 +58,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
   const setAddress = (kakaoMap, map) => {
     // 주소-좌표 변환 객체를 생성합니다
     const geocoder = new kakaoMap.services.Geocoder();
+    // if (containerId === 'homeMap') {
     const coord = new kakaoMap.LatLng(crrlocation.long, crrlocation.lat);
     geocoder.coord2Address(coord.Ha, coord.Ga, (result, status) => {
       if (result[0].road_address) {
@@ -67,18 +68,24 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
       }
     });
 
-    // 지도 클릭시 이벤트 추가
-    kakaoMap.event.addListener(map, 'click', (data) => {
-      const latlng = data.latLng;
-      // moveMap(kakaoMap, map, latlng)
-      geocoder.coord2Address(latlng.Ga, latlng.Ha, (result, status) => {
-        if (result[0].road_address) {
-          getGeocoder(result[0].road_address.address_name)
-        } else {
-          getGeocoder(result[0].address.address_name)
+    if (containerId === 'locationMap') {
+      // 지도 클릭시 이벤트 추가
+      kakaoMap.event.addListener(map, 'click', (data) => {
+        const latlng = data.latLng;
+        // moveMap(kakaoMap, map, latlng)
+        geocoder.coord2Address(latlng.Ga, latlng.Ha, (result, status) => {
+          if (result[0].road_address) {
+            getGeocoder(result[0].road_address.address_name)
+          } else {
+            getGeocoder(result[0].address.address_name)
+          }
+        });
+        if (setLocation) {
+          console.log(1)
+          setLocation({ lat: latlng.Ha, long: latlng.Ga })
         }
       });
-    });
+    }
   }
 
   const createMarkerImage = (kakaoMap, src) => {
@@ -111,6 +118,10 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
       kakaoMap.event.addListener(marker, 'click', () => {
         setSelectShopId(shopList[i]._id)
         moveMap(kakaoMap, map, position)
+        onEvent({
+          target: 'ShopDetailModal',
+        });
+
         // if(marker.getZIndex() ===0){
         //   marker.setZIndex(1);
         // }else {
@@ -124,6 +135,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
     const container = document.getElementById(containerId);
     kakaoMapScript
       .then(() => {
+        console.log('crrlocation', crrlocation)
         const kakaoMap = window.kakao.maps;
         kakaoMap.load(() => {
           // 지도 옵션
@@ -139,6 +151,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
             map,
             position: new kakaoMap.LatLng(crrlocation.lat, crrlocation.long),
           });
+
           marker.setMap(map);
           // shop list 마커
           if (shopList.length > 0) {

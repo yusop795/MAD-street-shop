@@ -12,6 +12,7 @@ export const startTypes = {
   SET_SHOP_LIST: 'start/SET_SHOP_LIST',
   FETCH_ETC_LIST: 'start/FETCH_ETC_LIST',
   SET_ETC_LIST: 'start/SET_ETC_LIST',
+  SET_LOCATION: 'start/SET_LOCATION',
 }
 /**
  * 액션 생섬함수 정의
@@ -31,6 +32,7 @@ const initialState = {
   ntc: [],
   faq: [],
   searchResult: [],
+  location: {},
 };
 
 /**
@@ -39,6 +41,11 @@ const initialState = {
 export default function startReducer(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
+    case startTypes.SET_LOCATION:
+      return {
+        ...state,
+        location: payload.location,
+      };
     case startTypes.SET_SHOP_CATEGORY:
       return {
         ...state,

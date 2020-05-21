@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 
 import { userTypes } from '../../reducers/userReducer';
+import { startTypes } from '../../reducers/startReducer';
 
 // components
 import { ModalHeader } from '../../components/Header';
@@ -16,8 +17,9 @@ import btnHere from '../../assets/imgs/btnHere.png';
 
 const SettingLocation = ({ isOpen, onEvent, type }) => {
   const dispatch = useDispatch();
+  const location = useSelector(state => state.startReducer.location, {});
+  const [crrlocation, setCrrLocation] = useState('')
   const store = useSelector(state => state.userReducer.storeLocation, {});
-  const [location, setLocation] = useState('');
   const [address, setAddress] = useState('');
   const [locationComment, setLocationComment] = useState('');
   const modalPage = useRef();
@@ -34,7 +36,7 @@ const SettingLocation = ({ isOpen, onEvent, type }) => {
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
         console.log('coords', coords);
-        setLocation({ lat: coords.latitude, long: coords.longitude });
+        // setLocation({ lat: coords.latitude, long: coords.longitude });
       },
       e => console.log(`Geolocation 오류 [${e.code}] : ${e.message}`),
       options,
@@ -42,19 +44,11 @@ const SettingLocation = ({ isOpen, onEvent, type }) => {
   };
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      fetchGeolocation();
+    if (type !== 'home') {
       setAddress(store.address)
       setLocationComment(store.locationComment)
     }
   }, []);
-
-  // useEffect(() => {
-  //   if(Object.keys(store).length > 0) {
-  //     setAddress(store.address)
-  //     setLocationComment(store.locationComment)
-  //   }
-  // })
 
   useEffect(() => {
     if (isOpen) {
@@ -69,11 +63,20 @@ const SettingLocation = ({ isOpen, onEvent, type }) => {
   }
 
   const setText = (e) => {
+    setAddress()
     setLocationComment(e.target.value)
   }
   const setData = () => {
     if (type === 'home') {
       onEvent({ target: 'SettingLocation' })
+      console.log('location', crrlocation)
+      dispatch({
+        type: startTypes.SET_LOCATION,
+        payload: {
+          address,
+          location: crrlocation,
+        }
+      })
     } else {
       dispatch({
         type: userTypes.SET_STORE_LOCATION,
@@ -97,6 +100,7 @@ const SettingLocation = ({ isOpen, onEvent, type }) => {
         location={location}
         containerId={'locationMap'}
         getGeocoder={getGeocoder}
+        setLocation={setCrrLocation}
       />
       <div className="locationBox">
         <div className="loactionBtn" onClick={fetchGeolocation}>
@@ -110,4 +114,4 @@ const SettingLocation = ({ isOpen, onEvent, type }) => {
   );
 };
 
-export default withRouter(SettingLocation);
+export default SettingLocation;

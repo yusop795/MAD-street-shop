@@ -40,12 +40,14 @@ export const fetchShopList = (data) => {
 };
 
 export const fetchShopDetail = ({ shopId, long, lat }) => {
-  console.log(shopId, long, lat)
   return API_INSTANCE.get(`/shops/${shopId}`,
     {
       params: {
         long,
         lat,
+      },
+      headers: {
+        'Authorization': `Bearer ${AuthUtill.accessToken}`
       }
     })
     .then(response => {

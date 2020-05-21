@@ -65,6 +65,7 @@ const SignUpOwner = ({ history, match }) => {
           category: storeCategory,
           latitude: storeLocation.location.lat,
           longitude: storeLocation.location.long,
+          subLocation: storeLocation.address,
           locationComment: storeLocation.locationComment,
           shopComment,
           openDays: Object.keys(storeOpenDays).join(','),

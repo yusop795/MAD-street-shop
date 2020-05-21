@@ -107,7 +107,8 @@ export function* postSignUpImgOwnerSaga(data) {
 export function* postSignUpOwnerSaga({ payload }) {
   const response = yield call(postSignUpOwner, payload);
   if (response.data) {
-    const data = { files: payload.files, userId: payload.userId, shopId: response.data.shopId }
+    console.log(222, response.data)
+    const data = { files: payload.files, userId: payload.userId, shopId: response.data }
     console.log('data', data)
     const imgUploadResponse = yield postSignUpImgOwnerSaga(data)
     if (imgUploadResponse.data) {

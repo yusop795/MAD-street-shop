@@ -1,24 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import '../assets/styles/containers/home.scss';
 
 
 import ModalPageUtill from '../util/ModalPageUtill';
 
 import { shopTypes } from '../reducers/shopReducer'
+import { startTypes } from '../reducers/startReducer'
+
 
 import { HomeHeader } from '../components/Header'
 import { MainMap } from '../components/Map';
 import { ShopInfo, ShopDetailModal } from '../components/Unit';
 import { SearchModal, SettingLocation } from '../containers/ModalPage';
+import iconPin from '../assets/imgs/iconPin.png';
+import btnHere from '../assets/imgs/btnHere.png';
 import { localStorageGet } from '../util/LocalStorage.js';
 import { isEmpty } from '../util/gm.js';
 
 const Home = ({ history }) => {
   const dispatch = useDispatch();
-  const [location, setLocation] = useState('');
+  const location = useSelector(state => state.startReducer.location, {})
   const shopList = useSelector(state => state.shopReducer.shopList, []);
   const shopDetail = useSelector(state => state.shopReducer.shopDetail, {});
+  const [address, setAddress] = useState('');
   const [selectShop, setSelectShop] = useState({});
   const [selectShopId, setSelectShopId] = useState('');
   const [currentKeyword, setCurrentKeyword] = useState([]);
@@ -32,8 +38,12 @@ const Home = ({ history }) => {
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
         console.log('coords', coords);
-        setLocation({ lat: 37.486107, long: 126.982643 });
-        // setLocation({ lat: coords.latitude, long: coords.longitude });
+        dispatch({
+          type: startTypes.SET_LOCATION,
+          payload: {
+            location: { lat: coords.latitude, long: coords.longitude }
+          }
+        })
       },
       e => console.log(`Geolocation 오류 [${e.code}] : ${e.message}`),
       options,
@@ -43,9 +53,7 @@ const Home = ({ history }) => {
   const { targetModalPage, isModalOpen, setModalPage } = ModalPageUtill();
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      fetchGeolocation();
-    }
+    setModalPage({ target: 'ShopInfoModal' })
   }, []);
 
   // location 변경될때
@@ -87,19 +95,19 @@ const Home = ({ history }) => {
         case 'ShopDetailModal':
           return <ShopDetailModal shopInfo={shopDetail} isOpen={isModalOpen} onEvent={setModalPage} />;
         case 'SettingLocation':
-          return <SettingLocation type={'home'} isOpen={isModalOpen} onEvent={setModalPage} />;
+          return <SettingLocation type={'home'} isOpen={isModalOpen} onEvent={setModalPage} location={location} />;
         case 'ShopInfoModal':
           return <ShopInfo shopInfo={shopDetail} fetchGeolocation={fetchGeolocation} onEvent={setModalPage} />;
         default:
-          return <ShopInfo shopInfo={shopDetail} fetchGeolocation={fetchGeolocation} onEvent={setModalPage} />;
+          return null;
       }
     }
   }
 
   return (
     <div>
-      <HomeHeader fetchGeolocation={fetchGeolocation} setModalPage={setModalPage} />
-      <div>
+      <HomeHeader address={address} fetchGeolocation={fetchGeolocation} setModalPage={setModalPage} />
+      <div className={targetModalPage == 'ShopDetailModal' ? 'mapCenter' : ''}>
         <MainMap
           location={location}
           selectShopId={selectShopId}
@@ -107,10 +115,22 @@ const Home = ({ history }) => {
           shopList={shopList}
           onEvent={setModalPage}
           containerId={'homeMap'}
+          getGeocoder={(address) => { setAddress(address) }}
         />
       </div>
+      <div className={`buttonBox ${targetModalPage !== 'ShopInfoModal' ? 'bottom' : ''}`}>
+        <div className="loactionBtn" onClick={fetchGeolocation}>
+          <img src={btnHere} alt="현재위치" />
+        </div>
+        <div className="ranking">
+          <Link to="/ranking">
+            <img src={iconPin} alt="현재위치" />
+            <span className="text">내 주변 인기 스트릿푸드는?</span>
+          </Link>
+        </div>
+      </div>
       {rederModalPage()}
-    </div>
+    </div >
   );
 }
 export default withRouter(Home);

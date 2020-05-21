@@ -9,9 +9,9 @@ import { localStorageGet } from '../util/LocalStorage.js';
 
 const Splash = () => {
   const dispatch = useDispatch();
-  const [location, setLocation] = useState('');
   const [token] = useState(localStorageGet('MAD_KAKAO_ACCESS_TOKEN'));
   const [userId] = useState(localStorageGet('MAD_USER_ID'));
+  const location = useSelector(state => state.startReducer.location, {});
   const categoryList = useSelector(state => state.startReducer.shopCategory, []);
   const noticeList = useSelector(state => state.startReducer.ntc, []);
   const faqList = useSelector(state => state.startReducer.faq, []);
@@ -28,8 +28,12 @@ const Splash = () => {
 
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
-        console.log('coords', coords);
-        setLocation({ lat: coords.latitude, long: coords.longitude });
+        dispatch({
+          type: startTypes.SET_LOCATION,
+          payload: {
+            location: { lat: coords.latitude, long: coords.longitude }
+          }
+        })
       },
       e => console.log(`Geolocation 오류 [${e.code}] : ${e.message}`),
       options,
@@ -69,9 +73,11 @@ const Splash = () => {
   ];
 
   useEffect(() => {
+    fetchGeolocation()
     api_call_list.map(d => {
       return dispatch(d);
     });
+
     if (token && userId) {
       dispatch({
         type: userApiTypes.WHO_AM_I,
@@ -84,13 +90,14 @@ const Splash = () => {
   }, []);
 
   useEffect(() => {
-    if (categoryList.length > 0 && noticeList.length > 0 && faqList.length > 0) {
+    console.log(11, Object.keys(location).length)
+    if (categoryList.length > 0 && noticeList.length > 0 && faqList.length > 0 && Object.keys(location).length > 0) {
       setAllState(true)
     }
     return () => {
       setAllState(false)
     }
-  }, [categoryList, noticeList, faqList]);
+  }, [categoryList, noticeList, faqList, location]);
 
   return (allState ? (
     <Redirect to="/home" />
