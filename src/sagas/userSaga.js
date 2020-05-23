@@ -1,4 +1,4 @@
-import { takeEvery, put, call } from "redux-saga/effects";
+import { takeLatest, put, call } from "redux-saga/effects";
 import { userTypes, userApiTypes } from "../reducers/userReducer";
 import { login, logout, fetchWhoami, postSignUpUser, postSignUpOwner, putImgUpload, putUser, deleteUser, putOwner } from './api/userApi';
 
@@ -103,7 +103,12 @@ export function* putUserSaga({ payload }) {
 export function* postSignUpImgOwnerSaga(data) {
   const response = yield call(putImgUpload, data);
   if (response.data) {
-    console.log(response.data)
+    yield put({
+      type: userTypes.SET_USER_INFO,
+      payload: {
+        userInfo: response.data,
+      },
+    });
   } else {
     console.log(response);
   }
@@ -144,7 +149,8 @@ export function* postSignUpOwnerSaga({ payload }) {
 export function* putOwnerSaga({ payload }) {
   const response = yield call(putOwner, payload);
   if (response.data) {
-    console.log(response.data)
+    const data = { files: payload.files, userId: payload.userId, shopId: response.data.shopId }
+    const imgUploadResponse = yield postSignUpImgOwnerSaga(data)
   } else {
     console.log(response)
   }
@@ -170,6 +176,7 @@ export function* fetchWhoamiSaga({ payload }) {
       const data = response.data.shop[0]
       let days = {}
       data.openDays.forEach((v) => {
+        console.log(v)
         days[v] = true
       })
       data.openDays = days
@@ -189,6 +196,8 @@ export function* fetchWhoamiSaga({ payload }) {
           storeOpenDays: data.openDays,
           storeOpenTime: data.openTime,
           storeCloseTime: data.closeTime,
+          firstFile: data.imageUrl.pop(),
+          files: data.imageUrl,
           shopInfo: data,
         },
       });
@@ -200,14 +209,14 @@ export function* fetchWhoamiSaga({ payload }) {
 }
 
 export default function* userSaga() {
-  yield takeEvery(userApiTypes.LOGIN, loginSaga);
-  yield takeEvery(userApiTypes.LOGOUT, logoutSaga);
-  yield takeEvery(userApiTypes.LEAVE, deleteUserSaga);
-  yield takeEvery(userApiTypes.POST_SIGNUP_USER, postSignUpUserSaga);
-  yield takeEvery(userApiTypes.POST_SIGNUP_OWNER, postSignUpOwnerSaga);
-  yield takeEvery(userApiTypes.POST_SIGNUP_OWNER_IMG, postSignUpImgOwnerSaga);
-  yield takeEvery(userApiTypes.PUT_USER, putUserSaga);
-  yield takeEvery(userApiTypes.PUT_OWNER, putOwnerSaga);
-  yield takeEvery(userApiTypes.WHO_AM_I, fetchWhoamiSaga);
+  yield takeLatest(userApiTypes.LOGIN, loginSaga);
+  yield takeLatest(userApiTypes.LOGOUT, logoutSaga);
+  yield takeLatest(userApiTypes.LEAVE, deleteUserSaga);
+  yield takeLatest(userApiTypes.POST_SIGNUP_USER, postSignUpUserSaga);
+  yield takeLatest(userApiTypes.POST_SIGNUP_OWNER, postSignUpOwnerSaga);
+  yield takeLatest(userApiTypes.POST_SIGNUP_OWNER_IMG, postSignUpImgOwnerSaga);
+  yield takeLatest(userApiTypes.PUT_USER, putUserSaga);
+  yield takeLatest(userApiTypes.PUT_OWNER, putOwnerSaga);
+  yield takeLatest(userApiTypes.WHO_AM_I, fetchWhoamiSaga);
 
 }

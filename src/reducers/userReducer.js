@@ -58,6 +58,8 @@ const initialState = {
   storeOpenDays: '',
   storeOpenTime: '',
   storeCloseTime: '',
+  firstFile: [],
+  files: [],
   userPhoneOn: false,
   storeCategory: [],
   token: {},
@@ -133,6 +135,8 @@ export default function userReducer(state = initialState, action) {
         storeOpenDays: payload.storeOpenDays,
         storeOpenTime: payload.storeOpenTime,
         storeCloseTime: payload.storeCloseTime,
+        firstFile: [payload.firstFile],
+        files: payload.files,
         shopInfo: payload.shopInfo,
       };
 

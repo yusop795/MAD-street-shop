@@ -1,4 +1,4 @@
-import { takeLatest, put, call } from "redux-saga/effects";
+import { takeEvery, takeLatest, put, call } from "redux-saga/effects";
 import { shopTypes } from "../reducers/shopReducer";
 import { fetchShopList, fetchShopDetail } from './api/shopApi';
 
@@ -33,6 +33,6 @@ export function* fetchShopDetailSaga({ payload }) {
 }
 
 export default function* shopSaga() {
-  yield takeLatest(shopTypes.FETCH_SHOP_LIST, fetchShopListSaga);
+  yield takeEvery(shopTypes.FETCH_SHOP_LIST, fetchShopListSaga);
   yield takeLatest(shopTypes.FETCH_SHOP_DETAIL, fetchShopDetailSaga);
 }

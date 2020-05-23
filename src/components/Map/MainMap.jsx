@@ -83,7 +83,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
         });
 
         if (setLocation) {
-          marker.setPosition(latlng);
+          // marker.setPosition(latlng);
           setLocation({ lat: latlng.Ha, long: latlng.Ga })
         }
       });
@@ -153,13 +153,12 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
           const image = createMarkerImage(kakaoMap, mapMarker, { width: 50, height: 48 });
           const marker = new kakaoMap.Marker({
             map,
-            position: new kakaoMap.LatLng(crrlocation.lat, crrlocation.long),
+            position: new kakaoMap.LatLng(location.lat, location.long),
             image,
           });
 
 
           marker.setMap(map);
-          // shop list 마커
           if (shopList.length > 0) {
             createShopsMarker(kakaoMap, map);
           }

@@ -17,12 +17,13 @@ import btnHere from '../../assets/imgs/btnHere.png';
 
 const SettingLocation = ({ isOpen, onEvent, type }) => {
   const dispatch = useDispatch();
-  const location = useSelector(state => state.startReducer.location, {});
+  const location = useSelector(state => state.startReducer.location)
+  const storeLocation = useSelector(state => state.userReducer.storeLocation)
   const [crrlocation, setCrrLocation] = useState('')
-  const store = useSelector(state => state.userReducer.storeLocation, {});
   const [address, setAddress] = useState('');
   const [locationComment, setLocationComment] = useState('');
   const modalPage = useRef();
+
 
   // 위치정보 조회
   const fetchGeolocation = () => {
@@ -36,7 +37,7 @@ const SettingLocation = ({ isOpen, onEvent, type }) => {
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
         console.log('coords', coords);
-        // setLocation({ lat: coords.latitude, long: coords.longitude });
+        setCrrLocation({ lat: coords.latitude, long: coords.longitude });
       },
       e => console.log(`Geolocation 오류 [${e.code}] : ${e.message}`),
       options,
@@ -44,10 +45,14 @@ const SettingLocation = ({ isOpen, onEvent, type }) => {
   };
 
   useEffect(() => {
-    if (type !== 'home') {
-      setAddress(store.address)
-      setLocationComment(store.locationComment)
+    if (type === 'edit') {
+      setCrrLocation(storeLocation.location)
+      setAddress(storeLocation.address)
+      setLocationComment(storeLocation.locationComment)
+    } else {
+      setCrrLocation(location)
     }
+
   }, []);
 
   useEffect(() => {
@@ -63,13 +68,13 @@ const SettingLocation = ({ isOpen, onEvent, type }) => {
   }
 
   const setText = (e) => {
-    setAddress()
     setLocationComment(e.target.value)
   }
+
   const setData = () => {
     if (type === 'home') {
+      // 현재위치 설정
       onEvent({ target: 'SettingLocation' })
-      console.log('location', crrlocation)
       dispatch({
         type: startTypes.SET_LOCATION,
         payload: {
@@ -79,12 +84,13 @@ const SettingLocation = ({ isOpen, onEvent, type }) => {
       })
     } else {
       dispatch({
+        // 가게 위치 설정
         type: userTypes.SET_STORE_LOCATION,
         payload: {
           storeLocation: {
             address,
             locationComment,
-            location,
+            location: crrlocation,
           }
         },
       })
@@ -97,7 +103,7 @@ const SettingLocation = ({ isOpen, onEvent, type }) => {
     <div ref={modalPage} className={`main settingLocation modalPage ${isOpen ? 'open' : ''}`}>
       <ModalHeader onEvent={onEvent} title={'위치 설정'} />
       <MainMap
-        location={location}
+        location={crrlocation}
         containerId={'locationMap'}
         getGeocoder={getGeocoder}
         setLocation={setCrrLocation}

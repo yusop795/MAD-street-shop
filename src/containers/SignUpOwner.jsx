@@ -33,8 +33,8 @@ const SignUpOwner = ({ history, match }) => {
   const [useMobile, setUseMobile] = useState(0);
   const [shopName, setShopName] = useState(shopInfo.shopName || '');
   const [shopComment, setShopComment] = useState(shopInfo.ownerComment || '');
-  const [firstFile, setFirstFile] = useState('');
-  const [files, setFiles] = useState('');
+  const [firstFile, setFirstFile] = useState(useSelector(state => state.userReducer.firstFile), []);
+  const [files, setFiles] = useState(useSelector(state => state.userReducer.files), []);
   // 모달
   const { isShowing, title, contents, setAlert } = AlertUtil();
   const { targetModalPage, isModalOpen, setModalPage } = ModalPageUtill();
@@ -50,7 +50,10 @@ const SignUpOwner = ({ history, match }) => {
       formData.append('files', v.imgFile);
     })
 
+    console.log(formData)
+
     if (history.location.pathname === "/myPage/owner") {
+      // 사장님 정보 수정
       dispatch({
         type: userApiTypes.PUT_OWNER,
         payload: {
@@ -74,6 +77,7 @@ const SignUpOwner = ({ history, match }) => {
         },
       })
     } else {
+      // 사장님 가입
       dispatch({
         type: userApiTypes.POST_SIGNUP_OWNER,
         payload: {
@@ -96,10 +100,7 @@ const SignUpOwner = ({ history, match }) => {
         },
       })
     }
-
-
   }
-
 
   const rederModalPage = () => {
     switch (targetModalPage) {
@@ -108,7 +109,7 @@ const SignUpOwner = ({ history, match }) => {
       case 'SettingTime':
         return <SettingTime isOpen={isModalOpen} onEvent={setModalPage} />;
       case 'SettingLocation':
-        return <SettingLocation isOpen={isModalOpen} onEvent={setModalPage} />;
+        return <SettingLocation type={history.location.pathname === "/myPage/owner" ? 'postSignUpOwnerSaga' : null} isOpen={isModalOpen} onEvent={setModalPage} />;
       default:
         return null;
     }
@@ -120,7 +121,7 @@ const SignUpOwner = ({ history, match }) => {
     }
   }, [isUser])
 
-
+  console.log(files)
   return (
     <div className="main signUpOwner">
       <Header onEvent={history.goBack} />
@@ -198,8 +199,8 @@ const SignUpOwner = ({ history, match }) => {
           setSelectItem={setUseMobile}
         />
       </FormGroup>
-      <ImgUploader setFiles={setFirstFile} multiple={false} title={'대표이미지 등록'} info={'※ 가게를 대표하는 사진을 등록해주세요.'} />
-      <ImgUploader setFiles={setFiles} title={'사진 등록'} info={'※ 10장 이내의 사진을 등록해주세요. <b>판매하는 음식사진이나, 가게 전경, 영업 위치가 찍힌 사진</b>을 등록하면 판매에 도움이 됩니다.'} />
+      <ImgUploader files={firstFile} setFiles={setFirstFile} multiple={false} title={'대표이미지 등록'} info={'※ 가게를 대표하는 사진을 등록해주세요.'} />
+      <ImgUploader files={files} setFiles={setFiles} title={'사진 등록'} info={'※ 10장 이내의 사진을 등록해주세요. <b>판매하는 음식사진이나, 가게 전경, 영업 위치가 찍힌 사진</b>을 등록하면 판매에 도움이 됩니다.'} />
       <Button
         active={true}
         onEvent={submitData}

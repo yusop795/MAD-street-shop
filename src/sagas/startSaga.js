@@ -47,6 +47,6 @@ export function* fetcEtcListSaga({ payload }) {
 
 export default function* startSaga() {
   yield takeLatest(startTypes.FETCH_SHOP_CATEGORY, fetchCategorySaga);
-  yield takeEvery(startTypes.FETCH_SHOP_LIST, fetchShopListSaga);
+  yield takeLatest(startTypes.FETCH_SHOP_LIST, fetchShopListSaga);
   yield takeEvery(startTypes.FETCH_ETC_LIST, fetcEtcListSaga);
 }

@@ -44,20 +44,20 @@ const Splash = () => {
     {
       type: startTypes.FETCH_SHOP_CATEGORY,
     },
-    {
-      type: startTypes.FETCH_SHOP_LIST,
-      payload: {
-        type: "rank",
-        name: "rank",
-      }
-    },
-    {
-      type: startTypes.FETCH_SHOP_LIST,
-      payload: {
-        type: "main",
-        name: "main",
-      }
-    },
+    // {
+    //   type: startTypes.FETCH_SHOP_LIST,
+    //   payload: {
+    //     type: "rank",
+    //     name: "rank",
+    //   }
+    // },
+    // {
+    //   type: startTypes.FETCH_SHOP_LIST,
+    //   payload: {
+    //     type: "main",
+    //     name: "main",
+    //   }
+    // },
     {
       type: startTypes.FETCH_ETC_LIST,
       payload: {
@@ -90,6 +90,7 @@ const Splash = () => {
   }, []);
 
   useEffect(() => {
+    console.log(categoryList, noticeList, faqList, location)
     if (categoryList.length > 0 && noticeList.length > 0 && faqList.length > 0 && Object.keys(location).length > 0) {
       setAllState(true)
     }
