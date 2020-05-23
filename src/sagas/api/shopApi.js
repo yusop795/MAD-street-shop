@@ -1,4 +1,5 @@
 import axios from 'axios';
+import qs from 'qs'
 import AuthUtill from '../../util/AuthUtill'
 
 const API_INSTANCE = axios.create({
@@ -50,6 +51,48 @@ export const fetchShopDetail = ({ shopId, long, lat }) => {
         'Authorization': `Bearer ${AuthUtill.accessToken}`
       }
     })
+    .then(response => {
+      return response
+    })
+    .catch(error => {
+      return error;
+    });
+}
+
+/**
+ * 가게 영업시작
+ */
+export const postShopOpen = (data) => {
+  return API_INSTANCE.post(`/shops/${data.shopId}/operation`,
+    qs.stringify(data),
+    {
+      headers: {
+        'Authorization': `Bearer ${AuthUtill.accessToken}`
+      }
+    }
+  )
+    .then(response => {
+      return response
+    })
+    .catch(error => {
+      return error;
+    });
+}
+
+/**
+ * 가게 영업 종료
+ */
+export const deleteShopOpen = (data) => {
+  return API_INSTANCE.delete(`/shops/${data.shopId}/operation`,
+    {
+      data: {
+        userId: data.userId
+      },
+      headers: {
+        'Authorization': `Bearer ${AuthUtill.accessToken}`
+      }
+    }
+  )
     .then(response => {
       return response
     })

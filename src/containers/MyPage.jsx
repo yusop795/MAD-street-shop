@@ -17,14 +17,15 @@ import iconDeclare from '../assets/imgs/iconDeclare.png';
 import iconHeart from '../assets/imgs/iconHeart.png';
 import iconSettings from '../assets/imgs/iconSettings.png';
 import iconChevronRight from '../assets/imgs/iconChevronRight.png';
+import banner01 from '../assets/imgs/banner01.png';
 import more from '../assets/imgs/more.png';
 
 import '../assets/styles/containers/myPage.scss';
 import { useEffect } from 'react';
 
-const KAKAO = window.Kakao
 const MyPage = ({ history, match }) => {
   const dispatch = useDispatch();
+  const shopInfo = useSelector(state => state.userReducer.shopInfo);
   const userInfo = useSelector(state => state.userReducer.userInfo);
   const isUser = useSelector(state => state.userReducer.isUser);
   const userId = useSelector(state => state.userReducer.userId);
@@ -89,41 +90,51 @@ const MyPage = ({ history, match }) => {
                 <p>{userInfo.kakao.nickname}</p>
               </div>
             </div>
-            <div className="menuList">
-              {!userInfo.owner ? (
-                <Link to='/myPage/user' className="menuItem">
-                  <img src={iconSettings} alt="취향설정" />
-                  <p>취향설정</p>
-                </Link>
+            {
+              !shopInfo.now.active ? (
+                <div className="banner"
+                  onClick={() => {
+                    history.push('openShop/edit')
+                  }}>
+                </div>
               ) : (
-                  <Link to='/myPage/owner' className="menuItem">
-                    <img src={iconSettings} alt="가게설정" />
-                    <p>가게설정</p>
-                  </Link>
-                )}
-              <Link to='/watchList' className="menuItem">
-                <img src={iconHeart} alt="관심리스트" />
-                <p>관심리스트</p>
-              </Link>
-              <div className="menuItem"
-                onClick={() => {
-                  setAlert({
-                    contents: '준비 중인 기능입니다.'
-                  })
-                }}>
-                <img src={iconDeclare} alt="신고리스트" />
-                <p>신고리스트</p>
-              </div>
-            </div>
+                  <div className="menuList">
+                    {!userInfo.owner ? (
+                      <Link to='/myPage/user' className="menuItem">
+                        <img src={iconSettings} alt="취향설정" />
+                        <p>취향설정</p>
+                      </Link>
+                    ) : (
+                        <Link to='/myPage/owner' className="menuItem">
+                          <img src={iconSettings} alt="가게설정" />
+                          <p>가게설정</p>
+                        </Link>
+                      )}
+                    <Link to='/watchList' className="menuItem">
+                      <img src={iconHeart} alt="관심리스트" />
+                      <p>관심리스트</p>
+                    </Link>
+                    <div className="menuItem"
+                      onClick={() => {
+                        setAlert({
+                          contents: '준비 중인 기능입니다.'
+                        })
+                      }}>
+                      <img src={iconDeclare} alt="신고리스트" />
+                      <p>신고리스트</p>
+                    </div>
+                  </div>
+                )
+            }
           </>
         )}
-      {userInfo.owner === 'user' ? (
-        <div className="banner">
-          <p>
-            <span>스트릿푸드를 판매하고 계신가요?</span>
-            지금 매장을 등록해보세요!
-        </p>
-          <img src={more} alt="더보기" />
+      {!isUser ? (
+        <div className="banner"
+          onClick={() => {
+            setModalPage({
+              target: 'Login',
+            });
+          }}>
         </div>
       ) : null}
       <ul className="settingList">

@@ -22,7 +22,7 @@ const SignUpOwner = ({ history, match }) => {
   const userId = useSelector(state => state.userReducer.userId, '');
   const shopId = useSelector(state => state.userReducer.shopId, '');
   const isUser = useSelector(state => state.userReducer.isUser);
-  const shopInfo = useSelector(state => state.userReducer.shopInfo, {});
+  const shopInfo = useSelector(state => state.userReducer.shopInfo);
   const storeLocation = useSelector(state => state.userReducer.storeLocation);
   const storeCategory = useSelector(state => state.userReducer.storeCategory);
   const storeOpenDays = useSelector(state => state.userReducer.storeOpenDays);

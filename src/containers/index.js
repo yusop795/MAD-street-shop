@@ -13,3 +13,5 @@ export { default as SearchResult } from "./SearchResult";
 export { default as WatchList } from "./WatchList";
 export { default as Notice } from "./Notice";
 export { default as Faq } from "./Faq";
+export { default as OpenShop } from "./OpenShop";
+

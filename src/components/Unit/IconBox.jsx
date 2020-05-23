@@ -2,7 +2,7 @@ import React from 'react';
 import './style.scss';
 
 
-const IconBox = ({iconList = []}) => {
+const IconBox = ({ iconList = [] }) => {
 
   return (
     <div className="iconBox">
@@ -10,8 +10,6 @@ const IconBox = ({iconList = []}) => {
       <span role="img" aria-label="2">🥪</span>
       <span role="img" aria-label="3">🍩</span>
       <span role="img" aria-label="4">🍤</span>
-      <span role="img" aria-label="5">🌭</span>
-      <span role="img" aria-label="6">🐙</span>
     </div>
   )
 };

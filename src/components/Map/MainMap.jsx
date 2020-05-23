@@ -164,7 +164,6 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
           }
 
           if (onEvent) {
-            console.log(1)
             clickMap(kakaoMap, map)
           }
           if (getGeocoder && Object.keys(crrlocation).length > 0) {

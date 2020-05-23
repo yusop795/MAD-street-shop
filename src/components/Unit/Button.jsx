@@ -2,23 +2,22 @@ import React from 'react';
 import './style.scss';
 
 
-const Button = ({fullmode=false , active=true, bottom=false, onEvent = null, text=''}) => {
-
+const Button = ({ fullmode = false, active = true, bottom = false, onEvent = null, text = '' }) => {
   return (
-    <div 
-      className={`button ${(fullmode)?'fullMode':''} ${(active)?'active':''} ${(bottom)?'bottom':''}`}
-      onClick={()=> active?onEvent():null}
+    <button
+      className={`button ${(fullmode) ? 'fullMode' : ''} ${(active) ? 'active' : ''} ${(bottom) ? 'bottom' : ''}`}
+      onClick={() => active ? onEvent() : null}
     >
       {text}
-    </div>
+    </button>
   )
 };
 
-export const RoundButton = ({ onEvent = null,text=''}) => {
+export const RoundButton = ({ onEvent = null, text = '' }) => {
   return (
-    <div className="roundButton" onClick={onEvent}>
+    <button className="roundButton" onClick={onEvent}>
       {text}
-    </div>
+    </button>
   )
 }
 

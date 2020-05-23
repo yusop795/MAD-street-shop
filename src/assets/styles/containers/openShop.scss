@@ -1,0 +1,84 @@
+@import "../common/color.scss";
+
+.openShop {
+  padding:0 30px;
+  .title {
+    margin: 20px 0;
+    text-align: center;
+    font-size: 24px;
+    line-height: 32px;
+    b{
+      position: relative;
+      z-index: 1;
+      &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        left:0;
+        bottom:0;
+        width: 100%;
+        height: 9px;
+        background-color: $mainPointerColor;
+        z-index: -1;
+      }
+    }
+  }
+  .openShopMapBox {
+    position: relative;
+    height: 150px;
+    .mapBox {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .openShopInfo {
+    padding: 20px 0px;
+    border-bottom: 1px solid $black01;
+    h3 {
+      color:$black05;
+      font-size:14px
+    }
+    p {
+      margin: 7px 0px 10px;
+      line-height: 20px;
+      color:$blackText;
+      font-size:15px;
+      span {
+        color:$black05;
+        font-size:13px
+      }
+    }
+    button {
+      width:60px;
+      height:40px;
+      background-color: $mainBgColor;
+      border: 1px solid $gray220;
+      border-radius: 3px;
+      font-weight: normal;
+    }
+  }
+  .infoTxt {
+    margin-top:15px;
+    font-size:12px;
+    line-height: 1.5em;
+    color:$black05;
+    b {
+      color:$mainTextColor;
+      font-weight: bold;
+    }
+  }
+  .btnBox {
+    margin: 10px 0px 20px;
+    display: flex;
+    button {
+      flex:1;
+      border-radius: 3px;
+      &:last-child {
+        margin-left:15px;
+        background-color: $mainBgColor;
+        border: 1px solid $gray220;
+      }
+    }
+  }
+}
+

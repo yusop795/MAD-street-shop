@@ -14,7 +14,7 @@ import { Button } from '../../components/Unit';
 // style
 import '../../assets/styles/containers/setting.scss';
 
-const SettingTime = ({ isOpen, onEvent }) => {
+const SettingTime = ({ type, isOpen, onEvent }) => {
   const dispatch = useDispatch();
   const tagList = ['월', '화', '수', '목', '금', '토', '일']
   const storeOpenDays = useSelector(state => state.userReducer.storeOpenDays);
@@ -68,12 +68,15 @@ const SettingTime = ({ isOpen, onEvent }) => {
         setOpenTime={setOpenTime}
         setCloseTime={setCloseTime}
       />
-      <InputTag
-        title={'영업 요일'}
-        item={tagList}
-        selectTag={selectTag}
-        onEvent={onChangeTag}
-      />
+      {type !== "openShop" ? (
+        <InputTag
+          title={'영업 요일'}
+          item={tagList}
+          selectTag={selectTag}
+          onEvent={onChangeTag}
+        />
+      ) : null}
+
       <Button
         active={Object.keys(selectTag).length >= 1}
         bottom={true}

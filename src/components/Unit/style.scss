@@ -7,6 +7,7 @@
   align-items: center;
   justify-content: center;
   height: 50px;
+  border: none;
   border-radius: 3px;
   background-color: $gray233;
   font-size: 17px;
@@ -104,7 +105,7 @@
 
 
 .iconBox {
-  position: absolute;
+  position: fixed;
   bottom:-100px;
   left:50%;
   span {

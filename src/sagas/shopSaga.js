@@ -1,6 +1,6 @@
 import { takeEvery, takeLatest, put, call } from "redux-saga/effects";
 import { shopTypes } from "../reducers/shopReducer";
-import { fetchShopList, fetchShopDetail } from './api/shopApi';
+import { fetchShopList, fetchShopDetail, postShopOpen, deleteShopOpen } from './api/shopApi';
 
 export function* fetchShopListSaga({ payload }) {
   console.log('fetchShopListSaga');
@@ -32,7 +32,26 @@ export function* fetchShopDetailSaga({ payload }) {
   }
 }
 
+export function* postShopOpenSaga({ payload }) {
+  const response = yield call(postShopOpen, payload);
+  if (response.data) {
+    console.log('postShopOpenSaga', response.data);
+  } else {
+    console.log('postShopOpenSaga >>', response);
+  }
+}
+
+export function* deleteShopOpenSaga({ payload }) {
+  const response = yield call(deleteShopOpen, payload);
+  if (response.data) {
+    console.log('deleteShopOpen', response.data);
+  } else {
+    console.log('deleteShopOpen >>', response);
+  }
+}
 export default function* shopSaga() {
   yield takeEvery(shopTypes.FETCH_SHOP_LIST, fetchShopListSaga);
   yield takeLatest(shopTypes.FETCH_SHOP_DETAIL, fetchShopDetailSaga);
+  yield takeLatest(shopTypes.POST_SHOP_OPEN, postShopOpenSaga);
+  yield takeLatest(shopTypes.DELETE_SHOP_CLOSE, deleteShopOpenSaga);
 }

@@ -7,7 +7,6 @@
     align-items: center;
     padding: 20px 0px;
     margin: 0px 30px;
-    border-bottom: 1px solid $black01;
     > img {
       border-radius: 50%;
     }
@@ -35,6 +34,8 @@
     display: flex;
     justify-content: space-between;
     margin: 0px 30px;
+    border-top: 1px solid $black01;
+    border-bottom: 1px solid $black01;
     .menuItem {
       display: flex;
       flex-direction: column;
@@ -56,22 +57,10 @@
     padding: 0px 30px;
     height: 80px;
     border-radius: 15px;
-    background-color: $mainTextColor;
-    p {
-      span {
-        display: block;
-        font-size: 14px;
-        font-weight: 100;
-      }
-      font-size: 18px;
-      font-weight: bold;
-      line-height: 1.3em;
-      color: $whiteColor;
-    }
-    img {
-      width: 20px;
-      height: 20px;
-    }
+    background-image: url('../../imgs/banner01.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
   }
   .settingList {
     .settingItem {
