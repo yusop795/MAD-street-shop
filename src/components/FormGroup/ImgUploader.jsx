@@ -5,7 +5,9 @@ import './style.scss';
 
 const ImgUploader = ({ fullMode = false, title = '', info = '', multiple = true, setFiles = null, files }) => {
   const [isImgUpload, setIsImgUpload] = useState(files.length > 0 ? false : true);
-  const [imgFiles, setImgFiles] = useState(files);
+  const [imgFiles, setImgFiles] = useState([]);
+  const [imgBase64, setImgBase64] = useState(files);
+
   const imgUploader = useRef();
 
   const fileReader = (target) => {
@@ -28,7 +30,8 @@ const ImgUploader = ({ fullMode = false, title = '', info = '', multiple = true,
     const imgs = fileReader(target)
     Promise.all(imgs).then(v => {
       if (v.length > 0) {
-        setImgFiles([...imgFiles, v[0]])
+        setImgFiles([...imgFiles, target.files[0]])
+        setImgBase64([...imgFiles, v])
         if (!multiple) setIsImgUpload(false)
       }
     });
@@ -56,7 +59,7 @@ const ImgUploader = ({ fullMode = false, title = '', info = '', multiple = true,
 
 
   const renderImgPreviewBox = () => {
-    return imgFiles.map((v, i) => {
+    return imgBase64.map((v, i) => {
       return (
         <div className='imgPreview imgBox' key={`imgPreview-${i}`} style={{ backgroundImage: `url(${v})` }}>
           <span className="imgDelBtn" onClick={() => deleteImg(i)} />
@@ -71,7 +74,7 @@ const ImgUploader = ({ fullMode = false, title = '', info = '', multiple = true,
     <FormGroup fullMode={fullMode} title={title} subTittle={(multiple ? `${imgFiles.length}/10` : null)} info={info}>
       <div className="imgUploaderBox">
         {!multiple && !isImgUpload ? (
-          <div className='imgPreview imgBox' style={{ backgroundImage: `url(${imgFiles[0]})` }}>
+          <div className='imgPreview imgBox' style={{ backgroundImage: `url(${imgBase64[0]})` }}>
             <span className="imgDelBtn" onClick={deleteImg} />
           </div>) : null}
 

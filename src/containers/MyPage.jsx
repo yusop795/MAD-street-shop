@@ -79,7 +79,11 @@ const MyPage = ({ history, match }) => {
         ) : (
           <>
             <div className="userInfoBox">
-              <img src={!userInfo.owner ? imgProfile01 : imgProfile02} className="userImg" alt="기본 프로필 이미지" />
+              {
+                userInfo.kakao.profileLink ?
+                  <img src={userInfo.kakao.profileLink} className="userImg" alt="기본 프로필 이미지" /> :
+                  <img src={!userInfo.owner ? imgProfile01 : imgProfile02} className="userImg" alt="기본 프로필 이미지" />
+              }
               <div className="userInfo">
                 {!userInfo.owner ? <span>일반회원</span> : <span>사장님</span>}
                 <p>{userInfo.kakao.nickname}</p>

@@ -83,15 +83,14 @@ export const HomeHeader = ({ address = '서울 영등포구 여의도동 37', se
   const userInfo = useSelector(state => state.userReducer.userInfo);
   let img = ''
   if (isLogin && isUser) {
-    if (userInfo.owner) {
-      img = imgProfile02
+    if (userInfo.kakao.profileLink) {
+      img = userInfo.kakao.profileLink
     } else {
-      img = imgProfile01
+      img = (userInfo.owner) ? imgProfile02 : imgProfile01
     }
   } else {
     img = imgProfile03
   }
-
   return (
     <div className="header homeHeader">
       <div className="menu">

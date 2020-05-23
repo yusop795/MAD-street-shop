@@ -8,6 +8,9 @@
     padding: 20px 0px;
     margin: 0px 30px;
     border-bottom: 1px solid $black01;
+    > img {
+      border-radius: 50%;
+    }
     b {
       text-decoration: underline;
     }

@@ -21,17 +21,17 @@ const SettingTime = ({ isOpen, onEvent }) => {
   const storeOpenTime = useSelector(state => state.userReducer.storeOpenTime);
   const storeCloseTime = useSelector(state => state.userReducer.storeCloseTime);
   const [selectTag, setSelectTag] = useState(storeOpenDays);
-  const [openTime, setOpenTime] = useState(storeOpenTime, '01:00');
-  const [closeTime, setCloseTime] = useState(storeCloseTime, '01:00');
+  const [openTime, setOpenTime] = useState(storeOpenTime);
+  const [closeTime, setCloseTime] = useState(storeCloseTime);
 
   const modalPage = useRef();
 
   // 모달
   const { isShowing, title, contents, setAlert } = AlertUtil();
 
-  const onChangeTag = (tag) => {
+  const onChangeTag = (tag, i) => {
     if (!Object.keys(selectTag).includes(tag)) {
-      const data = { ...selectTag, [tag]: true }
+      const data = { ...selectTag, [tag]: i }
       setSelectTag(data)
     } else {
       delete selectTag[tag]
@@ -63,6 +63,8 @@ const SettingTime = ({ isOpen, onEvent }) => {
       <ModalHeader onEvent={onEvent} title={'영업 시간 설정'} />
       <SelectTime
         title={'영업 시간'}
+        openTime={openTime}
+        closeTime={closeTime}
         setOpenTime={setOpenTime}
         setCloseTime={setCloseTime}
       />

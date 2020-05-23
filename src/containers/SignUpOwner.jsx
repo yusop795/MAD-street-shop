@@ -39,18 +39,54 @@ const SignUpOwner = ({ history, match }) => {
   const { isShowing, title, contents, setAlert } = AlertUtil();
   const { targetModalPage, isModalOpen, setModalPage } = ModalPageUtill();
 
+  const rederModalPage = () => {
+    switch (targetModalPage) {
+      case 'SettingCategory':
+        return <SettingCategory isOpen={isModalOpen} onEvent={setModalPage} />;
+      case 'SettingTime':
+        return <SettingTime isOpen={isModalOpen} onEvent={setModalPage} />;
+      case 'SettingLocation':
+        return <SettingLocation type={history.location.pathname === "/myPage/owner" ? 'edit' : null} isOpen={isModalOpen} onEvent={setModalPage} />;
+      default:
+        return null;
+    }
+  };
+
+  useEffect(() => {
+    console.log(isUser, history.location.pathname)
+    if (isUser && history.location.pathname !== "/myPage/owner") {
+      history.push(`/signup/complet/owner`)
+    }
+  }, [isUser])
+
+  const renderTimes = () => {
+    const days = Object.keys(storeOpenDays).sort((a, b) => {
+      return storeOpenDays[a] - storeOpenDays[b]
+    })
+    const openTime = `${storeOpenTime[0]}:${(+storeOpenTime[1] < 10) ? `0${+storeOpenTime[1]}` : storeOpenTime[1]}`
+    const closeTime = `${storeCloseTime[0]}:${(+storeCloseTime[1] < 10) ? `0${+storeCloseTime[1]}` : storeCloseTime[1]}`
+    const text = `${days} ${openTime}~${closeTime}`
+    return {
+      days,
+      openTime,
+      closeTime,
+      text,
+    }
+  }
+
   const submitData = () => {
     if (!userId || !storeLocation || !storeCategory || !storeOpenDays || !storeOpenTime || !storeCloseTime || !userName || !mobile || !shopName || !shopComment || firstFile.length <= 0 || files.length <= 0) {
       alert("가입 안됨")
       return false
     }
+
     const formData = new FormData();
-    formData.append('files', firstFile[0].imgFile);
+    formData.append('files', firstFile[0]);
     files.map((v) => {
-      formData.append('files', v.imgFile);
+      formData.append('files', v);
     })
 
-    console.log(formData)
+    const { days, openTime, closeTime } = renderTimes()
 
     if (history.location.pathname === "/myPage/owner") {
       // 사장님 정보 수정
@@ -69,10 +105,10 @@ const SignUpOwner = ({ history, match }) => {
           subLocation: storeLocation.address,
           locationComment: storeLocation.locationComment,
           shopComment,
-          openDays: Object.keys(storeOpenDays).join(','),
-          openTime: storeOpenTime,
-          closeTime: storeCloseTime,
-          useKakao: false,
+          openDays: days.join(','),
+          openTime: openTime,
+          closeTime: closeTime,
+          useKakao: true,
           files: formData,
         },
       })
@@ -92,36 +128,16 @@ const SignUpOwner = ({ history, match }) => {
           subLocation: storeLocation.address,
           locationComment: storeLocation.locationComment,
           shopComment,
-          openDays: Object.keys(storeOpenDays).join(','),
-          openTime: storeOpenTime,
-          closeTime: storeCloseTime,
-          useKakao: false,
+          openDays: days.join(','),
+          openTime: openTime,
+          closeTime: closeTime,
+          useKakao: true,
           files: formData,
         },
       })
     }
   }
 
-  const rederModalPage = () => {
-    switch (targetModalPage) {
-      case 'SettingCategory':
-        return <SettingCategory isOpen={isModalOpen} onEvent={setModalPage} />;
-      case 'SettingTime':
-        return <SettingTime isOpen={isModalOpen} onEvent={setModalPage} />;
-      case 'SettingLocation':
-        return <SettingLocation type={history.location.pathname === "/myPage/owner" ? 'postSignUpOwnerSaga' : null} isOpen={isModalOpen} onEvent={setModalPage} />;
-      default:
-        return null;
-    }
-  };
-
-  useEffect(() => {
-    if (isUser && history.location.pathname !== "/myPage/owner") {
-      history.push(`/signup/complet/owner`)
-    }
-  }, [isUser])
-
-  console.log(files)
   return (
     <div className="main signUpOwner">
       <Header onEvent={history.goBack} />
@@ -173,7 +189,7 @@ const SignUpOwner = ({ history, match }) => {
           selcetData={
             Object.keys(storeOpenDays).length > 0 ?
               {
-                main: `${Object.keys(storeOpenDays).join(',')} ${storeOpenTime} ~ ${storeCloseTime}`
+                main: renderTimes().text
               }
               : null
           }

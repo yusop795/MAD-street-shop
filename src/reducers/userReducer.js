@@ -56,8 +56,8 @@ const initialState = {
   shopId: '',
   storeLocation: '',
   storeOpenDays: '',
-  storeOpenTime: '',
-  storeCloseTime: '',
+  storeOpenTime: [1, 0],
+  storeCloseTime: [1, 0],
   firstFile: [],
   files: [],
   userPhoneOn: false,
@@ -116,6 +116,8 @@ export default function userReducer(state = initialState, action) {
         ...state,
         isLogin: payload.isLogin,
         isUser: payload.isUser,
+        userId: payload.userId,
+        userInfo: payload.userInfo
       };
     case userTypes.SET_LEAVE:
       return {

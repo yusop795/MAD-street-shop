@@ -60,7 +60,9 @@ export function* postSignUpUserSaga({ payload }) {
       type: userTypes.SET_SIGNUP,
       payload: {
         isLogin: true,
-        isUser: true,
+        isUser: response.data.isUser,
+        userId: response.data.userId,
+        userInfo: (response.data.isUser) ? response.data.userInfo : {}
       },
     });
   } else {
@@ -68,7 +70,7 @@ export function* postSignUpUserSaga({ payload }) {
       type: userTypes.SET_SIGNUP,
       payload: {
         isLogin: false,
-        isUser: false,
+        userId: ''
       },
     });
   }
@@ -104,13 +106,22 @@ export function* postSignUpImgOwnerSaga(data) {
   const response = yield call(putImgUpload, data);
   if (response.data) {
     yield put({
-      type: userTypes.SET_USER_INFO,
+      type: userTypes.SET_SIGNUP,
       payload: {
-        userInfo: response.data,
+        isLogin: true,
+        isUser: response.data.user.isUser,
+        userId: response.data.user.userId,
+        userInfo: response.data.user,
       },
     });
   } else {
-    console.log(response);
+    yield put({
+      type: userTypes.SET_SIGNUP,
+      payload: {
+        isLogin: false,
+        userId: ''
+      },
+    });
   }
 }
 
@@ -121,24 +132,7 @@ export function* postSignUpOwnerSaga({ payload }) {
   const response = yield call(postSignUpOwner, payload);
   if (response.data) {
     const data = { files: payload.files, userId: payload.userId, shopId: response.data.shopId }
-    const imgUploadResponse = yield postSignUpImgOwnerSaga(data)
-    if (imgUploadResponse.data) {
-      yield put({
-        type: userTypes.SET_SIGNUP,
-        payload: {
-          isLogin: true,
-          isUser: true,
-        },
-      });
-    } else {
-      yield put({
-        type: userTypes.SET_SIGNUP,
-        payload: {
-          isLogin: false,
-          isUser: false,
-        },
-      });
-    }
+    yield postSignUpImgOwnerSaga(data)
   } else {
     console.log(response);
   }
@@ -150,7 +144,7 @@ export function* putOwnerSaga({ payload }) {
   const response = yield call(putOwner, payload);
   if (response.data) {
     const data = { files: payload.files, userId: payload.userId, shopId: response.data.shopId }
-    const imgUploadResponse = yield postSignUpImgOwnerSaga(data)
+    yield postSignUpImgOwnerSaga(data)
   } else {
     console.log(response)
   }
@@ -174,10 +168,10 @@ export function* fetchWhoamiSaga({ payload }) {
   if (response.data) {
     if (response.data.shop) {
       const data = response.data.shop[0]
+      const tagList = ['월', '화', '수', '목', '금', '토', '일']
       let days = {}
-      data.openDays.forEach((v) => {
-        console.log(v)
-        days[v] = true
+      data.openDays[0].split(',').forEach((v, i) => {
+        days[v] = tagList.indexOf(v)
       })
       data.openDays = days
       yield put({
@@ -194,8 +188,8 @@ export function* fetchWhoamiSaga({ payload }) {
           },
           storeCategory: data.shopTags,
           storeOpenDays: data.openDays,
-          storeOpenTime: data.openTime,
-          storeCloseTime: data.closeTime,
+          storeOpenTime: data.openTime.split(':'),
+          storeCloseTime: data.closeTime.split(':'),
           firstFile: data.imageUrl.pop(),
           files: data.imageUrl,
           shopInfo: data,

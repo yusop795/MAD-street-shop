@@ -21,7 +21,7 @@ const shopDetailModal = ({ shopInfo, isOpen = true, onEvent = null, }) => {
           <img src={iconClock} alt={'영업시간'} />
           <div className="info">
             <p>영업시간{shopInfo.now.active ? <span className="openInfo">영업중</span> : null}</p>
-            <p>{`${shopInfo.openDays}`}{`${shopInfo.openTime}~${shopInfo.closeTime}`}</p>
+            <p>{`${shopInfo.openDays}`} {`${shopInfo.openTime}~${shopInfo.closeTime}`}</p>
           </div>
         </li>
         <li className="infoList">

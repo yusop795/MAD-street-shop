@@ -16,7 +16,7 @@ const InputTag = ({ fullMode = false, title = '', item = [], selectTag = [], onE
               name="item"
               value={v.title}
               hidden={true}
-              onChange={() => onEvent(v)}
+              onChange={() => onEvent(v, i)}
             />
             <span>{v}</span>
           </label>
