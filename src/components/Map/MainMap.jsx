@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import scriptUtill from '../../util/scriptUtill';
 import './style.scss';
 import mapPinOn from '../../assets/imgs/mapPinOn.png';
-import adressEdit from '../../assets/imgs/adressEdit.png';
-
+import mapPinOff from '../../assets/imgs/mapPinOff.png';
+import mapMarker from '../../assets/imgs/mapMarker.png';
+import mapLocation from '../../assets/imgs/mapLocation.png';
 const kakaoMapScript = scriptUtill(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=a2634b699ee1deee53b339a1835cca33&autoload=false&libraries=services`);
 
 const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectShopId, setSelectShopId, getGeocoder, setLocation }) => {
@@ -55,7 +56,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
     });
   }
 
-  const setAddress = (kakaoMap, map) => {
+  const setAddress = (kakaoMap, map, marker) => {
     // 주소-좌표 변환 객체를 생성합니다
     const geocoder = new kakaoMap.services.Geocoder();
     // if (containerId === 'homeMap') {
@@ -80,19 +81,20 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
             getGeocoder(result[0].address.address_name)
           }
         });
+
         if (setLocation) {
-          console.log(1, { lat: latlng.Ha, long: latlng.Ga })
+          marker.setPosition(latlng);
           setLocation({ lat: latlng.Ha, long: latlng.Ga })
         }
       });
     }
   }
 
-  const createMarkerImage = (kakaoMap, src) => {
-    const size = new kakaoMap.Size(43, 50);
+  const createMarkerImage = (kakaoMap, src, sizeObj) => {
+    const size = new kakaoMap.Size(sizeObj.width, sizeObj.height);
     const options = {
       spriteOrigin: new kakaoMap.Point(0, 0),
-      spriteSize: new kakaoMap.Size(43, 50)
+      spriteSize: new kakaoMap.Size(sizeObj.width, sizeObj.height)
     }
     const markerImage = new kakaoMap.MarkerImage(src, size, options);
     return markerImage;
@@ -100,8 +102,9 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
 
   const createShopsMarker = (kakaoMap, map) => {
     for (let i = 0; i < shopList.length; i++) {
-      const src = selectShopId === shopList[i]._id ? mapPinOn : adressEdit;
-      const image = createMarkerImage(kakaoMap, src);
+      const src = selectShopId === shopList[i]._id ? mapPinOn : mapPinOff;
+      const sizeObj = selectShopId === shopList[i]._id ? { width: 35, height: 42 } : { width: 23, height: 28 };
+      const image = createMarkerImage(kakaoMap, src, sizeObj);
       const latitude = shopList[i].location.latitude.$numberDecimal
       const longitude = shopList[i].location.longitude.$numberDecimal
       const position = new kakaoMap.LatLng(latitude, longitude)
@@ -147,10 +150,13 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
           const map = new kakaoMap.Map(container, options);
 
           // 현재 내위치 마커 생성
+          const image = createMarkerImage(kakaoMap, mapMarker, { width: 50, height: 48 });
           const marker = new kakaoMap.Marker({
             map,
             position: new kakaoMap.LatLng(crrlocation.lat, crrlocation.long),
+            image,
           });
+
 
           marker.setMap(map);
           // shop list 마커
@@ -159,10 +165,11 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
           }
 
           if (onEvent) {
+            console.log(1)
             clickMap(kakaoMap, map)
           }
           if (getGeocoder && Object.keys(crrlocation).length > 0) {
-            setAddress(kakaoMap, map)
+            setAddress(kakaoMap, map, marker)
           }
           // 스핀 제거
           // setisSpin(false);
