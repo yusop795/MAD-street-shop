@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { userTypes, userApiTypes } from '../reducers/userReducer';
@@ -19,17 +19,18 @@ import { SettingCategory, SettingTime, SettingLocation } from './ModalPage';
 
 const SignUpOwner = ({ history, match }) => {
   const dispatch = useDispatch();
+  const [state, setState] = useState(true);
   // 스토어 값 가져오기
-  const userId = useSelector(state => state.userReducer.userId);
-  const shopId = useSelector(state => state.userReducer.shopId);
-  const isUser = useSelector(state => state.userReducer.isUser);
-  const shopInfo = useSelector(state => state.userReducer.shopInfo);
-  const storeLocation = useSelector(state => state.userReducer.storeLocation);
-  const storeCategory = useSelector(state => state.userReducer.storeCategory);
-  const storeOpenDays = useSelector(state => state.userReducer.storeOpenDays);
-  const storeOpenTime = useSelector(state => state.userReducer.storeOpenTime);
-  const storeCloseTime = useSelector(state => state.userReducer.storeCloseTime);
-  const userLoading = useSelector(state => state.userReducer.userLoading);
+  const userId = useSelector(state => state.userReducer.userId, shallowEqual);
+  const shopId = useSelector(state => state.userReducer.shopId, shallowEqual);
+  const isUser = useSelector(state => state.userReducer.isUser, shallowEqual);
+  const shopInfo = useSelector(state => state.userReducer.shopInfo, shallowEqual);
+  const storeLocation = useSelector(state => state.userReducer.storeLocation, shallowEqual);
+  const storeCategory = useSelector(state => state.userReducer.storeCategory, shallowEqual);
+  const storeOpenDays = useSelector(state => state.userReducer.storeOpenDays, shallowEqual);
+  const storeOpenTime = useSelector(state => state.userReducer.storeOpenTime, shallowEqual);
+  const storeCloseTime = useSelector(state => state.userReducer.storeCloseTime, shallowEqual);
+  const userLoading = useSelector(state => state.userReducer.userLoading, shallowEqual);
 
   const [userName, setUserName] = useState(shopInfo.ownerName || '');
   const [mobile, setMobile] = useState(shopInfo.mobile || '');
@@ -56,10 +57,9 @@ const SignUpOwner = ({ history, match }) => {
     }
   };
 
-
   useEffect(() => {
-    console.log(isUser, history.location.pathname)
-    if (!userLoading && isUser) {
+    console.log(userLoading, isUser, shopInfo, history.location.pathname)
+    if (!state && !userLoading && shopInfo) {
       if (history.location.pathname !== "/myPage/owner") {
         history.push(`/signup/complet/owner`)
       } else {
@@ -97,7 +97,7 @@ const SignUpOwner = ({ history, match }) => {
     })
 
     const { days, openTime, closeTime } = renderTimes()
-
+    setState(false)
     dispatch({
       type: userTypes.USER_LODING,
       payload: {

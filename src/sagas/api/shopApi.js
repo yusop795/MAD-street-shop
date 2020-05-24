@@ -85,9 +85,7 @@ export const postShopOpen = (data) => {
 export const deleteShopOpen = (data) => {
   return API_INSTANCE.delete(`/shops/${data.shopId}/operation`,
     {
-      data: {
-        userId: data.userId
-      },
+      data: qs.stringify(data),
       headers: {
         'Authorization': `Bearer ${AuthUtill.accessToken}`
       }

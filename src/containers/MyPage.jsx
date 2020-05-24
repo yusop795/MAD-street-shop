@@ -17,7 +17,6 @@ import iconDeclare from '../assets/imgs/iconDeclare.png';
 import iconHeart from '../assets/imgs/iconHeart.png';
 import iconSettings from '../assets/imgs/iconSettings.png';
 import iconChevronRight from '../assets/imgs/iconChevronRight.png';
-import banner01 from '../assets/imgs/banner01.png';
 import more from '../assets/imgs/more.png';
 
 import '../assets/styles/containers/myPage.scss';
@@ -91,8 +90,8 @@ const MyPage = ({ history, match }) => {
               </div>
             </div>
             {
-              userInfo.owner && false ? (
-                <div className="banner"
+              userInfo.owner && shopInfo.now.active ? (
+                <div className="banner bannerOpen"
                   onClick={() => {
                     history.push('openShop/edit')
                   }}>

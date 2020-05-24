@@ -11,6 +11,7 @@ import '../assets/styles/containers/openShop.scss';
 
 const OpenShop = ({ history, match }) => {
   const dispatch = useDispatch();
+  const [state, setState] = useState(true)
   const userId = useSelector(state => state.userReducer.userId, shallowEqual);
   const shopId = useSelector(state => state.userReducer.shopId, shallowEqual);
   const storeLocation = useSelector(state => state.userReducer.storeLocation, shallowEqual);
@@ -44,7 +45,7 @@ const OpenShop = ({ history, match }) => {
 
   const openShop = () => {
     const { openTime, closeTime } = renderTimes()
-
+    setState(false)
     dispatch({
       type: shopTypes.SET_SHOP_LOADING,
       payload: {
@@ -67,6 +68,7 @@ const OpenShop = ({ history, match }) => {
   }
 
   const closeShop = () => {
+    setState(false)
     dispatch({
       type: shopTypes.SET_SHOP_LOADING,
       payload: {
@@ -83,8 +85,9 @@ const OpenShop = ({ history, match }) => {
   }
 
   useEffect(() => {
-    if (!shopLoding) {
-      history.push('home')
+    if (!state && !shopLoding) {
+      console.log(123)
+      history.push('/home')
     } else {
       if (shopError) {
         alert(shopError)
