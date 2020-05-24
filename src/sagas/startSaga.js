@@ -19,9 +19,13 @@ export function* fetchCategorySaga({ payload }) {
 
 export function* fetchShopListSaga({ payload }) {
   // console.log('fetchShopListSaga');
+  yield put({
+    type: startTypes.SET_SHOP_LIST,
+    name: payload.name,
+    payload: [],
+  });
   const response = yield call(fetchList, payload);
   if (response.data || response.statusText === "No Content") {
-    console.log('fetchShopList 있음 >>', response.data, payload.type);
     yield put({
       type: startTypes.SET_SHOP_LIST,
       name: payload.name,

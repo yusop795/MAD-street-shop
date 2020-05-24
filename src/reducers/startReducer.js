@@ -52,7 +52,6 @@ export default function startReducer(state = initialState, action) {
         shopCategory: payload,
       };
     case startTypes.SET_SHOP_LIST:
-      console.log('startTypes.SET_SHOP_LIST', action.name, payload);
       return {
         ...state,
         [action.name]: payload,

@@ -87,6 +87,13 @@ const Home = ({ history }) => {
     });
   }, [selectShopId]);
 
+  useEffect(() => {
+    const getFromLocalStorage = JSON.parse(localStorageGet('MadShopCurrentKeyword'));
+
+    isEmpty(getFromLocalStorage) || getFromLocalStorage.length === 0 ? setCurrentKeyword([]) : setCurrentKeyword(getFromLocalStorage);
+
+  }, [targetModalPage])
+
   const rederModalPage = () => {
     if (Object.keys(shopDetail).length > 0) {
       switch (targetModalPage) {
