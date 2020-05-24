@@ -13,17 +13,8 @@ import { isEmpty } from "../util/gm";
 
 import Spinner from "../components/Unit/Spinner";
 const SearchResult = ({ loading, onEvent }) => {
-
-    const modalPage = useRef();
-    const [enterKeyword, setKeyword] = useState('');
     const [location, setLocation] = useState('');
-
-    const dispatch = useDispatch();
-
     const [childLoading, setChildLoading] = useState(true);
-
-    const [searchStoreList, setSearchList] = useState([]);
-
 
     const getResult = useSelector(state => state.startReducer.searchResult, '');
 
@@ -49,11 +40,6 @@ const SearchResult = ({ loading, onEvent }) => {
         console.log('fetchGeolocation');
     };
 
-    // useEffect(() => {
-    //     let keyword = (decodeURI(window.location.search)).split('=')[1];
-    //     setKeyword(keyword);
-    //     document.querySelector('.textBoxWrapper input').value = keyword;
-    // })
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -67,7 +53,6 @@ const SearchResult = ({ loading, onEvent }) => {
         }
     }, [getResult]);
 
-    console.log('searchResult', loading, childLoading);
     return (
         <div className="searchResult">
             <div className="resultInfo">내 주변 <strong>3km</strong> 이내의 검색 결과입니다</div>

@@ -1,23 +1,25 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { withRouter } from "react-router-dom";
 import { useSelector } from 'react-redux';
-// common components
-import { SearchModalHeader } from '../../components/Header';
 // style
 import '../../assets/styles/containers/setting.scss';
 import { isEmpty } from "../../util/gm";
+import iconSearch from '../../assets/imgs/iconSearch.png';
 
-import { localStorageSet } from '../../util/LocalStorage.js';
+import { localStorageSet, localStorageGet } from '../../util/LocalStorage.js';
 import { useDispatch } from 'react-redux';
 import { startTypes } from '../../reducers/startReducer';
 
-import SearchResult from "../SearchResult";;
+import SearchResult from "../SearchResult";
+import { id } from 'postcss-selector-parser';
 
 const SearchModal = ({ history, isOpen, currentKeyword, onEvent }) => {
   const [keywordList, setKewordList] = useState(currentKeyword);
   const [location, setLocation] = useState('');
   const [isSearch, setIsSearch] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [enterKeyword, setKeyword] = useState('');
+  const [searchedKeyword, setSearchedKeyword] = useState('');
 
   const dispatch = useDispatch();
 
@@ -26,14 +28,14 @@ const SearchModal = ({ history, isOpen, currentKeyword, onEvent }) => {
   const onKeywordRemove = useCallback(keyword => {
     keywordList.splice(keywordList.indexOf(keyword), 1)
     setKewordList([...keywordList]);
-    console.log('adgdsg', keywordList);
     localStorageSet('MadShopCurrentKeyword', JSON.stringify(keywordList));
   }, [keywordList])
 
   const searchForKeyword = (keyword) => {
-    console.log('ddd', keyword);
     // history.push(`/searchResult?keyword=${keyword}`)
-
+    setLoading(true)
+    setKeyword(keyword);
+    setSearchedKeyword(keyword)
     setIsSearch(true);
     if (!isEmpty(location)) {
       dispatch({
@@ -44,7 +46,7 @@ const SearchModal = ({ history, isOpen, currentKeyword, onEvent }) => {
           lat: location.lat,
           type: "main",
           active: false,
-          range: 30000,
+          range: 3000,
           search: keyword,
           name: "searchResult",
         }
@@ -62,7 +64,6 @@ const SearchModal = ({ history, isOpen, currentKeyword, onEvent }) => {
 
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
-        console.log('SearchModal coords', coords);
         setLocation({ lat: coords.latitude, long: coords.longitude });
       },
       e => console.log(`Geolocation 오류 [${e.code}] : ${e.message}`),
@@ -120,9 +121,43 @@ const SearchModal = ({ history, isOpen, currentKeyword, onEvent }) => {
       </div>)
   }
 
+  const addKeyPress = (e) => {
+    if (e.target.value === searchedKeyword) return false;
+    if (e.key === 'Enter') {
+      const current_keyword = isEmpty(localStorageGet('MadShopCurrentKeyword')) ? [] : JSON.parse(localStorageGet('MadShopCurrentKeyword'));
+      if (e.target.value !== "") {
+        current_keyword.unshift(e.target.value);
+        const set_keyword_arr = current_keyword.reduce((a, b) => {
+          if (a.indexOf(b) < 0) a.push(b);
+          return a;
+        }, [])
+        localStorageSet('MadShopCurrentKeyword', JSON.stringify(set_keyword_arr));
+        searchEvent(e.target.value);
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (enterKeyword !== searchedKeyword && isSearch) {
+      setIsSearch(false);
+    }
+  }, [enterKeyword])
+
+
   return (
     <div ref={modalPage} className={`searchModal modalPageRight ${isOpen ? 'open' : ''}`}>
-      <SearchModalHeader history={history} onEvent={onEvent} searchEvent={searchEvent} />
+      <div className="header modalHeader">
+        <div className="headerWrapper">
+          <div className="search">
+            <img src={iconSearch} alt={'검색'} />
+          </div>
+          <div className="textBoxWrapper focusOn">
+            <input type="text" placeholder={'검색어를 입력하세요'} value={enterKeyword} onChange={(e) => setKeyword(e.target.value)} onKeyPress={(e) => { addKeyPress(e) }} />
+            <button type="button" className="deleteText" onClick={() => setKeyword('')}>입력 텍스트 삭제</button>
+          </div>
+          <div className="cancel" onClick={onEvent}>취소</div>
+        </div>
+      </div>
       {renderRightContent()}
     </div>
   );

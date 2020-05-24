@@ -35,46 +35,6 @@ export const ModalHeader = ({ onEvent, title = '', border = true }) => {
   );
 };
 
-export const SearchModalHeader = ({ history, textarea = '', textValue = '', searchEvent, onEvent }) => {
-  const [enterKeyword, setKeyword] = useState('');
-  const addKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      const current_keyword = isEmpty(localStorageGet('MadShopCurrentKeyword')) ? [] : JSON.parse(localStorageGet('MadShopCurrentKeyword'));
-      if (e.target.value !== "") {
-        current_keyword.unshift(e.target.value);
-        const set_keyword_arr = current_keyword.reduce((a, b) => {
-          if (a.indexOf(b) < 0) a.push(b);
-          return a;
-        }, [])
-        localStorageSet('MadShopCurrentKeyword', JSON.stringify(set_keyword_arr));
-        searchEvent(e.target.value);
-      }
-    }
-  }
-
-  useEffect(() => {
-    if (textValue !== '') {
-      setKeyword(textValue);
-    }
-  }, []);
-
-  return (
-    <div className="header modalHeader">
-      <div className="headerWrapper">
-        <div className="search">
-          <img src={iconSearch} alt={'검색'} />
-        </div>
-        <div className="textBoxWrapper focusOn">
-          <input type="text" placeholder={(textarea) ? textarea : '검색어를 입력하세요'} value={enterKeyword} onChange={(e) => setKeyword(e.target.value)} onKeyPress={(e) => { addKeyPress(e) }} />
-          <button type="button" className="deleteText" onClick={() => setKeyword('')}>입력 텍스트 삭제</button>
-        </div>
-        <div className="cancel" onClick={onEvent}>취소</div>
-      </div>
-    </div>
-  );
-}
-
-
 export const HomeHeader = ({ address = '서울 영등포구 여의도동 37', setModalPage }) => {
   const isLogin = useSelector(state => state.userReducer.isLogin);
   const isUser = useSelector(state => state.userReducer.isUser);
