@@ -91,7 +91,7 @@ const MyPage = ({ history, match }) => {
               </div>
             </div>
             {
-              !shopInfo.now.active ? (
+              userInfo.owner && false ? (
                 <div className="banner"
                   onClick={() => {
                     history.push('openShop/edit')
