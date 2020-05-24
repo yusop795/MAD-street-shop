@@ -37,7 +37,6 @@ export const fetchCategory = () => {
  * 범위 range : 기본값은 10000(=10km)
  */
 export const fetchList = ({ type = "main", long = 37.4983608, lat = 127.02650489999999, active = false, range = 10000, search = "", name = "" }) => {
-  console.log('fetchList>>', type, "fetchList NAME>>>>", name);
   return API_INSTANCE.get('/shops/list',
     {
       params: {
@@ -51,7 +50,6 @@ export const fetchList = ({ type = "main", long = 37.4983608, lat = 127.02650489
     },
   )
     .then(response => {
-      console.log('response List >>>', response);
       return response
     })
     .catch(error => {
