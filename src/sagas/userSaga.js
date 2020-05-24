@@ -1,7 +1,7 @@
 import { takeLatest, put, call } from "redux-saga/effects";
 import { userTypes, userApiTypes } from "../reducers/userReducer";
 import { login, logout, fetchWhoami, postSignUpUser, postSignUpOwner, putImgUpload, putUser, deleteUser, putOwner } from './api/userApi';
-
+import { localStorageRemove } from '../util/LocalStorage';
 
 /**
  * 앱 로그인
@@ -66,20 +66,32 @@ export function* postSignUpUserSaga({ payload }) {
       type: userTypes.SET_SIGNUP,
       payload: {
         isLogin: true,
-        isUser: response.data.isUser,
-        userId: response.data.userId,
+        // isUser: response.data.isUser,
+        isUser: true,
         userInfo: (response.data.isUser) ? response.data.userInfo : {}
       },
     });
+    yield put({
+      type: userTypes.USER_LODING,
+      payload: {
+        userLoading: false
+      }
+    })
   } else {
     yield put({
       type: userTypes.SET_SIGNUP,
       payload: {
         isLogin: false,
-        userId: ''
       },
     });
+    yield put({
+      type: userTypes.USER_LODING,
+      payload: {
+        userLoading: false
+      }
+    })
   }
+
 }
 
 /**
@@ -115,10 +127,16 @@ export function* postSignUpImgOwnerSaga(data) {
       type: userTypes.SET_SIGNUP,
       payload: {
         isLogin: true,
-        isUser: response.data.user.isUser,
-        userId: response.data.user.userId,
+        isUser: true,
+        // isUser: response.data.user.isUser,
         userInfo: response.data.user,
       },
+    });
+    yield put({
+      type: userTypes.USER_LODING,
+      payload: {
+        userLoading: false
+      }
     });
   } else {
     yield put({
@@ -127,6 +145,12 @@ export function* postSignUpImgOwnerSaga(data) {
         isLogin: false,
         userId: ''
       },
+    });
+    yield put({
+      type: userTypes.USER_LODING,
+      payload: {
+        userLoading: false
+      }
     });
   }
 }
@@ -164,6 +188,8 @@ export function* deleteUserSaga({ payload }) {
   const response = yield call(deleteUser, payload);
   if (response.data) {
     yield put({ type: userTypes.SET_LEAVE });
+    localStorageRemove('MAD_KAKAO_ACCESS_TOKEN');
+    localStorageRemove('MAD_USER_ID')
   } else {
     console.log(response);
   }

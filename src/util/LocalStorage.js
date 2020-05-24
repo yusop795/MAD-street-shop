@@ -15,3 +15,11 @@ export function localStorageGet(name) {
         console.log("localStorage error");
     }
 }
+
+export function localStorageRemove(name) {
+    if (storageAvailable("localStorage")) {
+        return localStorage.removeItem(name);
+    } else {
+        console.log("localStorage error");
+    }
+}

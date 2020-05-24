@@ -10,6 +10,7 @@ import { userTypes, userApiTypes } from '../../reducers/userReducer';
 
 // common components
 import { ModalHeader } from '../../components/Header';
+import Spinner from "../../components/Unit/Spinner";
 // style
 import '../../assets/styles/containers/login.scss';
 // img
@@ -23,6 +24,7 @@ const Login = ({ history, isOpen, onEvent }) => {
   const isUser = useSelector(state => state.userReducer.isUser, []);
   const isLogin = useSelector(state => state.userReducer.isLogin);
   const userId = useSelector(state => state.userReducer.userId);
+  const userLoading = useSelector(state => state.userReducer.userLoading);
   const [type, setType] = useState('')
   const modalPage = useRef();
 
@@ -33,7 +35,7 @@ const Login = ({ history, isOpen, onEvent }) => {
       success: (authObj) => {
         // 사용자 토큰 저장
         AuthUtill.setUserStore(authObj.access_token)
-        localStorageSet('MAD_KAKAO_ACCESS_TOKEN', JSON.stringify(authObj.access_token));
+        localStorageSet('MAD_KAKAO_ACCESS_TOKEN', authObj.access_token);
         dispatch({
           type: userTypes.SET_TOKEN,
           payload: {
@@ -42,6 +44,12 @@ const Login = ({ history, isOpen, onEvent }) => {
               refreshToken: authObj.refresh_token
             }
           },
+        })
+        dispatch({
+          type: userTypes.USER_LODING,
+          payload: {
+            userLoading: true
+          }
         })
         // 앱 로그인
         dispatch({
@@ -64,9 +72,10 @@ const Login = ({ history, isOpen, onEvent }) => {
   useEffect(() => {
     if (isLogin && isUser) {
       history.push(`/home`)
-      localStorageSet('MAD_USER_ID', JSON.stringify(userId));
+      localStorageSet('MAD_USER_ID', userId);
     } else if (isLogin && !isUser) {
       history.push(`/signup/account`)
+      localStorageSet('MAD_USER_ID', userId);
     }
   }, [isLogin]);
 
@@ -95,6 +104,7 @@ const Login = ({ history, isOpen, onEvent }) => {
         </div>
       </div>
       <p onClick={onEvent}>나중에 할래요</p>
+      {userLoading ? <Spinner /> : null}
     </div >
   );
 };

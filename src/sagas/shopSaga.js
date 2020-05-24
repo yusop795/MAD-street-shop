@@ -46,7 +46,7 @@ export function* postShopOpenSaga({ payload }) {
     yield put({
       type: shopTypes.SET_SHOP_ERROR,
       payload: {
-        shopLoding: true,
+        shopLoding: false,
         shopError: '에러입니다.'
       },
     });
@@ -67,7 +67,7 @@ export function* deleteShopOpenSaga({ payload }) {
     yield put({
       type: shopTypes.SET_SHOP_ERROR,
       payload: {
-        shopLoding: true,
+        shopLoding: false,
         shopError: '에러입니다.'
       },
     });

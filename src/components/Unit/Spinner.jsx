@@ -2,7 +2,9 @@ import React from 'react';
 import { css } from "react-emotion";
 
 const loading_spinner = css`
-  position: relative;
+  position: fixed; 
+  top: 0;
+  left: 0;    
   display: flex;
   height: 100%;
   width: 100%;
@@ -73,15 +75,15 @@ const loading_spinner = css`
 // }
 
 const Spinner = ({ id = "spinnerWrapper" }) => {
-    return (
-        <div id={id} className={`${loading_spinner} inline_spinner`}>
-            <div className="loading_spinner_img bouncing-loader">
-                <div className="bouncing-loader__round"></div>
-                <div className="bouncing-loader__round"></div>
-                <div className="bouncing-loader__round"></div>
-            </div>
-        </div>
-    );
+  return (
+    <div id={id} className={`${loading_spinner} inline_spinner`}>
+      <div className="loading_spinner_img bouncing-loader">
+        <div className="bouncing-loader__round"></div>
+        <div className="bouncing-loader__round"></div>
+        <div className="bouncing-loader__round"></div>
+      </div>
+    </div>
+  );
 }
 
 export default Spinner;

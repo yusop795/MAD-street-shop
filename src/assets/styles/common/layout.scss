@@ -3,6 +3,7 @@ body {
     font-size: 15px;
     color:$mainTextColor;
     font-family: 'Noto Sans KR', sans-serif;
+    overscroll-behavior: contain;
   }
 
 #root {

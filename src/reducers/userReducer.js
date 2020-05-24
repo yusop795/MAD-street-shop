@@ -65,7 +65,7 @@ const initialState = {
   storeCategory: [],
   token: {},
   isLogin: false,
-  userLoading: true,
+  userLoading: false,
 };
 
 /**
@@ -118,7 +118,6 @@ export default function userReducer(state = initialState, action) {
         ...state,
         isLogin: payload.isLogin,
         isUser: payload.isUser,
-        userId: payload.userId,
         userInfo: payload.userInfo
       };
     case userTypes.SET_LEAVE:
@@ -148,11 +147,16 @@ export default function userReducer(state = initialState, action) {
         ...state,
         userLoading: payload.userLoading
       };
-    case userApiTypes.WHO_AM_I:
-      return {
-        ...state,
-        userLoading: true
-      };
+    // case userApiTypes.WHO_AM_I:
+    //   return {
+    //     ...state,
+    //     userLoading: true
+    //   };
+    // case userApiTypes.POST_SIGNUP_OWNER:
+    //   return {
+    //     ...state,
+    //     userLoading: true
+    //   };
     default:
       return state;
   }

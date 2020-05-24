@@ -4,7 +4,7 @@ import { Redirect, withRouter } from 'react-router-dom';
 import { startTypes } from '../reducers/startReducer';
 import '../assets/styles/containers/splash.scss';
 import imgLogoTruck from '../assets/imgs/imgLogoTruck.png';
-import { userApiTypes } from '../reducers/userReducer';
+import { userTypes, userApiTypes } from '../reducers/userReducer';
 import { localStorageGet } from '../util/LocalStorage';
 import AlertUtil from '../util/AlertUtil';
 import { Alert } from '../components/Alert';
@@ -31,7 +31,7 @@ const Splash = ({ history }) => {
     const options = {
       enableHighAccuracy: true,
       maximumAge: 10000,
-      timeout: 10000,
+      timeout: 15000,
     };
 
     console.log('주소가져오기')
@@ -47,10 +47,10 @@ const Splash = ({ history }) => {
       },
       e => {
         console.log(`Geolocation 오류 [${e.code}] : ${e.message}`)
-        fetchGeolocation()
         setAlert({
           contents: '위치값을 가져오는데 실패했습니다. 앱을 다시 실행해주세요'
         })
+        fetchGeolocation()
       },
       options,
     );
@@ -89,6 +89,13 @@ const Splash = ({ history }) => {
 
     if (token && userId) {
       dispatch({
+        type: userTypes.USER_LODING,
+        payload: {
+          userLoading: true
+        }
+      })
+
+      dispatch({
         type: userApiTypes.WHO_AM_I,
         payload: {
           token,
@@ -100,10 +107,10 @@ const Splash = ({ history }) => {
 
 
   useEffect(() => {
-    console.log(userLoading, isLogin, categoryList, noticeList, faqList, location)
-    if (!userLoading) {
-      console.log(isUser)
+    console.log(isLogin, isUser)
+    if (!userLoading && Object.keys(location).length > 0) {
       if (isUser) {
+        console.log(userInfo.owner, shopInfo)
         if (userInfo.owner && !shopInfo.now.active) {
           history.push('openShop')
         } else {
@@ -116,7 +123,7 @@ const Splash = ({ history }) => {
     return () => {
       setAllState(false)
     }
-  }, [userLoading]);
+  }, [isLogin, userLoading, location]);
 
   return (allState ? (
     <Redirect to="/home" />

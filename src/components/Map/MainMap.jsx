@@ -138,7 +138,6 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
     const container = document.getElementById(containerId);
     kakaoMapScript
       .then(() => {
-        console.log('crrlocation', crrlocation)
         const kakaoMap = window.kakao.maps;
         kakaoMap.load(() => {
           // 지도 옵션

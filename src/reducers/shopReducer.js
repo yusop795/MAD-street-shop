@@ -33,7 +33,7 @@ const initialState = {
   rank: [],
   main: [],
   shopDetail: {},
-  shopLoding: true,
+  shopLoding: false,
   shopError: ''
 };
 
@@ -58,29 +58,10 @@ export default function shopReducer(state = initialState, action) {
         ...state,
         shopDetail: payload.shopDetail,
       };
-    case shopTypes.POST_SHOP_OPEN:
-      return {
-        ...state,
-        shopLoding: true,
-        shopError: ''
-      };
-    case shopTypes.DELETE_SHOP_CLOSE:
-      return {
-        ...state,
-        shopLoding: true,
-        shopError: ''
-      };
     case shopTypes.SET_SHOP_LOADING:
       return {
         ...state,
         shopLoding: payload.shopLoding,
-        shopError: payload.shopError
-      };
-    case shopTypes.SET_SHOP_ERROR:
-      return {
-        ...state,
-        shopLoding: payload.shopLoding,
-        shopError: payload.shopError
       };
     default:
       return state;

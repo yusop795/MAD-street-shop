@@ -9,9 +9,10 @@ import { InputTag } from '../components/FormGroup';
 import { Button } from '../components/Unit';
 import { Alert } from '../components/Alert';
 import '../assets/styles/containers/signUpUser.scss';
+import Spinner from "../components/Unit/Spinner";
 
 import { useDispatch, useSelector } from 'react-redux';
-import { userApiTypes } from '../reducers/userReducer';
+import { userTypes, userApiTypes } from '../reducers/userReducer';
 
 
 
@@ -20,6 +21,8 @@ const SignUpUser = ({ history }) => {
   const userInfo = useSelector(state => state.userReducer.userInfo);
   const isUser = useSelector(state => state.userReducer.isUser);
   const userId = useSelector(state => state.userReducer.userId);
+  const userLoading = useSelector(state => state.userReducer.userLoading);
+
   const categoryList = useSelector(state => state.startReducer.shopCategory, []);
   const [selectCategory, setSelectCategory] = useState(1);
   const [tagList, setTagList] = useState([]);
@@ -72,6 +75,13 @@ const SignUpUser = ({ history }) => {
       }
     })
 
+    dispatch({
+      type: userTypes.USER_LODING,
+      payload: {
+        userLoading: true
+      }
+    })
+
     if (history.location.pathname === "/myPage/user") {
       // 사용자 정보수정
       dispatch({
@@ -81,7 +91,6 @@ const SignUpUser = ({ history }) => {
           userTags
         }
       })
-      history.goBack()
     } else {
       // 사용자 가입
       dispatch({
@@ -95,10 +104,15 @@ const SignUpUser = ({ history }) => {
   }
 
   useEffect(() => {
-    if (isUser && history.location.pathname !== "/myPage/user") {
-      history.push(`/signup/complet/user`)
+    console.log(userLoading, isUser, history.location.pathname)
+    if (!userLoading && isUser) {
+      if (history.location.pathname !== "/myPage/user") {
+        history.push(`/signup/complet/user`)
+      } else {
+        history.goBack()
+      }
     }
-  }, [isUser])
+  }, [userLoading])
 
   return (
     <div className="main signUpUser">
@@ -133,6 +147,7 @@ const SignUpUser = ({ history }) => {
         text={`선택 완료(${Object.keys(selectTag).length}/3)`}
       />
       <Alert isShowing={isShowing} hide={setAlert} title={title} contents={contents} />
+      {userLoading ? <Spinner /> : null}
     </div>
   );
 };

@@ -12,6 +12,7 @@ import { Alert } from '../components/Alert';
 import { Header } from '../components/Header';
 import { FormGroup, InputText, Radio, ImgUploader } from '../components/FormGroup';
 import { Button } from '../components/Unit';
+import Spinner from "../components/Unit/Spinner";
 
 import '../assets/styles/containers/signUpOwner.scss';
 import { SettingCategory, SettingTime, SettingLocation } from './ModalPage';
@@ -19,8 +20,8 @@ import { SettingCategory, SettingTime, SettingLocation } from './ModalPage';
 const SignUpOwner = ({ history, match }) => {
   const dispatch = useDispatch();
   // 스토어 값 가져오기
-  const userId = useSelector(state => state.userReducer.userId, '');
-  const shopId = useSelector(state => state.userReducer.shopId, '');
+  const userId = useSelector(state => state.userReducer.userId);
+  const shopId = useSelector(state => state.userReducer.shopId);
   const isUser = useSelector(state => state.userReducer.isUser);
   const shopInfo = useSelector(state => state.userReducer.shopInfo);
   const storeLocation = useSelector(state => state.userReducer.storeLocation);
@@ -28,6 +29,8 @@ const SignUpOwner = ({ history, match }) => {
   const storeOpenDays = useSelector(state => state.userReducer.storeOpenDays);
   const storeOpenTime = useSelector(state => state.userReducer.storeOpenTime);
   const storeCloseTime = useSelector(state => state.userReducer.storeCloseTime);
+  const userLoading = useSelector(state => state.userReducer.userLoading);
+
   const [userName, setUserName] = useState(shopInfo.ownerName || '');
   const [mobile, setMobile] = useState(shopInfo.mobile || '');
   const [useMobile, setUseMobile] = useState(0);
@@ -38,6 +41,7 @@ const SignUpOwner = ({ history, match }) => {
   // 모달
   const { isShowing, title, contents, setAlert } = AlertUtil();
   const { targetModalPage, isModalOpen, setModalPage } = ModalPageUtill();
+
 
   const rederModalPage = () => {
     switch (targetModalPage) {
@@ -52,12 +56,17 @@ const SignUpOwner = ({ history, match }) => {
     }
   };
 
+
   useEffect(() => {
     console.log(isUser, history.location.pathname)
-    if (isUser && history.location.pathname !== "/myPage/owner") {
-      history.push(`/signup/complet/owner`)
+    if (!userLoading && isUser) {
+      if (history.location.pathname !== "/myPage/owner") {
+        history.push(`/signup/complet/owner`)
+      } else {
+        history.goBack()
+      }
     }
-  }, [isUser])
+  }, [userLoading])
 
   const renderTimes = () => {
     const days = Object.keys(storeOpenDays).sort((a, b) => {
@@ -75,18 +84,26 @@ const SignUpOwner = ({ history, match }) => {
   }
 
   const submitData = () => {
-    if (!userId || !storeLocation || !storeCategory || !storeOpenDays || !storeOpenTime || !storeCloseTime || !userName || !mobile || !shopName || !shopComment || firstFile.length <= 0 || files.length <= 0) {
-      alert("가입 안됨")
+    if (!userId || !storeLocation || !storeCategory || !storeOpenDays || !storeOpenTime || !storeCloseTime || !userName || !mobile || !shopName || !shopComment || firstFile.length <= 0) {
+      alert("필수 입력값을 입력해주세요")
       return false
     }
 
     const formData = new FormData();
+    // formData.append('files', firstFile[0], `${shopId}.${firstFile[0].type.split('/')[1]}`);
     formData.append('files', firstFile[0]);
     files.map((v) => {
       formData.append('files', v);
     })
 
     const { days, openTime, closeTime } = renderTimes()
+
+    dispatch({
+      type: userTypes.USER_LODING,
+      payload: {
+        userLoading: true
+      }
+    })
 
     if (history.location.pathname === "/myPage/owner") {
       // 사장님 정보 수정
@@ -137,7 +154,6 @@ const SignUpOwner = ({ history, match }) => {
       })
     }
   }
-
   return (
     <div className="main signUpOwner">
       <Header onEvent={history.goBack} />
@@ -224,6 +240,7 @@ const SignUpOwner = ({ history, match }) => {
       />
       <Alert isShowing={isShowing} hide={setAlert} title={title} contents={contents} />
       {rederModalPage()}
+      {userLoading ? <Spinner /> : null}
     </div>
   );
 };

@@ -6,6 +6,7 @@ import { MainMap } from '../components/Map';
 import { Button } from '../components/Unit';
 import { SettingTime, SettingLocation } from './ModalPage';
 import ModalPageUtill from '../util/ModalPageUtill';
+import Spinner from "../components/Unit/Spinner";
 import '../assets/styles/containers/openShop.scss';
 
 const OpenShop = ({ history, match }) => {
@@ -43,6 +44,13 @@ const OpenShop = ({ history, match }) => {
 
   const openShop = () => {
     const { openTime, closeTime } = renderTimes()
+
+    dispatch({
+      type: shopTypes.SET_SHOP_LOADING,
+      payload: {
+        shopLoding: true,
+      },
+    })
     dispatch({
       type: shopTypes.POST_SHOP_OPEN,
       payload: {
@@ -59,6 +67,12 @@ const OpenShop = ({ history, match }) => {
   }
 
   const closeShop = () => {
+    dispatch({
+      type: shopTypes.SET_SHOP_LOADING,
+      payload: {
+        shopLoding: true,
+      },
+    })
     dispatch({
       type: shopTypes.DELETE_SHOP_CLOSE,
       payload: {
@@ -119,6 +133,7 @@ const OpenShop = ({ history, match }) => {
           </>
         )}
       {rederModalPage()}
+      {shopLoding ? <Spinner /> : null}
     </div>
   )
 }
