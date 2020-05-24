@@ -19,6 +19,7 @@ export const userTypes = {
   SET_USER_INFO: 'user/SET_USER_INFO',
   SET_OWNER_INFO: 'user/SET_OWNER_INFO',
   SET_SHOP_INFO: 'user/SET_SHOP_INFO',
+  USER_LODING: 'user/USER_LODING'
 };
 
 /**
@@ -64,6 +65,7 @@ const initialState = {
   storeCategory: [],
   token: {},
   isLogin: false,
+  userLoading: true,
 };
 
 /**
@@ -141,7 +143,16 @@ export default function userReducer(state = initialState, action) {
         files: payload.files,
         shopInfo: payload.shopInfo,
       };
-
+    case userTypes.USER_LODING:
+      return {
+        ...state,
+        userLoading: payload.userLoading
+      };
+    case userApiTypes.WHO_AM_I:
+      return {
+        ...state,
+        userLoading: true
+      };
     default:
       return state;
   }

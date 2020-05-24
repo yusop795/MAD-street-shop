@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { shopTypes } from '../reducers/shopReducer';
 import { withRouter } from 'react-router-dom';
 import { MainMap } from '../components/Map';
@@ -10,11 +10,13 @@ import '../assets/styles/containers/openShop.scss';
 
 const OpenShop = ({ history, match }) => {
   const dispatch = useDispatch();
-  const userId = useSelector(state => state.userReducer.userId, '');
-  const shopId = useSelector(state => state.userReducer.shopId, '');
-  const storeLocation = useSelector(state => state.userReducer.storeLocation);
-  const storeOpenTime = useSelector(state => state.userReducer.storeOpenTime);
-  const storeCloseTime = useSelector(state => state.userReducer.storeCloseTime);
+  const userId = useSelector(state => state.userReducer.userId, shallowEqual);
+  const shopId = useSelector(state => state.userReducer.shopId, shallowEqual);
+  const storeLocation = useSelector(state => state.userReducer.storeLocation, shallowEqual);
+  const storeOpenTime = useSelector(state => state.userReducer.storeOpenTime, shallowEqual);
+  const storeCloseTime = useSelector(state => state.userReducer.storeCloseTime, shallowEqual);
+  const shopLoding = useSelector(state => state.shopReducer.shopLoding, shallowEqual);
+  const shopError = useSelector(state => state.shopReducer.shopError, shallowEqual);
 
   const { targetModalPage, isModalOpen, setModalPage } = ModalPageUtill();
 
@@ -65,6 +67,16 @@ const OpenShop = ({ history, match }) => {
       },
     })
   }
+
+  useEffect(() => {
+    if (!shopLoding) {
+      history.push('home')
+    } else {
+      if (shopError) {
+        alert(shopError)
+      }
+    }
+  }, [shopLoding]);
 
   return (
     <div className="main openShop">

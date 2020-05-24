@@ -35,18 +35,42 @@ export function* fetchShopDetailSaga({ payload }) {
 export function* postShopOpenSaga({ payload }) {
   const response = yield call(postShopOpen, payload);
   if (response.data) {
-    console.log('postShopOpenSaga', response.data);
+    yield put({
+      type: shopTypes.SET_SHOP_LOADING,
+      payload: {
+        shopLoding: false,
+        shopError: ''
+      },
+    });
   } else {
-    console.log('postShopOpenSaga >>', response);
+    yield put({
+      type: shopTypes.SET_SHOP_ERROR,
+      payload: {
+        shopLoding: true,
+        shopError: '에러입니다.'
+      },
+    });
   }
 }
 
 export function* deleteShopOpenSaga({ payload }) {
   const response = yield call(deleteShopOpen, payload);
   if (response.data) {
-    console.log('deleteShopOpen', response.data);
+    yield put({
+      type: shopTypes.SET_SHOP_LOADING,
+      payload: {
+        shopLoding: false,
+        shopError: ''
+      },
+    });
   } else {
-    console.log('deleteShopOpen >>', response);
+    yield put({
+      type: shopTypes.SET_SHOP_ERROR,
+      payload: {
+        shopLoding: true,
+        shopError: '에러입니다.'
+      },
+    });
   }
 }
 export default function* shopSaga() {

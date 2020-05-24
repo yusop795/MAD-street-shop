@@ -19,11 +19,11 @@ const SignUpUser = ({ history }) => {
   const dispatch = useDispatch();
   const userInfo = useSelector(state => state.userReducer.userInfo);
   const isUser = useSelector(state => state.userReducer.isUser);
-  const userId = useSelector(state => state.userReducer.userId, '');
+  const userId = useSelector(state => state.userReducer.userId);
   const categoryList = useSelector(state => state.startReducer.shopCategory, []);
   const [selectCategory, setSelectCategory] = useState(1);
   const [tagList, setTagList] = useState([]);
-  const [selectTag, setSelectTag] = useState(userInfo.userTags);
+  const [selectTag, setSelectTag] = useState(userInfo.userTags || {});
 
   // alert
   const { isShowing, title, contents, setAlert } = AlertUtil();

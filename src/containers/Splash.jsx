@@ -18,8 +18,10 @@ const Splash = ({ history }) => {
   const noticeList = useSelector(state => state.startReducer.ntc);
   const faqList = useSelector(state => state.startReducer.faq);
   const isLogin = useSelector(state => state.userReducer.isLogin);
+  const isUser = useSelector(state => state.userReducer.isUser);
   const userInfo = useSelector(state => state.userReducer.userInfo);
   const shopInfo = useSelector(state => state.userReducer.shopInfo);
+  const userLoading = useSelector(state => state.userReducer.userLoading);
   const [allState, setAllState] = useState(false);
 
   const { isShowing, title, contents, setAlert } = AlertUtil();
@@ -28,9 +30,11 @@ const Splash = ({ history }) => {
   const fetchGeolocation = () => {
     const options = {
       enableHighAccuracy: true,
-      maximumAge: 300000,
-      timeout: 50000,
+      maximumAge: 10000,
+      timeout: 10000,
     };
+
+    console.log('주소가져오기')
 
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
@@ -43,6 +47,7 @@ const Splash = ({ history }) => {
       },
       e => {
         console.log(`Geolocation 오류 [${e.code}] : ${e.message}`)
+        fetchGeolocation()
         setAlert({
           contents: '위치값을 가져오는데 실패했습니다. 앱을 다시 실행해주세요'
         })
@@ -95,31 +100,23 @@ const Splash = ({ history }) => {
 
 
   useEffect(() => {
-    // console.log(categoryList, noticeList, faqList, location)
-    // if (categoryList.length > 0 && noticeList.length > 0 && faqList.length > 0 && Object.keys(location).length > 0) {
-    //   // if (Object.keys(shopInfo).length > 0 && !shopInfo.now.active) {
-    //   //   history.push('openShop')
-    //   // } else {
-    //   //   setAllState(true)
-    //   // }
-    //   console.log(12312312, shopInfo)
-    //   setAllState(true)
-
-    // }
-    if (isLogin) {
-      if (categoryList.length > 0 && noticeList.length > 0 && faqList.length > 0 && Object.keys(location).length > 0) {
-        if (userInfo.owner && !shopInfo.now.active) return history.push('openShop')
-        setAllState(true)
-      }
-    } else {
-      if (categoryList.length > 0 && noticeList.length > 0 && faqList.length > 0 && Object.keys(location).length > 0) {
+    console.log(userLoading, isLogin, categoryList, noticeList, faqList, location)
+    if (!userLoading) {
+      console.log(isUser)
+      if (isUser) {
+        if (userInfo.owner && !shopInfo.now.active) {
+          history.push('openShop')
+        } else {
+          setAllState(true)
+        }
+      } else {
         setAllState(true)
       }
     }
     return () => {
       setAllState(false)
     }
-  }, [isLogin, categoryList, noticeList, location]);
+  }, [userLoading]);
 
   return (allState ? (
     <Redirect to="/home" />

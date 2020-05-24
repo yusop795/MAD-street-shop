@@ -10,8 +10,11 @@ export const shopTypes = {
   SET_SHOP_LIST: 'shop/SET_SHOP_LIST',
   FETCH_SHOP_DETAIL: 'shop/FETCH_SHOP_DETAIL',
   SET_SHOP_DETAIL: 'shop/SET_SHOP_DETAILL',
+
   POST_SHOP_OPEN: 'shop/POST_SHOP_OPEN',
-  DELETE_SHOP_CLOSE: 'shop/DELETE_SHOP_CLOSE'
+  DELETE_SHOP_CLOSE: 'shop/DELETE_SHOP_CLOSE',
+  SET_SHOP_LOADING: 'shop/SET_SHOP_LOADING',
+  SET_SHOP_ERROR: 'shop/SET_SHOP_ERROR',
 }
 /**
  * 액션 생섬함수 정의
@@ -29,7 +32,9 @@ const initialState = {
   shopList: [],
   rank: [],
   main: [],
-  shopDetail: {}
+  shopDetail: {},
+  shopLoding: true,
+  shopError: ''
 };
 
 /**
@@ -52,6 +57,30 @@ export default function shopReducer(state = initialState, action) {
       return {
         ...state,
         shopDetail: payload.shopDetail,
+      };
+    case shopTypes.POST_SHOP_OPEN:
+      return {
+        ...state,
+        shopLoding: true,
+        shopError: ''
+      };
+    case shopTypes.DELETE_SHOP_CLOSE:
+      return {
+        ...state,
+        shopLoding: true,
+        shopError: ''
+      };
+    case shopTypes.SET_SHOP_LOADING:
+      return {
+        ...state,
+        shopLoding: payload.shopLoding,
+        shopError: payload.shopError
+      };
+    case shopTypes.SET_SHOP_ERROR:
+      return {
+        ...state,
+        shopLoding: payload.shopLoding,
+        shopError: payload.shopError
       };
     default:
       return state;

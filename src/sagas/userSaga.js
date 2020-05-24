@@ -27,6 +27,12 @@ export function* loginSaga({ payload }) {
         userInfo: (response.data.isUser) ? response.data.userInfo : {}
       },
     });
+    yield put({
+      type: userTypes.USER_LODING,
+      payload: {
+        userLoading: false
+      }
+    });
   } else {
     yield put({
       type: userTypes.SET_LOGIN,
@@ -131,7 +137,7 @@ export function* postSignUpImgOwnerSaga(data) {
 export function* postSignUpOwnerSaga({ payload }) {
   const response = yield call(postSignUpOwner, payload);
   if (response.data) {
-    const data = { files: payload.files, userId: payload.userId, shopId: response.data.shopId }
+    const data = { files: payload.files, userId: payload.userId, shopId: response.data._id }
     yield postSignUpImgOwnerSaga(data)
   } else {
     console.log(response);
@@ -198,7 +204,12 @@ export function* fetchWhoamiSaga({ payload }) {
     }
     yield loginSaga(payload)
   } else {
-    console.log(response);
+    yield put({
+      type: userTypes.USER_LODING,
+      payload: {
+        userLoading: false
+      }
+    });
   }
 }
 
