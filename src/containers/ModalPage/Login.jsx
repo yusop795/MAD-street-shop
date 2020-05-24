@@ -70,14 +70,15 @@ const Login = ({ history, isOpen, onEvent }) => {
   }, [isOpen]);
 
   useEffect(() => {
-    if (isLogin && isUser) {
+    if (!userLoading && isLogin && isUser) {
       history.push(`/home`)
       localStorageSet('MAD_USER_ID', userId);
-    } else if (isLogin && !isUser) {
+    } else if (!userLoading && isLogin && !isUser) {
       history.push(`/signup/account`)
       localStorageSet('MAD_USER_ID', userId);
     }
-  }, [isLogin]);
+
+  }, [userLoading]);
 
   return (
     <div ref={modalPage} className={`main login modalPage ${isOpen ? 'open' : ''}`}>

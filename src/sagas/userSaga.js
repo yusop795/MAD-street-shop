@@ -18,6 +18,7 @@ export function* loginSaga({ payload }) {
       });
       response.data.userInfo.userTags = tag
     }
+
     yield put({
       type: userTypes.SET_LOGIN,
       payload: {

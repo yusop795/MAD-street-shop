@@ -43,12 +43,6 @@ const MyPage = ({ history, match }) => {
     })
   }
 
-  useEffect(() => {
-    // if (!isUser) {
-    //   history.push('/home')
-    // }
-  }, [isUser])
-
   const { targetModalPage, isModalOpen, setModalPage } = ModalPageUtill();
 
   const rederModalPage = () => {
@@ -90,7 +84,7 @@ const MyPage = ({ history, match }) => {
               </div>
             </div>
             {
-              userInfo.owner && shopInfo.now.active ? (
+              userInfo.owner && shopInfo.now?.active ? (
                 <div className="banner bannerOpen"
                   onClick={() => {
                     history.push('openShop/edit')
