@@ -200,7 +200,7 @@ export function* fetchWhoamiSaga({ payload }) {
   const response = yield call(fetchWhoami, payload);
   if (response.data) {
     if (response.data.shop) {
-      const data = response.data.shop[0]
+      const data = response.data.shop
       const tagList = ['월', '화', '수', '목', '금', '토', '일']
       let days = {}
       data.openDays[0].split(',').forEach((v, i) => {
@@ -226,6 +226,7 @@ export function* fetchWhoamiSaga({ payload }) {
           firstFile: data.imageUrl.pop(),
           files: data.imageUrl,
           shopInfo: data,
+          shopActive: data.now.active
         },
       });
     }

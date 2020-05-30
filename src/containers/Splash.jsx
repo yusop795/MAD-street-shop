@@ -60,13 +60,13 @@ const Splash = ({ history }) => {
     {
       type: startTypes.FETCH_SHOP_CATEGORY,
     },
-    {
-      type: startTypes.FETCH_SHOP_LIST,
-      payload: {
-        type: "rank",
-        name: "rank",
-      }
-    },
+    // {
+    //   type: startTypes.FETCH_SHOP_LIST,
+    //   payload: {
+    //     type: "rank",
+    //     name: "rank",
+    //   }
+    // },
     {
       type: startTypes.FETCH_ETC_LIST,
       payload: {

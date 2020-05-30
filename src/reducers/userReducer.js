@@ -141,6 +141,7 @@ export default function userReducer(state = initialState, action) {
         firstFile: [payload.firstFile],
         files: payload.files,
         shopInfo: payload.shopInfo,
+        shopActive: payload.shopActive
       };
     case userTypes.USER_LODING:
       return {

@@ -26,8 +26,7 @@ export const fetchShopList = (data) => {
         long: data.location.long,
         lat: data.location.lat,
         type: 'main',
-        active: false,
-        range: 3000,
+        active: true,
       }
     },
   )
