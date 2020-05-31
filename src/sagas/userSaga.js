@@ -207,6 +207,7 @@ export function* fetchWhoamiSaga({ payload }) {
         days[v] = tagList.indexOf(v)
       })
       data.openDays = days
+      // TODO: storeLocation now 수정 필요
       yield put({
         type: userTypes.SET_SHOP_INFO,
         payload: {

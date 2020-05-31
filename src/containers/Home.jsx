@@ -95,19 +95,18 @@ const Home = ({ history }) => {
   }, [targetModalPage])
 
   const rederModalPage = () => {
-    if (Object.keys(shopDetail).length > 0) {
-      switch (targetModalPage) {
-        case 'SearchModal':
-          return <SearchModal history={history} isOpen={isModalOpen} onEvent={setModalPage} currentKeyword={currentKeyword} />;
-        case 'ShopDetailModal':
-          return <ShopDetailModal shopInfo={shopDetail} isOpen={isModalOpen} onEvent={setModalPage} />;
-        case 'SettingLocation':
-          return <SettingLocation type={'home'} isOpen={isModalOpen} onEvent={setModalPage} />;
-        case 'ShopInfoModal':
-          return <ShopInfo shopInfo={shopDetail} fetchGeolocation={fetchGeolocation} onEvent={setModalPage} />;
-        default:
-          return null;
-      }
+    if (targetModalPage === 'ShopInfoModal' && Object.keys(shopDetail).length > 0) {
+      return <ShopInfo shopInfo={shopDetail} fetchGeolocation={fetchGeolocation} onEvent={setModalPage} />;
+    }
+    switch (targetModalPage) {
+      case 'SearchModal':
+        return <SearchModal history={history} isOpen={isModalOpen} onEvent={setModalPage} currentKeyword={currentKeyword} />;
+      case 'ShopDetailModal':
+        return <ShopDetailModal shopInfo={shopDetail} isOpen={isModalOpen} onEvent={setModalPage} />;
+      case 'SettingLocation':
+        return <SettingLocation type={'home'} isOpen={isModalOpen} onEvent={setModalPage} />;
+      default:
+        return null;
     }
   }
 
@@ -125,7 +124,7 @@ const Home = ({ history }) => {
           getGeocoder={(address) => { setAddress(address) }}
         />
       </div>
-      <div className={`buttonBox ${targetModalPage !== 'ShopInfoModal' ? 'bottom' : ''}`}>
+      <div className={`buttonBox ${targetModalPage !== 'ShopInfoModal' || shopList.length <= 0 ? 'bottom' : ''}`}>
         <div className="loactionBtn" onClick={fetchGeolocation}>
           <img src={btnHere} alt="현재위치" />
         </div>
