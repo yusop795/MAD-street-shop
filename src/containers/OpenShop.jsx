@@ -18,7 +18,6 @@ const OpenShop = ({ history, match }) => {
   const storeOpenTime = useSelector(state => state.userReducer.storeOpenTime, shallowEqual);
   const storeCloseTime = useSelector(state => state.userReducer.storeCloseTime, shallowEqual);
   const shopLoding = useSelector(state => state.shopReducer.shopLoding, shallowEqual);
-  const shopError = useSelector(state => state.shopReducer.shopError, shallowEqual);
 
   const { targetModalPage, isModalOpen, setModalPage } = ModalPageUtill();
 
@@ -88,10 +87,6 @@ const OpenShop = ({ history, match }) => {
     if (!state && !shopLoding) {
       console.log(123)
       history.push('/home')
-    } else {
-      if (shopError) {
-        alert(shopError)
-      }
     }
   }, [shopLoding]);
 

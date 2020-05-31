@@ -28,7 +28,7 @@ const MyPage = ({ history, match }) => {
   const userInfo = useSelector(state => state.userReducer.userInfo);
   const isUser = useSelector(state => state.userReducer.isUser);
   const userId = useSelector(state => state.userReducer.userId);
-  // const type = useSelector(state => state.userReducer.userType);
+  const shopActive = useSelector(state => state.userReducer.shopActive);
 
   const kakaoLogout = () => {
     dispatch({
@@ -84,7 +84,7 @@ const MyPage = ({ history, match }) => {
               </div>
             </div>
             {
-              userInfo.owner && shopInfo.now?.active ? (
+              userInfo.owner && shopActive ? (
                 <div className="banner bannerOpen"
                   onClick={() => {
                     history.push('openShop/edit')

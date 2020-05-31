@@ -19,7 +19,9 @@ export const userTypes = {
   SET_USER_INFO: 'user/SET_USER_INFO',
   SET_OWNER_INFO: 'user/SET_OWNER_INFO',
   SET_SHOP_INFO: 'user/SET_SHOP_INFO',
+  SET_SHOP_ACTIVE: 'user/SET_SHOP_ACTIVE',
   USER_LODING: 'user/USER_LODING'
+
 };
 
 /**
@@ -66,6 +68,7 @@ const initialState = {
   token: {},
   isLogin: false,
   userLoading: false,
+  shopActive: false
 };
 
 /**
@@ -148,16 +151,11 @@ export default function userReducer(state = initialState, action) {
         ...state,
         userLoading: payload.userLoading
       };
-    // case userApiTypes.WHO_AM_I:
-    //   return {
-    //     ...state,
-    //     userLoading: true
-    //   };
-    // case userApiTypes.POST_SIGNUP_OWNER:
-    //   return {
-    //     ...state,
-    //     userLoading: true
-    //   };
+    case userTypes.SET_SHOP_ACTIVE:
+      return {
+        ...state,
+        shopActive: payload.shopActive
+      };
     default:
       return state;
   }

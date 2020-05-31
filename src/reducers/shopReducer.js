@@ -34,7 +34,6 @@ const initialState = {
   main: [],
   shopDetail: {},
   shopLoding: false,
-  shopError: ''
 };
 
 /**

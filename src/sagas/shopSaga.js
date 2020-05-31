@@ -1,5 +1,6 @@
 import { takeEvery, takeLatest, put, call } from "redux-saga/effects";
 import { shopTypes } from "../reducers/shopReducer";
+import { userTypes } from "../reducers/userReducer";
 import { fetchShopList, fetchShopDetail, postShopOpen, deleteShopOpen } from './api/shopApi';
 
 export function* fetchShopListSaga({ payload }) {
@@ -35,6 +36,12 @@ export function* postShopOpenSaga({ payload }) {
   const response = yield call(postShopOpen, payload);
   if (response.data) {
     yield put({
+      type: userTypes.SET_SHOP_ACTIVE,
+      payload: {
+        shopActive: true,
+      },
+    });
+    yield put({
       type: shopTypes.SET_SHOP_LOADING,
       payload: {
         shopLoding: false,
@@ -46,7 +53,6 @@ export function* postShopOpenSaga({ payload }) {
       type: shopTypes.SET_SHOP_ERROR,
       payload: {
         shopLoding: false,
-        shopError: '에러입니다.'
       },
     });
   }
@@ -56,6 +62,12 @@ export function* deleteShopOpenSaga({ payload }) {
   const response = yield call(deleteShopOpen, payload);
   if (response.data) {
     yield put({
+      type: userTypes.SET_SHOP_ACTIVE,
+      payload: {
+        shopActive: false,
+      },
+    });
+    yield put({
       type: shopTypes.SET_SHOP_LOADING,
       payload: {
         shopLoding: false,
@@ -67,11 +79,11 @@ export function* deleteShopOpenSaga({ payload }) {
       type: shopTypes.SET_SHOP_ERROR,
       payload: {
         shopLoding: false,
-        shopError: '에러입니다.'
       },
     });
   }
 }
+
 export default function* shopSaga() {
   yield takeEvery(shopTypes.FETCH_SHOP_LIST, fetchShopListSaga);
   yield takeLatest(shopTypes.FETCH_SHOP_DETAIL, fetchShopDetailSaga);
