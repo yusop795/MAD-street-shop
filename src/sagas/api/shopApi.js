@@ -20,13 +20,14 @@ const API_INSTANCE = axios.create({
  * 범위 range : 기본값은 10000(=10km)
  */
 export const fetchShopList = (data) => {
+  // TODO: api 완료 후, active : true로 변경 필요
   return API_INSTANCE.get('/shops/list',
     {
       params: {
         long: data.location.long,
         lat: data.location.lat,
-        type: 'main',
-        active: true,
+        type: data.type,
+        active: data.active,
       }
     },
   )
@@ -82,6 +83,27 @@ export const postShopOpen = (data) => {
  * 가게 영업 종료
  */
 export const deleteShopOpen = (data) => {
+  return API_INSTANCE.delete(`/shops/${data.shopId}/operation`,
+    {
+      data: qs.stringify(data),
+      headers: {
+        'Authorization': `Bearer ${AuthUtill.accessToken}`
+      }
+    }
+  )
+    .then(response => {
+      return response
+    })
+    .catch(error => {
+      return error;
+    });
+}
+
+/**
+ * 가게 영업 정보 수정
+ */
+
+export const putShopOpen = (data) => {
   return API_INSTANCE.delete(`/shops/${data.shopId}/operation`,
     {
       data: qs.stringify(data),

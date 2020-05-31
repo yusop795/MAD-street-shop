@@ -93,8 +93,11 @@
         .openInfo {
           margin-left:3px;
           font-size: 14px;
-          color: $subPointerColor;
+          color: $subPointerColor02;
           font-weight: bold;
+          &.open {
+            color: $subPointerColor01;
+          }
         }
 
       }

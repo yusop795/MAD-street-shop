@@ -33,7 +33,6 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
   //   // 중심 좌표나 확대 수준이 변경되면 발생
   //   kakaoMap.event.addListener(map, 'idle', () => {
   //     const latlng = map.getCenter();
-  //     // setModal(false);
   //     // setLocation({ long: latlng.Ga, lat: latlng.Ha });
   //   });
   // };
@@ -68,12 +67,9 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
         getGeocoder(result[0].address.address_name)
       }
     });
-
     if (containerId === 'locationMap') {
-      // 지도 클릭시 이벤트 추가
-      kakaoMap.event.addListener(map, 'click', (data) => {
-        const latlng = data.latLng;
-        // moveMap(kakaoMap, map, latlng)
+      kakaoMap.event.addListener(map, 'idle', (data) => {
+        const latlng = map.getCenter();
         geocoder.coord2Address(latlng.Ga, latlng.Ha, (result, status) => {
           if (result[0].road_address) {
             getGeocoder(result[0].road_address.address_name)
@@ -83,7 +79,6 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
         });
 
         if (setLocation) {
-          // marker.setPosition(latlng);
           setLocation({ lat: latlng.Ha, long: latlng.Ga })
         }
       });
@@ -102,7 +97,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
 
   const createShopsMarker = (kakaoMap, map) => {
     for (let i = 0; i < shopList.length; i++) {
-      const src = selectShopId === shopList[i]._id ? mapPinOn : mapPinOff;
+      const src = shopList[i].now.active ? mapPinOn : mapPinOff;
       const sizeObj = selectShopId === shopList[i]._id ? { width: 35, height: 42 } : { width: 23, height: 28 };
       const image = createMarkerImage(kakaoMap, src, sizeObj);
       const latitude = shopList[i].location.latitude.$numberDecimal
@@ -168,8 +163,6 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
           if (getGeocoder && Object.keys(crrlocation).length > 0) {
             setAddress(kakaoMap, map, marker)
           }
-          // 스핀 제거
-          // setisSpin(false);
         });
       })
       .catch(e => {

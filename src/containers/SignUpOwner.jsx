@@ -104,7 +104,6 @@ const SignUpOwner = ({ history, match }) => {
         userLoading: true
       }
     })
-
     if (history.location.pathname === "/myPage/owner") {
       // 사장님 정보 수정
       dispatch({
