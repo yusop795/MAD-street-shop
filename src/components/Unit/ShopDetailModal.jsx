@@ -6,6 +6,7 @@ import iconMapPin from '../../assets/imgs/iconMapPin.png'
 import iconPhone from '../../assets/imgs/iconPhone.png'
 
 const shopDetailModal = ({ shopInfo, isOpen = true, onEvent = null, }) => {
+  const mobile = shopInfo.mobile ? shopInfo.mobile.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3") : '비공개'
   return (
     <div className={`shopDetailModal ${isOpen ? 'open' : ''}`}>
       <ShopItem data={shopInfo} type='icon' />
@@ -27,12 +28,14 @@ const shopDetailModal = ({ shopInfo, isOpen = true, onEvent = null, }) => {
         <li className="infoList">
           <img src={iconPhone} alt={'전화번호'} />
           <div className="info">
-            <p>{shopInfo.mobile ? shopInfo.mobile : '비공개'}</p>
+            <p>
+              {(mobile !== '비공개') ? <a href={`tel:${mobile}`}>{mobile}</a> : mobile}
+            </p>
           </div>
         </li>
       </ul>
       <PhotoList items={shopInfo.imageUrl} />
-    </div>
+    </div >
   )
 };
 
