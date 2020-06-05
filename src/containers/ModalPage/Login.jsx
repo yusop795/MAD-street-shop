@@ -34,7 +34,7 @@ const Login = ({ history, isOpen, onEvent }) => {
       throughTalk: false,
       success: (authObj) => {
         // 사용자 토큰 저장
-        // AuthUtill.setUserStore(authObj.access_token)
+        AuthUtill.setUserStore(authObj.access_token)
         localStorageSet('MAD_KAKAO_ACCESS_TOKEN', authObj.access_token);
         dispatch({
           type: userTypes.USER_LODING,
@@ -43,7 +43,6 @@ const Login = ({ history, isOpen, onEvent }) => {
           }
         })
         // 앱 로그인
-        console.log(authObj.access_token)
         dispatch({
           type: userApiTypes.LOGIN,
           payload: {

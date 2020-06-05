@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import scriptUtill from '../../util/scriptUtill';
 import './style.scss';
 import mapPinOn from '../../assets/imgs/mapPinOn.png';
 import mapPinOff from '../../assets/imgs/mapPinOff.png';
 import mapMarker from '../../assets/imgs/mapMarker.png';
-import mapLocation from '../../assets/imgs/mapLocation.png';
+import { shopTypes } from '../../reducers/shopReducer'
 const kakaoMapScript = scriptUtill(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=a2634b699ee1deee53b339a1835cca33&autoload=false&libraries=services`);
 
 const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectShopId, setSelectShopId, getGeocoder, setLocation }) => {
+  const dispatch = useDispatch();
   const [crrlocation, setCrrLocation] = useState(location)
+  const shopId = useSelector(state => state.shopReducer.selectShopId)
+  const shopDetail = useSelector(state => state.shopReducer.shopDetail);
 
   useEffect(() => {
     if (location) {
@@ -17,25 +21,10 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
   }, [location]);
 
   useEffect(() => {
-    if (location) {
+    if (location && crrlocation) {
       renderMap()
     }
-  }, [crrlocation, selectShopId]);
-
-  // useEffect(() => {
-  //   if (shopList.length > 0) {
-  //     createShopsMarker(kaka, maps);
-  //   }
-  // }, [selectShopId]);
-
-
-  // const moveMap = (kakaoMap, map) => {
-  //   // 중심 좌표나 확대 수준이 변경되면 발생
-  //   kakaoMap.event.addListener(map, 'idle', () => {
-  //     const latlng = map.getCenter();
-  //     // setLocation({ long: latlng.Ga, lat: latlng.Ha });
-  //   });
-  // };
+  }, [crrlocation, shopDetail]);
 
   const moveMap = (kakaoMap, map, latlng) => {
     // 이동할 위도 경도 위치를 생성합니다 
@@ -52,6 +41,14 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
       onEvent({
         target: null,
       });
+      if (shopId) {
+        dispatch({
+          type: shopTypes.SET_SELECT_SHOP_ID,
+          payload: {
+            selectShopId: ''
+          },
+        });
+      }
     });
   }
 
@@ -122,6 +119,15 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
           target: 'ShopDetailModal',
         });
 
+        if (shopId) {
+          dispatch({
+            type: shopTypes.SET_SELECT_SHOP_ID,
+            payload: {
+              selectShopId: ''
+            },
+          });
+        }
+
         // if(marker.getZIndex() ===0){
         //   marker.setZIndex(1);
         // }else {
@@ -142,19 +148,28 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
             center: new kakaoMap.LatLng(crrlocation.lat, crrlocation.long), // 지도의 중심좌표.
             level: 3, // 지도의 레벨(확대, 축소 정도)
           };
+
+          if (shopId) {
+            const latitude = (shopDetail.now.active) ? shopDetail.now.location.latitude.$numberDecimal : shopDetail.location.latitude.$numberDecimal
+            const longitude = (shopDetail.now.active) ? shopDetail.now.location.longitude.$numberDecimal : shopDetail.location.longitude.$numberDecimal
+            options.center = new kakaoMap.LatLng(latitude, longitude);
+          }
           // 지도 생성
           const map = new kakaoMap.Map(container, options);
 
           // 현재 내위치 마커 생성
           const image = createMarkerImage(kakaoMap, mapMarker, { width: 50, height: 48 });
+
+          let position = new kakaoMap.LatLng(location.lat, location.long);
+
           const marker = new kakaoMap.Marker({
             map,
-            position: new kakaoMap.LatLng(location.lat, location.long),
+            position,
             image,
           });
 
-
           marker.setMap(map);
+
           if (shopList.length > 0) {
             createShopsMarker(kakaoMap, map);
           }
@@ -162,9 +177,11 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
           if (onEvent) {
             clickMap(kakaoMap, map)
           }
+
           if (getGeocoder && Object.keys(crrlocation).length > 0) {
             setAddress(kakaoMap, map, marker)
           }
+
         });
       })
       .catch(e => {

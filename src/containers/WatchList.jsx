@@ -44,7 +44,7 @@ const WatchList = ({ history }) => {
 	return (
 		<div className="main ranking">
 			<Header title="관심리스트" onEvent={history.goBack} />
-			<ShopList items={favoritesList} type="watchList" />
+			<ShopList items={favoritesList} type="watchList" history={history} />
 			{userLoading ? <Spinner /> : null}
 		</div>
 	);

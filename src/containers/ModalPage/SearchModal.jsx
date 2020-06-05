@@ -99,7 +99,7 @@ const SearchModal = ({ history, isOpen, currentKeyword, onEvent }) => {
   const renderRightContent = () => {
     return isSearch === false ? (
       currentKeywordList()
-    ) : (<div><SearchResult loading={loading} /></div>)
+    ) : (<div><SearchResult loading={loading} onEvent={onEvent} /></div>)
   }
 
   const currentKeywordList = () => {

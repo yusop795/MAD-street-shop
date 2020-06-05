@@ -13,6 +13,9 @@ export const shopTypes = {
 
   POST_SHOP_OPEN: 'shop/POST_SHOP_OPEN',
   DELETE_SHOP_CLOSE: 'shop/DELETE_SHOP_CLOSE',
+
+  SET_SELECT_SHOP_ID: 'shop/SET_SELECT_SHOP_ID',
+
   SET_SHOP_LOADING: 'shop/SET_SHOP_LOADING',
   SET_SHOP_ERROR: 'shop/SET_SHOP_ERROR',
 }
@@ -34,6 +37,7 @@ const initialState = {
   main: [],
   shopDetail: {},
   shopLoding: false,
+  selectShopId: '',
 };
 
 /**
@@ -56,6 +60,11 @@ export default function shopReducer(state = initialState, action) {
       return {
         ...state,
         shopDetail: payload.shopDetail,
+      };
+    case shopTypes.SET_SELECT_SHOP_ID:
+      return {
+        ...state,
+        selectShopId: payload.selectShopId,
       };
     case shopTypes.SET_SHOP_LOADING:
       return {

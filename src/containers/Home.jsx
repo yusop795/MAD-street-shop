@@ -21,12 +21,15 @@ import { isEmpty } from '../util/gm.js';
 
 const Home = ({ history }) => {
   const dispatch = useDispatch();
-  const location = useSelector(state => state.startReducer.location, {})
-  const shopList = useSelector(state => state.shopReducer.shopList, []);
-  const shopDetail = useSelector(state => state.shopReducer.shopDetail, {});
+  const location = useSelector(state => state.startReducer.location);
+  const shopList = useSelector(state => state.shopReducer.shopList);
+  const shopDetail = useSelector(state => state.shopReducer.shopDetail);
+  const shopId = useSelector(state => state.shopReducer.selectShopId)
   const [address, setAddress] = useState('');
-  const [selectShopId, setSelectShopId] = useState('');
+  const [selectShopId, setSelectShopId] = useState();
   const [currentKeyword, setCurrentKeyword] = useState([]);
+
+
   // 위치정보 조회
   const fetchGeolocation = () => {
     const options = {
@@ -72,8 +75,13 @@ const Home = ({ history }) => {
   }, [shopList]);
 
   useEffect(() => {
+    setSelectShopId(shopId)
+  }, [shopId]);
+
+  useEffect(() => {
     shopList.forEach(v => {
       if (selectShopId === v._id) {
+        console.log(222, selectShopId)
         dispatch({
           type: shopTypes.FETCH_SHOP_DETAIL,
           payload: {
@@ -112,7 +120,7 @@ const Home = ({ history }) => {
   return (
     <div>
       <HomeHeader address={address} fetchGeolocation={fetchGeolocation} setModalPage={setModalPage} />
-      <div className={targetModalPage == 'ShopDetailModal' ? 'mapCenter' : ''}>
+      <div className={targetModalPage === 'ShopDetailModal' && isModalOpen ? 'mapCenter' : ''}>
         <MainMap
           location={location}
           selectShopId={selectShopId}

@@ -16,7 +16,6 @@ const API_INSTANCE = axios.create({
 export const fetchCategory = () => {
   return API_INSTANCE.get('/tags')
     .then(response => {
-      console.log('야호')
       return response
     })
     .catch(error => {

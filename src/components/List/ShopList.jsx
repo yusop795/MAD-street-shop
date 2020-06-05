@@ -1,16 +1,18 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { shopTypes } from '../../reducers/shopReducer'
 import './style.scss';
 
 import iconLikeOn from '../../assets/imgs/iconLikeOn.png'
 import { isEmpty } from '../../util/gm';
 
-const ShopList = ({ items = [], type = '', onEvent = null }) => {
+const ShopList = ({ items = [], type = '', onEvent = null, history }) => {
   return (
     <div className="shopListWrapper">
       {
         items.map((v, i) => {
           return (
-            <ShopItem index={i} data={v} type={type} onEvent={onEvent} key={i} />
+            <ShopItem index={i} data={v} type={type} onEvent={onEvent} history={history} key={i} />
           )
         })
       }
@@ -18,18 +20,26 @@ const ShopList = ({ items = [], type = '', onEvent = null }) => {
   );
 };
 
-export const ShopItem = ({ index = 10, data, type, onEvent, icon = false, iconEvent = null }) => {
+export const ShopItem = ({ index = 10, data, type, onEvent, history }) => {
+  const dispatch = useDispatch();
   return (
     <div
       className={`shopListItem ${type === "rank" && index < 5 ? "iconShow" : ""}`}
       onClick={() => {
-        if (isEmpty(type)) {
+        dispatch({
+          type: shopTypes.SET_SELECT_SHOP_ID,
+          payload: {
+            selectShopId: data._id
+          },
+        });
+
+        if (history) {
+          history.push('home')
+        } else {
+          /* 200425 => 여기서 아이디 받아서 리스트 띄우는 거 하면 될 듯 */
           onEvent({
             target: 'ShopDetailModal',
           });
-        } else {
-          /* 200425 => 여기서 아이디 받아서 리스트 띄우는 거 하면 될 듯 */
-          console.log('타입이 있는 리스트에서 넘어옴');
         }
       }}
     >
