@@ -25,7 +25,6 @@ const Home = ({ history }) => {
   const shopList = useSelector(state => state.shopReducer.shopList, []);
   const shopDetail = useSelector(state => state.shopReducer.shopDetail, {});
   const [address, setAddress] = useState('');
-  const [selectShop, setSelectShop] = useState({});
   const [selectShopId, setSelectShopId] = useState('');
   const [currentKeyword, setCurrentKeyword] = useState([]);
   // 위치정보 조회

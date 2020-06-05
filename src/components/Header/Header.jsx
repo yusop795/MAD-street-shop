@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import './style.scss';
 import { Link } from 'react-router-dom';
@@ -10,9 +10,6 @@ import adressEdit from '../../assets/imgs/adressEdit.png';
 import imgProfile01 from '../../assets/imgs/imgProfile01.png';
 import imgProfile02 from '../../assets/imgs/imgProfile02.png';
 import imgProfile03 from '../../assets/imgs/imgProfile03.png';
-
-import { localStorageGet, localStorageSet } from '../../util/LocalStorage.js';
-import { isEmpty } from '../../util/gm';
 
 
 const Header = ({ onEvent, title = '' }) => {
@@ -35,7 +32,7 @@ export const ModalHeader = ({ onEvent, title = '', border = true }) => {
   );
 };
 
-export const HomeHeader = ({ address = '서울 영등포구 여의도동 37', setModalPage }) => {
+export const HomeHeader = ({ address = '', setModalPage }) => {
   const isLogin = useSelector(state => state.userReducer.isLogin);
   const isUser = useSelector(state => state.userReducer.isUser);
   const userInfo = useSelector(state => state.userReducer.userInfo);

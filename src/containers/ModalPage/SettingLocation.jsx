@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { withRouter } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 
 import { userTypes } from '../../reducers/userReducer';
@@ -45,14 +44,13 @@ const SettingLocation = ({ isOpen, onEvent, type }) => {
   };
 
   useEffect(() => {
-    if (type === 'edit') {
+    if (type === 'edit' || type === 'openShop') {
       setCrrLocation(storeLocation.location)
       setAddress(storeLocation.address)
       setLocationComment(storeLocation.locationComment)
     } else {
       setCrrLocation(location)
     }
-
   }, []);
 
   useEffect(() => {

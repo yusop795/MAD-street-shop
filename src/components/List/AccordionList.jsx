@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './style.scss';
 
 import chevronUp from '../../assets/imgs/chevronUp.png';

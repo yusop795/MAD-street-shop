@@ -58,15 +58,16 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
   const setAddress = (kakaoMap, map, marker) => {
     // 주소-좌표 변환 객체를 생성합니다
     const geocoder = new kakaoMap.services.Geocoder();
-    // if (containerId === 'homeMap') {
-    const coord = new kakaoMap.LatLng(crrlocation.long, crrlocation.lat);
-    geocoder.coord2Address(coord.Ha, coord.Ga, (result, status) => {
-      if (result[0].road_address) {
-        getGeocoder(result[0].road_address.address_name)
-      } else {
-        getGeocoder(result[0].address.address_name)
-      }
-    });
+    if (containerId === 'homeMap') {
+      const coord = new kakaoMap.LatLng(location.long, location.lat);
+      geocoder.coord2Address(coord.Ha, coord.Ga, (result, status) => {
+        if (result[0].road_address) {
+          getGeocoder(result[0].road_address.address_name)
+        } else {
+          getGeocoder(result[0].address.address_name)
+        }
+      });
+    }
     if (containerId === 'locationMap') {
       kakaoMap.event.addListener(map, 'idle', (data) => {
         const latlng = map.getCenter();
@@ -97,16 +98,17 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
 
   const createShopsMarker = (kakaoMap, map) => {
     for (let i = 0; i < shopList.length; i++) {
-      const src = shopList[i].now.active ? mapPinOn : mapPinOff;
-      const sizeObj = selectShopId === shopList[i]._id ? { width: 35, height: 42 } : { width: 23, height: 28 };
+      const data = shopList[i];
+      const src = data.now.active ? mapPinOn : mapPinOff;
+      const sizeObj = selectShopId === data._id ? { width: 35, height: 42 } : { width: 23, height: 28 };
       const image = createMarkerImage(kakaoMap, src, sizeObj);
-      const latitude = shopList[i].location.latitude.$numberDecimal
-      const longitude = shopList[i].location.longitude.$numberDecimal
+      const latitude = (data.now.active) ? data.now.location.latitude.$numberDecimal : data.location.latitude.$numberDecimal
+      const longitude = (data.now.active) ? data.now.location.longitude.$numberDecimal : data.location.longitude.$numberDecimal
       const position = new kakaoMap.LatLng(latitude, longitude)
       const marker = new kakaoMap.Marker({
         map,
         position,
-        title: shopList[i].name,
+        title: data.name,
         image,
       });
 
@@ -114,7 +116,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
 
       // 마커 이벤트 등록
       kakaoMap.event.addListener(marker, 'click', () => {
-        setSelectShopId(shopList[i]._id)
+        setSelectShopId(data._id)
         moveMap(kakaoMap, map, position)
         onEvent({
           target: 'ShopDetailModal',

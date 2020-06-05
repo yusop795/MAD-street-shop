@@ -1,5 +1,4 @@
 import axios from 'axios';
-import AuthUtill from '../../util/AuthUtill'
 
 const API_INSTANCE = axios.create({
   baseURL: 'https://mad-street-shop.herokuapp.com/api',

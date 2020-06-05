@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { shopTypes } from '../reducers/shopReducer';
 import { withRouter } from 'react-router-dom';
@@ -36,7 +36,7 @@ const OpenShop = ({ history, match }) => {
       case 'SettingTime':
         return <SettingTime type={'openShop'} isOpen={isModalOpen} onEvent={setModalPage} />;
       case 'SettingLocation':
-        return <SettingLocation type={''} isOpen={isModalOpen} onEvent={setModalPage} />;
+        return <SettingLocation type={'openShop'} isOpen={isModalOpen} onEvent={setModalPage} />;
       default:
         return null;
     }

@@ -14,9 +14,9 @@ const Splash = ({ history }) => {
   const [token] = useState(localStorageGet('MAD_KAKAO_ACCESS_TOKEN'));
   const [userId] = useState(localStorageGet('MAD_USER_ID'));
   const location = useSelector(state => state.startReducer.location);
-  const categoryList = useSelector(state => state.startReducer.shopCategory);
-  const noticeList = useSelector(state => state.startReducer.ntc);
-  const faqList = useSelector(state => state.startReducer.faq);
+  // const categoryList = useSelector(state => state.startReducer.shopCategory);
+  // const noticeList = useSelector(state => state.startReducer.ntc);
+  // const faqList = useSelector(state => state.startReducer.faq);
   const isLogin = useSelector(state => state.userReducer.isLogin);
   const isUser = useSelector(state => state.userReducer.isUser);
   const userInfo = useSelector(state => state.userReducer.userInfo);
