@@ -20,6 +20,8 @@ export const userTypes = {
   SET_OWNER_INFO: 'user/SET_OWNER_INFO',
   SET_SHOP_INFO: 'user/SET_SHOP_INFO',
   SET_SHOP_ACTIVE: 'user/SET_SHOP_ACTIVE',
+
+  SET_FAVORITE_LIST: 'user/SET_FAVORITE_LIST',
   USER_LODING: 'user/USER_LODING'
 
 };
@@ -38,6 +40,7 @@ export const userApiTypes = {
   PUT_USER: 'user/PUT_USER',
   PUT_OWNER: 'user/PUT_OWNER',
   WHO_AM_I: 'user/WHO_AM_I',
+  FETCH_FAVORITE_LIST: 'user/FETCH_FAVORITE_LIST',
 };
 
 /**
@@ -68,7 +71,8 @@ const initialState = {
   token: {},
   isLogin: false,
   userLoading: false,
-  shopActive: false
+  shopActive: false,
+  favoritesList: []
 };
 
 /**
@@ -145,6 +149,11 @@ export default function userReducer(state = initialState, action) {
         files: payload.files,
         shopInfo: payload.shopInfo,
         shopActive: payload.shopActive
+      };
+    case userTypes.SET_FAVORITE_LIST:
+      return {
+        ...state,
+        favoritesList: payload.favoritesList
       };
     case userTypes.USER_LODING:
       return {

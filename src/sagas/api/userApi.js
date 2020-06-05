@@ -215,8 +215,10 @@ export const deleteUser = ({ userId }) => {
     });
 };
 
-
-
+/**
+ * 사용자 정보 조회
+ * @param
+ */
 export const fetchWhoami = ({ token, userId }) => {
   return API_INSTANCE.get(`/users/${userId}/whoami`,
     {
@@ -231,6 +233,32 @@ export const fetchWhoami = ({ token, userId }) => {
     })
     .catch(error => {
       console.log('whoami', error);
+      return error;
+    });
+};
+
+
+/**
+ * 사용자 관심리스트
+ * @param
+ */
+export const fetchFavoritesList = ({ token, userId, location }) => {
+  console.log('관심리스트', qs.stringify({ userId }))
+  return API_INSTANCE.get(`/favorites`,
+    {
+      params: {
+        long: location.long,
+        lat: location.lat,
+      },
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    },
+  )
+    .then(response => {
+      return response
+    })
+    .catch(error => {
       return error;
     });
 };
