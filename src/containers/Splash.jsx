@@ -96,10 +96,10 @@ const Splash = ({ history }) => {
       })
 
       dispatch({
-        type: userApiTypes.WHO_AM_I,
+        type: userApiTypes.LOGIN,
         payload: {
           token,
-          userId
+          userId,
         }
       })
     }

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { userTypes, userApiTypes } from '../reducers/userReducer';
 import AlertUtil from '../util/AlertUtil.js';
 import ModalPageUtill from '../util/ModalPageUtill.js';
+import { localStorageGet } from '../util/LocalStorage.js';
 
 import { ModalHeader } from '../components/Header';
 import { Alert } from '../components/Alert';
@@ -24,7 +25,7 @@ import { useEffect } from 'react';
 
 const MyPage = ({ history, match }) => {
   const dispatch = useDispatch();
-  const shopInfo = useSelector(state => state.userReducer.shopInfo);
+  const token = useState(localStorageGet('MAD_KAKAO_ACCESS_TOKEN'));
   const userInfo = useSelector(state => state.userReducer.userInfo);
   const isUser = useSelector(state => state.userReducer.isUser);
   const userId = useSelector(state => state.userReducer.userId);
@@ -33,6 +34,9 @@ const MyPage = ({ history, match }) => {
   const kakaoLogout = () => {
     dispatch({
       type: userApiTypes.LOGOUT,
+      payload: {
+        token
+      }
     })
   }
 

@@ -22,10 +22,10 @@ const KAKAO_API_INSTANCE = axios.create({
  * 앱 로그인
  * @param
  */
-export const login = () => {
+export const login = ({ token }) => {
   return API_INSTANCE.post('/users/login',
     null,
-    { headers: { 'Authorization': `Bearer ${AuthUtill.accessToken}` } }
+    { headers: { 'Authorization': `Bearer ${token}` } }
   )
     .then(response => {
       return response
@@ -40,10 +40,10 @@ export const login = () => {
  * 앱 로그아웃
  * @param
  */
-export const logout = () => {
+export const logout = ({ token }) => {
   return API_INSTANCE.post('/users/logout',
     null,
-    { headers: { 'Authorization': `Bearer ${AuthUtill.accessToken}` } }
+    { headers: { 'Authorization': `Bearer ${token}` } }
   )
     .then(response => {
       return response

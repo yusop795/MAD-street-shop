@@ -9,16 +9,7 @@ import { localStorageRemove } from '../util/LocalStorage';
 export function* loginSaga({ payload }) {
   const response = yield call(login, payload);
   if (response.data) {
-    if (response.data.isUser) {
-      let tag = {}
-      response.data.userInfo.userTags.forEach(element => {
-        element.item.forEach((v) => {
-          tag[v] = element.title
-        })
-      });
-      response.data.userInfo.userTags = tag
-    }
-
+    yield fetchWhoamiSaga({ token: payload.token, userId: response.data.userId })
     yield put({
       type: userTypes.SET_LOGIN,
       payload: {
@@ -41,6 +32,12 @@ export function* loginSaga({ payload }) {
         isLogin: false,
         userId: ''
       },
+    });
+    yield put({
+      type: userTypes.USER_LODING,
+      payload: {
+        userLoading: false
+      }
     });
   }
 }
@@ -119,25 +116,47 @@ export function* putUserSaga({ payload }) {
 }
 
 /**
- * 카카오 사장닙 회원가입 이미지 업로드
+ * 카카오 사장님 회원가입 이미지 업로드
  */
 export function* postSignUpImgOwnerSaga(data) {
   const response = yield call(putImgUpload, data);
   if (response.data) {
-    yield put({
-      type: userTypes.SET_SIGNUP,
-      payload: {
-        isLogin: true,
-        isUser: true,
-        // isUser: response.data.user.isUser,
-        userInfo: response.data.user,
-      },
-    });
+    console.log('카카오 사장님 이미지 업로드', response.data)
     yield put({
       type: userTypes.USER_LODING,
       payload: {
         userLoading: false
       }
+    });
+    const data = response.data
+    const tagList = ['월', '화', '수', '목', '금', '토', '일']
+    let days = {}
+    data.openDays[0].split(',').forEach((v, i) => {
+      days[v] = tagList.indexOf(v)
+    })
+    data.openDays = days
+    // TODO: storeLocation now 수정 필요
+    yield put({
+      type: userTypes.SET_SHOP_INFO,
+      payload: {
+        shopId: data._id,
+        storeLocation: {
+          address: data.location.subLocation,
+          locationComment: data.now.locationComment,
+          location: {
+            lat: data.location.latitude.$numberDecimal,
+            long: data.location.longitude.$numberDecimal,
+          }
+        },
+        storeCategory: data.shopTags,
+        storeOpenDays: data.openDays,
+        storeOpenTime: data.openTime.split(':'),
+        storeCloseTime: data.closeTime.split(':'),
+        firstFile: data.imageUrl.pop(),
+        files: data.imageUrl,
+        shopInfo: data,
+        shopActive: data.now.active
+      },
     });
   } else {
     yield put({
@@ -162,7 +181,16 @@ export function* postSignUpImgOwnerSaga(data) {
 export function* postSignUpOwnerSaga({ payload }) {
   const response = yield call(postSignUpOwner, payload);
   if (response.data) {
-    const data = { files: payload.files, userId: payload.userId, shopId: response.data._id }
+    console.log('카카오 사장님 회원가입', response.data)
+    yield put({
+      type: userTypes.SET_SIGNUP,
+      payload: {
+        isLogin: true,
+        isUser: true,
+        userInfo: (response.data.isUser) ? response.data.userInfo : {}
+      },
+    });
+    const data = { files: payload.files, userId: payload.userId, shopId: response.data.shop._id }
     yield postSignUpImgOwnerSaga(data)
   } else {
     console.log(response);
@@ -174,7 +202,7 @@ export function* postSignUpOwnerSaga({ payload }) {
 export function* putOwnerSaga({ payload }) {
   const response = yield call(putOwner, payload);
   if (response.data) {
-    const data = { files: payload.files, userId: payload.userId, shopId: response.data.shopId }
+    const data = { files: payload.files, userId: payload.userId, shopId: response.data._id }
     yield postSignUpImgOwnerSaga(data)
   } else {
     console.log(response)
@@ -196,7 +224,7 @@ export function* deleteUserSaga({ payload }) {
   }
 }
 
-export function* fetchWhoamiSaga({ payload }) {
+export function* fetchWhoamiSaga(payload) {
   const response = yield call(fetchWhoami, payload);
   if (response.data) {
     if (response.data.shop) {
@@ -213,11 +241,11 @@ export function* fetchWhoamiSaga({ payload }) {
         payload: {
           shopId: data._id,
           storeLocation: {
-            address: data.location.subLocation,
+            address: (data.now.active) ? data.now.location.subLocation : data.location.subLocation,
             locationComment: data.now.locationComment,
             location: {
-              lat: data.location.latitude.$numberDecimal,
-              long: data.location.longitude.$numberDecimal,
+              lat: (data.now.active) ? data.now.location.latitude.$numberDecimal : data.location.latitude.$numberDecimal,
+              long: (data.now.active) ? data.now.location.longitude.$numberDecimal : data.location.longitude.$numberDecimal
             }
           },
           storeCategory: data.shopTags,
@@ -231,7 +259,15 @@ export function* fetchWhoamiSaga({ payload }) {
         },
       });
     }
-    yield loginSaga(payload)
+    if (response.data.user) {
+      let tag = {}
+      response.data.user.userTags.forEach(element => {
+        element.item.forEach((v) => {
+          tag[v] = element.title
+        })
+      });
+      response.data.user.userTags = tag
+    }
   } else {
     yield put({
       type: userTypes.USER_LODING,
