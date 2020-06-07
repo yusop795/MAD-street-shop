@@ -26,21 +26,22 @@ export const ShopItem = ({ index = 10, data, type, onEvent, history }) => {
     <div
       className={`shopListItem ${type === "rank" && index < 5 ? "iconShow" : ""}`}
       onClick={() => {
-        dispatch({
-          type: shopTypes.SET_SELECT_SHOP_ID,
-          payload: {
-            selectShopId: data._id
-          },
-        });
-
-        if (history) {
-          history.push('home')
-        } else {
-          /* 200425 => 여기서 아이디 받아서 리스트 띄우는 거 하면 될 듯 */
-          onEvent({
-            target: 'ShopDetailModal',
+        if (type !== 'icon') {
+          dispatch({
+            type: shopTypes.SET_SELECT_SHOP_ID,
+            payload: {
+              selectShopId: data._id
+            },
           });
+          if (history) {
+            history.push('home')
+          } else {
+            onEvent({
+              target: 'ShopDetailModal',
+            });
+          }
         }
+
       }}
     >
       {type === "rank" && index < 5 ?

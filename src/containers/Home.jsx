@@ -26,7 +26,7 @@ const Home = ({ history }) => {
   const shopDetail = useSelector(state => state.shopReducer.shopDetail);
   const shopId = useSelector(state => state.shopReducer.selectShopId)
   const [address, setAddress] = useState('');
-  const [selectShopId, setSelectShopId] = useState();
+  const [selectShopId, setSelectShopId] = useState(shopId);
   const [currentKeyword, setCurrentKeyword] = useState([]);
 
 
@@ -105,6 +105,7 @@ const Home = ({ history }) => {
     if (targetModalPage === 'ShopInfoModal' && Object.keys(shopDetail).length > 0) {
       return <ShopInfo shopInfo={shopDetail} fetchGeolocation={fetchGeolocation} onEvent={setModalPage} />;
     }
+
     switch (targetModalPage) {
       case 'SearchModal':
         return <SearchModal history={history} isOpen={isModalOpen} onEvent={setModalPage} currentKeyword={currentKeyword} />;

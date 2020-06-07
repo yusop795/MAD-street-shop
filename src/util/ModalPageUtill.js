@@ -6,7 +6,6 @@ const ModalPageUtill = () => {
   const [beforeTargetModalPage, setBeforeTargetModalPage] = useState('');
 
   const setModalPage = ({ target }) => {
-    console.log('모달', target, beforeTargetModalPage)
     if (beforeTargetModalPage === '') {
       setBeforeTargetModalPage(target);
     }
@@ -17,14 +16,10 @@ const ModalPageUtill = () => {
     } else {
       setTargetModalPage(target);
       setBeforeTargetModalPage('');
-      setIsModalPageOpen(!isModalOpen);
+      if (target !== 'ShopDetailModal') {
+        setIsModalPageOpen(!isModalOpen);
+      }
     }
-    // console.log('isModalOpen', isModalOpen);
-    // console.log('target', target);
-    // if (target) {
-    //   setTargetModalPage(target);
-    // }
-    // setIsModalPageOpen(!isModalOpen);
   };
 
   return {
