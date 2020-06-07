@@ -9,7 +9,18 @@ import { localStorageRemove } from '../util/LocalStorage';
 export function* loginSaga({ payload }) {
   const response = yield call(login, payload);
   if (response.data) {
-    yield fetchWhoamiSaga({ token: payload.token, userId: response.data.userId })
+    if (response.data.isUser) {
+      yield fetchWhoamiSaga({ token: payload.token, userId: response.data.userId })
+    }
+
+    let tag = {}
+    response.data.userInfo.userTags.forEach(element => {
+      element.item.forEach((v) => {
+        tag[v] = element.title
+      })
+    });
+    response.data.userInfo.userTags = tag
+
     yield put({
       type: userTypes.SET_LOGIN,
       payload: {
@@ -60,13 +71,20 @@ export function* logoutSaga({ payload }) {
 export function* postSignUpUserSaga({ payload }) {
   const response = yield call(postSignUpUser, payload);
   if (response.data) {
+    let tag = {}
+    response.data.user.userTags.forEach(element => {
+      element.item.forEach((v) => {
+        tag[v] = element.title
+      })
+    });
+    response.data.user.userTags = tag
+
     yield put({
       type: userTypes.SET_SIGNUP,
       payload: {
         isLogin: true,
-        // isUser: response.data.isUser,
         isUser: true,
-        userInfo: (response.data.isUser) ? response.data.userInfo : {}
+        userInfo: response.data.user
       },
     });
     yield put({
@@ -80,6 +98,7 @@ export function* postSignUpUserSaga({ payload }) {
       type: userTypes.SET_SIGNUP,
       payload: {
         isLogin: false,
+        isUser: false,
       },
     });
     yield put({
@@ -111,7 +130,19 @@ export function* putUserSaga({ payload }) {
         userInfo: response.data,
       },
     });
+    yield put({
+      type: userTypes.USER_LODING,
+      payload: {
+        userLoading: false
+      }
+    });
   } else {
+    yield put({
+      type: userTypes.USER_LODING,
+      payload: {
+        userLoading: false
+      }
+    });
   }
 }
 

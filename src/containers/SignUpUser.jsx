@@ -11,22 +11,23 @@ import { Alert } from '../components/Alert';
 import '../assets/styles/containers/signUpUser.scss';
 import Spinner from "../components/Unit/Spinner";
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { userTypes, userApiTypes } from '../reducers/userReducer';
 
 
 
 const SignUpUser = ({ history }) => {
   const dispatch = useDispatch();
-  const userInfo = useSelector(state => state.userReducer.userInfo);
-  const isUser = useSelector(state => state.userReducer.isUser);
-  const userId = useSelector(state => state.userReducer.userId);
-  const userLoading = useSelector(state => state.userReducer.userLoading);
+  const userInfo = useSelector(state => state.userReducer.userInfo, shallowEqual);
+  const isUser = useSelector(state => state.userReducer.isUser, shallowEqual);
+  const userId = useSelector(state => state.userReducer.userId, shallowEqual);
+  const userLoading = useSelector(state => state.userReducer.userLoading, shallowEqual);
 
   const categoryList = useSelector(state => state.startReducer.shopCategory, []);
   const [selectCategory, setSelectCategory] = useState(1);
   const [tagList, setTagList] = useState([]);
   const [selectTag, setSelectTag] = useState(userInfo.userTags || {});
+  const [signUpUserCall, setsignUpUserCall] = useState(false);
 
   // alert
   const { isShowing, title, contents, setAlert } = AlertUtil();
@@ -67,7 +68,6 @@ const SignUpUser = ({ history }) => {
         data[selectTag[v]] = [v]
       }
     })
-
     const userTags = Object.keys(data).map((v) => {
       return {
         title: v,
@@ -101,11 +101,12 @@ const SignUpUser = ({ history }) => {
         }
       })
     }
+    setsignUpUserCall(true)
   }
 
   useEffect(() => {
     console.log(userLoading, isUser, history.location.pathname)
-    if (!userLoading && isUser) {
+    if (signUpUserCall && !userLoading && isUser) {
       if (history.location.pathname !== "/myPage/user") {
         history.push(`/signup/complet/user`)
       } else {

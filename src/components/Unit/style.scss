@@ -32,10 +32,10 @@
 }
 
 .roundButton {
-
   padding:10px 30px;
   background-color: $mainColor;
   border-radius: 20px;
+  border: none;
   font-size: 15px;
   font-weight: bold;
 }
@@ -99,11 +99,8 @@
             color: $subPointerColor01;
           }
         }
-
       }
-
     }
-
   }
 }
 
@@ -130,4 +127,9 @@
       @include animation('icon-pop01 1s linear 0s infinite forwards');
     }
   }
+}
+
+.noDataBox {
+  padding-top: 200px;
+  text-align: center;
 }
