@@ -56,12 +56,11 @@ const Ranking = ({ history }) => {
     console.log('storeShopList >> ', storeShopList);
   }, [storeShopList])
 
-  console.log('ddddd Ranking >>>>>', storeShopList, setModalPage);
   return (
     <div className="main ranking">
       <Header title="내주변 랭킹" onEvent={history.goBack} />
       {
-        loading ? <Spinner /> : <ShopList items={storeShopList} type="rank" onEvent={setModalPage} />
+        loading ? <Spinner /> : <ShopList items={storeShopList} type="rank" onEvent={setModalPage} history={history} />
       }
       {rederModalPage()}
     </div>

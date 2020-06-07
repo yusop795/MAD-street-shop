@@ -18,7 +18,6 @@ export function* fetchCategorySaga({ payload }) {
 }
 
 export function* fetchShopListSaga({ payload }) {
-  // console.log('fetchShopListSaga');
   yield put({
     type: startTypes.SET_SHOP_LIST,
     name: payload.name,

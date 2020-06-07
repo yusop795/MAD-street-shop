@@ -244,7 +244,7 @@ export const fetchWhoami = ({ token, userId }) => {
  */
 export const fetchFavoritesList = ({ token, userId, location }) => {
   console.log('관심리스트', qs.stringify({ userId }))
-  return API_INSTANCE.get(`/favorites`,
+  return API_INSTANCE.get(`/favorites/${userId}/`,
     {
       params: {
         long: location.long,

@@ -123,7 +123,6 @@ export const putShopOpen = (data) => {
 /**
  * 관심 리스트 등록
  */
-
 export const putFavoriteShopOpen = (data) => {
   return API_INSTANCE.delete(`/shops/${data.shopId}/operation`,
     {

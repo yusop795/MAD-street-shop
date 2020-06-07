@@ -6,14 +6,25 @@ import { fetchShopList, fetchShopDetail, postShopOpen, deleteShopOpen } from './
 export function* fetchShopListSaga({ name, payload }) {
   const response = yield call(fetchShopList, payload);
   if (response.data) {
-    console.log('fetchShopListSaga >>', response.data, name);
-    yield put({
-      type: shopTypes.SET_SHOP_LIST,
-      payload: {
-        name: name,
-        shopList: response.data
-      },
-    });
+    if (name === "shopList") {
+      /* 메인페이지에서 설정되었을 때만 */
+      yield put({
+        type: shopTypes.SET_SHOP_LIST_HOME,
+        payload: {
+          name: name,
+          shopList: response.data
+        },
+      });
+    } else {
+      console.log('djdsgadjghasdkjlghsdkjgashdlj');
+      yield put({
+        type: shopTypes.SET_SHOP_LIST,
+        payload: {
+          name: name,
+          shopList: response.data
+        },
+      });
+    }
   } else {
     console.log('fetchShopList >>', response);
   }

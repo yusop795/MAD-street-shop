@@ -25,6 +25,7 @@ const Home = ({ history }) => {
   const shopList = useSelector(state => state.shopReducer.shopList);
   const shopDetail = useSelector(state => state.shopReducer.shopDetail);
   const shopId = useSelector(state => state.shopReducer.selectShopId)
+  const selectedFrom = useSelector(state => state.shopReducer.selectedFrom)
   const [address, setAddress] = useState('');
   const [selectShopId, setSelectShopId] = useState(shopId);
   const [currentKeyword, setCurrentKeyword] = useState([]);
@@ -39,7 +40,6 @@ const Home = ({ history }) => {
     };
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
-        console.log('coords', coords);
         dispatch({
           type: startTypes.SET_LOCATION,
           payload: {
@@ -55,12 +55,19 @@ const Home = ({ history }) => {
   const { targetModalPage, isModalOpen, setModalPage } = ModalPageUtill();
 
   useEffect(() => {
-    setModalPage({ target: 'ShopInfoModal' })
+    /* 랭킹, watch리스트에서 넘어온 것이 아니면 selectedFrom은 빈값임 */
+    if (selectedFrom == '') {
+      setModalPage({ target: 'ShopInfoModal' })
+    } else {
+      setModalPage({ target: 'ShopDetailModal' })
+    }
   }, []);
 
   // location 변경될때
   useEffect(() => {
-    if (location) {
+    /* selectedFrom => 랭킹, watch리스트에서 넘어온 것 */
+    if (location && selectedFrom == '') {
+      console.log('djdjdjdjdjd sslse>>', selectedFrom);
       dispatch({
         type: shopTypes.FETCH_SHOP_LIST,
         name: "shopList",
@@ -70,19 +77,13 @@ const Home = ({ history }) => {
   }, [location]);
 
   useEffect(() => {
-    if (shopList.length > 0) {
-      setSelectShopId(shopList[0]._id)
-    }
-  }, [shopList]);
-
-  useEffect(() => {
     setSelectShopId(shopId)
   }, [shopId]);
 
   useEffect(() => {
     shopList.forEach(v => {
+      console.log('select >>>>>>', selectShopId);
       if (selectShopId === v._id) {
-        console.log(222, selectShopId)
         dispatch({
           type: shopTypes.FETCH_SHOP_DETAIL,
           payload: {
@@ -118,6 +119,7 @@ const Home = ({ history }) => {
         return null;
     }
   }
+  console.log('>>>>shopId<<<', shopId, '>>>selectShopId<<<', selectShopId, '>>>selectedFrom', selectedFrom);
   return (
     <div>
       <HomeHeader address={address} fetchGeolocation={fetchGeolocation} setModalPage={setModalPage} />

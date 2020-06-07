@@ -21,13 +21,13 @@ const ShopList = ({ items = [], type = '', onEvent = null, history }) => {
 };
 
 export const ShopItem = ({ index = 10, data, type, onEvent, history }) => {
-  console.log('ShopItem >>>>', onEvent);
   const dispatch = useDispatch();
   return (
     <div
       className={`shopListItem ${type === "rank" && index < 5 ? "iconShow" : ""}`}
       onClick={() => {
         if (type !== 'icon') {
+          console.log('dhsadjkghaslgueawhkjsd >>>>', data._id, history);
           dispatch({
             type: shopTypes.SET_SELECT_SHOP_ID,
             payload: {
@@ -36,10 +36,26 @@ export const ShopItem = ({ index = 10, data, type, onEvent, history }) => {
           });
           if (history) {
             history.push('home')
+            if (type === 'rank' || type == 'watchList') {
+              dispatch({
+                type: shopTypes.FROM_SELECT_SHOP_ID,
+                payload: type,
+              });
+              onEvent({
+                target: 'ShopDetailModal',
+              });
+            }
           } else {
-            onEvent({
-              target: 'ShopDetailModal',
-            });
+            if (type == 'serchResult') {
+              console.log('type >>>> resultSearch ', type);
+              dispatch({
+                type: shopTypes.FROM_SELECT_SHOP_ID,
+                payload: type,
+              });
+              onEvent({
+                target: 'ShopDetailModal',
+              });
+            }
           }
         }
 
