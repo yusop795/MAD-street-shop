@@ -63,6 +63,7 @@ const Home = ({ history }) => {
     if (location) {
       dispatch({
         type: shopTypes.FETCH_SHOP_LIST,
+        name: "shopList",
         payload: { location, type: 'main' },
       });
     }
@@ -117,7 +118,6 @@ const Home = ({ history }) => {
         return null;
     }
   }
-
   return (
     <div>
       <HomeHeader address={address} fetchGeolocation={fetchGeolocation} setModalPage={setModalPage} />

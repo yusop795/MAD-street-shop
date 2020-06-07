@@ -119,3 +119,24 @@ export const putShopOpen = (data) => {
       return error;
     });
 }
+
+/**
+ * 관심 리스트 등록
+ */
+
+export const putFavoriteShopOpen = (data) => {
+  return API_INSTANCE.delete(`/shops/${data.shopId}/operation`,
+    {
+      data: qs.stringify(data),
+      headers: {
+        'Authorization': `Bearer ${AuthUtill.accessToken}`
+      }
+    }
+  )
+    .then(response => {
+      return response
+    })
+    .catch(error => {
+      return error;
+    });
+}

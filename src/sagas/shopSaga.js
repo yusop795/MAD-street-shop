@@ -3,12 +3,14 @@ import { shopTypes } from "../reducers/shopReducer";
 import { userTypes } from "../reducers/userReducer";
 import { fetchShopList, fetchShopDetail, postShopOpen, deleteShopOpen } from './api/shopApi';
 
-export function* fetchShopListSaga({ payload }) {
+export function* fetchShopListSaga({ name, payload }) {
   const response = yield call(fetchShopList, payload);
   if (response.data) {
+    console.log('fetchShopListSaga >>', response.data, name);
     yield put({
       type: shopTypes.SET_SHOP_LIST,
       payload: {
+        name: name,
         shopList: response.data
       },
     });

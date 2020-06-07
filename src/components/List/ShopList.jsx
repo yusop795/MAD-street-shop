@@ -21,6 +21,7 @@ const ShopList = ({ items = [], type = '', onEvent = null, history }) => {
 };
 
 export const ShopItem = ({ index = 10, data, type, onEvent, history }) => {
+  console.log('ShopItem >>>>', onEvent);
   const dispatch = useDispatch();
   return (
     <div
@@ -59,12 +60,15 @@ export const ShopItem = ({ index = 10, data, type, onEvent, history }) => {
         </div>
       </div>
       {
-        type === 'icon' ? <img src={iconLikeOn} alt={'좋아요'} /> : (
-          <div className="listPhoto">
-            <img src={data.imageUrl[0]} alt="가게 사진" />
-            {data.now.active ? null : <div className="getReady">준비중</div>}
-          </div>
-        )
+        type === 'icon' ? <button type="button" onClick={(event) => {
+          console.log('djdjdjd');
+          event.stopPropagation();
+        }}><img src={iconLikeOn} alt={'좋아요'} /> </button> : (
+            <div className="listPhoto">
+              <img src={data.imageUrl[0]} alt="가게 사진" />
+              {data.now.active ? null : <div className="getReady">준비중</div>}
+            </div>
+          )
       }
     </div >
   )

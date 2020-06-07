@@ -52,9 +52,10 @@ export default function shopReducer(state = initialState, action) {
         shopCategory: payload,
       };
     case shopTypes.SET_SHOP_LIST:
+      console.log('shopTypes.SET_SHOP_LIST', payload.name);
       return {
         ...state,
-        shopList: payload.shopList,
+        [payload.name]: payload.shopList,
       };
     case shopTypes.SET_SHOP_DETAIL:
       return {

@@ -49,6 +49,7 @@ const SearchResult = ({ onEvent }) => {
     }
   }, [getResult]);
 
+  console.log('searchResult >>>', onEvent);
   return (
     <div className="searchResult">
       <div className="resultInfo">내 주변 <strong>3km</strong> 이내의 검색 결과입니다</div>
