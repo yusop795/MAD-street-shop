@@ -7,6 +7,8 @@ import iconPhone from '../../assets/imgs/iconPhone.png'
 
 const shopDetailModal = ({ shopInfo, isOpen = true, onEvent = null, }) => {
   const mobile = shopInfo.mobile ? shopInfo.mobile.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3") : '비공개'
+  const times = shopInfo.now.active ? `${shopInfo.now.openTime}~${shopInfo.now.closeTime}` : `${shopInfo.now.openTime}~${shopInfo.closeTime}`
+  const locationComment = shopInfo.now.active ? shopInfo.now.locationComment : shopInfo.locationComment
 
   return (
     <div className={`shopDetailModal ${isOpen ? 'open' : ''}`}>
@@ -16,14 +18,14 @@ const shopDetailModal = ({ shopInfo, isOpen = true, onEvent = null, }) => {
           <img src={iconMapPin} alt={'위치'} />
           <div className="info">
             <p>{shopInfo.location.subLocation}</p>
-            <span className="subLocation">{shopInfo.now.locationComment}</span>
+            <span className="subLocation">{locationComment}</span>
           </div>
         </li>
         <li className="infoList">
           <img src={iconClock} alt={'영업시간'} />
           <div className="info">
             <p>영업시간{shopInfo.now.active ? <span className="openInfo open">영업중</span> : <span className="openInfo">준비중</span>}</p>
-            <p>{`${shopInfo.openDays}`} {`${shopInfo.openTime}~${shopInfo.closeTime}`}</p>
+            <p>{`${shopInfo.openDays}`} {times}</p>
           </div>
         </li>
         <li className="infoList">

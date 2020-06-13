@@ -83,6 +83,30 @@ const OpenShop = ({ history, match }) => {
     })
   }
 
+  const editShopOpen = () => {
+    const { openTime, closeTime } = renderTimes()
+    setState(false)
+    dispatch({
+      type: shopTypes.SET_SHOP_LOADING,
+      payload: {
+        shopLoding: true,
+      },
+    })
+    dispatch({
+      type: shopTypes.PUT_SHOP_OPEN,
+      payload: {
+        shopId,
+        userId,
+        openTime,
+        closeTime,
+        subLocation: storeLocation.address,
+        latitude: storeLocation.location.lat,
+        longitude: storeLocation.location.long,
+        locationComment: storeLocation.locationComment,
+      },
+    })
+  }
+
   useEffect(() => {
     if (!state && !shopLoding) {
       console.log(123)
@@ -118,7 +142,7 @@ const OpenShop = ({ history, match }) => {
       </div>
       {match.path === '/openShop/edit' ? (
         <div className="btnBox">
-          <Button fullmode={true} text="확인" onEvent={history.goBack} />
+          <Button fullmode={true} text="확인" onEvent={editShopOpen} />
           <Button fullmode={true} text="영업종료" onEvent={closeShop} />
         </div>
       ) : (

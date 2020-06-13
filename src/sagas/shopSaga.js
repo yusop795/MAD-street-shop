@@ -1,7 +1,7 @@
 import { takeEvery, takeLatest, put, call } from "redux-saga/effects";
 import { shopTypes } from "../reducers/shopReducer";
 import { userTypes } from "../reducers/userReducer";
-import { fetchShopList, fetchShopDetail, postShopOpen, deleteShopOpen } from './api/shopApi';
+import { fetchShopList, fetchShopDetail, postShopOpen, deleteShopOpen, putShopOpen } from './api/shopApi';
 
 export function* fetchShopListSaga({ payload }) {
   const response = yield call(fetchShopList, payload);
@@ -15,6 +15,7 @@ export function* fetchShopListSaga({ payload }) {
         long: (data.now.active) ? data.now.location.longitude.$numberDecimal : data.location.longitude.$numberDecimal
       }
     })
+    console.log('aaaa', data)
     yield put({
       type: shopTypes.SET_SHOP_LIST,
       payload: {
@@ -37,7 +38,6 @@ export function* fetchShopDetailSaga({ payload }) {
         selectShopId: response.data[0]._id
       },
     });
-
     yield put({
       type: shopTypes.SET_SHOP_DETAIL,
       payload: {
@@ -101,9 +101,31 @@ export function* deleteShopOpenSaga({ payload }) {
   }
 }
 
+export function* putShopOpenSaga({ payload }) {
+  const response = yield call(putShopOpen, payload);
+  if (response.data) {
+    yield put({
+      type: shopTypes.SET_SHOP_LOADING,
+      payload: {
+        shopLoding: false,
+        shopError: ''
+      },
+    });
+  } else {
+    yield put({
+      type: shopTypes.SET_SHOP_ERROR,
+      payload: {
+        shopLoding: false,
+      },
+    });
+  }
+}
+
 export default function* shopSaga() {
-  yield takeEvery(shopTypes.FETCH_SHOP_LIST, fetchShopListSaga);
+  yield takeLatest(shopTypes.FETCH_SHOP_LIST, fetchShopListSaga);
   yield takeLatest(shopTypes.FETCH_SHOP_DETAIL, fetchShopDetailSaga);
   yield takeLatest(shopTypes.POST_SHOP_OPEN, postShopOpenSaga);
   yield takeLatest(shopTypes.DELETE_SHOP_CLOSE, deleteShopOpenSaga);
+  yield takeLatest(shopTypes.PUT_SHOP_OPEN, putShopOpenSaga);
+
 }

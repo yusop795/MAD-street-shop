@@ -13,6 +13,7 @@ export const shopTypes = {
 
   POST_SHOP_OPEN: 'shop/POST_SHOP_OPEN',
   DELETE_SHOP_CLOSE: 'shop/DELETE_SHOP_CLOSE',
+  PUT_SHOP_OPEN: 'shop/PUT_SHOP_OPEN',
 
   SET_SELECT_SHOP_ID: 'shop/SET_SELECT_SHOP_ID',
 
