@@ -48,10 +48,11 @@ const WatchList = ({ history }) => {
     <div className="main ranking">
       <Header title="관심리스트" onEvent={history.goBack} />
 
-      {favoritesList.length > 0 ? (
-        <ShopList items={favoritesList} type="watchList" history={history} />
-      ) : (<NoDataBox />)}
-      {userLoading ? <Spinner /> : null}
+      {userLoading ? <Spinner /> :
+        favoritesList.length > 0 ? (
+          <ShopList items={favoritesList} type="watchList" history={history} />
+        ) : (<NoDataBox />)
+      }
     </div>
   );
 };
