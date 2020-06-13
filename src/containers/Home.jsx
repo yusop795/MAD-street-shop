@@ -84,7 +84,7 @@ const Home = ({ history }) => {
       case 'ShopDetailModal':
         return <ShopDetailModal shopInfo={shopDetail} isOpen={isModalOpen} onEvent={setModalPage} />;
       case 'SettingLocation':
-        return <SettingLocation type={'home'} isOpen={isModalOpen} onEvent={setModalPage} />;
+        return <SettingLocation type={'home'} addressText={address} isOpen={isModalOpen} onEvent={setModalPage} />;
       default:
         return null;
     }

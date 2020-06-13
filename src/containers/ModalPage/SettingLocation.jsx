@@ -14,12 +14,12 @@ import { MainMap } from '../../components/Map';
 import '../../assets/styles/containers/setting.scss';
 import btnHere from '../../assets/imgs/btnHere.png';
 
-const SettingLocation = ({ isOpen, onEvent, type }) => {
+const SettingLocation = ({ isOpen, onEvent, type, addressText = '' }) => {
   const dispatch = useDispatch();
   const location = useSelector(state => state.startReducer.location)
   const storeLocation = useSelector(state => state.userReducer.storeLocation)
   const [crrlocation, setCrrLocation] = useState('')
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState(addressText);
   const [locationComment, setLocationComment] = useState('');
   const modalPage = useRef();
 
@@ -45,10 +45,12 @@ const SettingLocation = ({ isOpen, onEvent, type }) => {
 
   useEffect(() => {
     if (type === 'edit' || type === 'openShop') {
+      console.log(storeLocation)
       setCrrLocation(storeLocation.location)
       setAddress(storeLocation.address)
       setLocationComment(storeLocation.locationComment)
     } else {
+      console.log('location', location)
       setCrrLocation(location)
     }
   }, []);

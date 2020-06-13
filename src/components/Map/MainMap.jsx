@@ -156,7 +156,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
             level: 3, // 지도의 레벨(확대, 축소 정도)
           };
 
-          if (shopId) {
+          if (containerId !== 'locationMap' && shopId) {
             const latitude = (shopDetail.now.active) ? shopDetail.now.location.latitude.$numberDecimal : shopDetail.location.latitude.$numberDecimal
             const longitude = (shopDetail.now.active) ? shopDetail.now.location.longitude.$numberDecimal : shopDetail.location.longitude.$numberDecimal
             options.center = new kakaoMap.LatLng(latitude, longitude);
