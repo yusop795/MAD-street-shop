@@ -24,11 +24,9 @@ const Home = ({ history }) => {
   const location = useSelector(state => state.startReducer.location);
   const shopList = useSelector(state => state.shopReducer.shopList);
   const shopDetail = useSelector(state => state.shopReducer.shopDetail);
-  const shopId = useSelector(state => state.shopReducer.selectShopId)
+  const selectShopId = useSelector(state => state.shopReducer.selectShopId)
   const [address, setAddress] = useState('');
-  const [selectShopId, setSelectShopId] = useState(shopId);
   const [currentKeyword, setCurrentKeyword] = useState([]);
-
 
   // 위치정보 조회
   const fetchGeolocation = () => {
@@ -68,31 +66,31 @@ const Home = ({ history }) => {
     }
   }, [location]);
 
-  useEffect(() => {
-    if (shopList.length > 0) {
-      setSelectShopId(shopList[0]._id)
-    }
-  }, [shopList]);
+  // useEffect(() => {
+  //   if (shopList.length > 0) {
+  //     setSelectShopId(shopList[0]._id)
+  //   }
+  // }, [shopList]);
 
-  useEffect(() => {
-    setSelectShopId(shopId)
-  }, [shopId]);
+  // useEffect(() => {
+  //   setSelectShopId(shopId)
+  // }, [shopId]);
 
-  useEffect(() => {
-    shopList.forEach(v => {
-      if (selectShopId === v._id) {
-        console.log(222, selectShopId)
-        dispatch({
-          type: shopTypes.FETCH_SHOP_DETAIL,
-          payload: {
-            shopId: selectShopId,
-            long: location.long,
-            lat: location.lat
-          }
-        });
-      }
-    });
-  }, [selectShopId]);
+  // useEffect(() => {
+  //   shopList.forEach(v => {
+  //     if (selectShopId === v._id) {
+  //       console.log(222, selectShopId)
+  //       dispatch({
+  //         type: shopTypes.FETCH_SHOP_DETAIL,
+  //         payload: {
+  //           shopId: selectShopId,
+  //           long: location.long,
+  //           lat: location.lat
+  //         }
+  //       });
+  //     }
+  //   });
+  // }, [selectShopId]);
 
   useEffect(() => {
     const getFromLocalStorage = JSON.parse(localStorageGet('MadShopCurrentKeyword'));
@@ -125,7 +123,6 @@ const Home = ({ history }) => {
         <MainMap
           location={location}
           selectShopId={selectShopId}
-          setSelectShopId={setSelectShopId}
           shopList={shopList}
           onEvent={setModalPage}
           containerId={'homeMap'}

@@ -6,12 +6,23 @@ import { fetchShopList, fetchShopDetail, postShopOpen, deleteShopOpen } from './
 export function* fetchShopListSaga({ payload }) {
   const response = yield call(fetchShopList, payload);
   if (response.data) {
+    // TODO : 첫번쨰 리스트에 삭제된 가게정보가 옴
+    const data = response.data[1]
+    yield fetchShopDetailSaga({
+      payload: {
+        shopId: data._id,
+        lat: (data.now.active) ? data.now.location.latitude.$numberDecimal : data.location.latitude.$numberDecimal,
+        long: (data.now.active) ? data.now.location.longitude.$numberDecimal : data.location.longitude.$numberDecimal
+      }
+    })
+
     yield put({
       type: shopTypes.SET_SHOP_LIST,
       payload: {
         shopList: response.data
       },
     });
+
   } else {
     console.log('fetchShopList >>', response);
   }
@@ -19,8 +30,15 @@ export function* fetchShopListSaga({ payload }) {
 
 export function* fetchShopDetailSaga({ payload }) {
   const response = yield call(fetchShopDetail, payload);
+  console.log('fetchShopDetailSaga', response.data);
   if (response.data) {
-    console.log('fetchShopDetailSaga', response.data);
+    yield put({
+      type: shopTypes.SET_SELECT_SHOP_ID,
+      payload: {
+        selectShopId: response.data[0]._id
+      },
+    });
+
     yield put({
       type: shopTypes.SET_SHOP_DETAIL,
       payload: {

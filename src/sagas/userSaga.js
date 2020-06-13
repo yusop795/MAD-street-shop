@@ -172,11 +172,11 @@ export function* postSignUpImgOwnerSaga(data) {
       payload: {
         shopId: data._id,
         storeLocation: {
-          address: data.location.subLocation,
+          address: (data.now.active) ? data.now.location.subLocation : data.location.subLocation,
           locationComment: data.now.locationComment,
           location: {
-            lat: data.location.latitude.$numberDecimal,
-            long: data.location.longitude.$numberDecimal,
+            lat: (data.now.active) ? data.now.location.latitude.$numberDecimal : data.location.latitude.$numberDecimal,
+            long: (data.now.active) ? data.now.location.longitude.$numberDecimal : data.location.longitude.$numberDecimal
           }
         },
         storeCategory: data.shopTags,

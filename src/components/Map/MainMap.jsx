@@ -8,7 +8,7 @@ import mapMarker from '../../assets/imgs/mapMarker.png';
 import { shopTypes } from '../../reducers/shopReducer'
 const kakaoMapScript = scriptUtill(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=a2634b699ee1deee53b339a1835cca33&autoload=false&libraries=services`);
 
-const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectShopId, setSelectShopId, getGeocoder, setLocation }) => {
+const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectShopId, getGeocoder, setLocation }) => {
   const dispatch = useDispatch();
   const [crrlocation, setCrrLocation] = useState(location)
   const shopId = useSelector(state => state.shopReducer.selectShopId)
@@ -24,7 +24,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
     if (location && crrlocation) {
       renderMap()
     }
-  }, [crrlocation, shopDetail]);
+  }, [crrlocation, shopDetail, shopList]);
 
   const moveMap = (kakaoMap, map, latlng) => {
     // 이동할 위도 경도 위치를 생성합니다 
@@ -113,18 +113,23 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
 
       // 마커 이벤트 등록
       kakaoMap.event.addListener(marker, 'click', () => {
-        setSelectShopId(data._id)
         moveMap(kakaoMap, map, position)
         onEvent({
           target: 'ShopDetailModal',
         });
-
         if (shopId) {
           dispatch({
             type: shopTypes.SET_SELECT_SHOP_ID,
             payload: {
-              selectShopId: ''
+              selectShopId: data._id
             },
+          });
+
+          dispatch({
+            type: shopTypes.SET_SHOP_DETAIL,
+            payload: {
+              shopDetail: data
+            }
           });
         }
 
