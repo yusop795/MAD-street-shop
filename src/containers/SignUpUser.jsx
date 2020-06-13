@@ -46,7 +46,6 @@ const SignUpUser = ({ history }) => {
           contents: '대표메뉴는 최대 3개까지만<br/> 선택할 수 있어요.'
         })
       } else {
-        console.log(selectCategory)
         const key = selectCategory - 1
         const data = { ...selectTag, [tag]: categoryList[key].title }
         setSelectTag(data)
@@ -105,7 +104,6 @@ const SignUpUser = ({ history }) => {
   }
 
   useEffect(() => {
-    console.log(userLoading, isUser, history.location.pathname)
     if (signUpUserCall && !userLoading && isUser) {
       if (history.location.pathname !== "/myPage/user") {
         history.push(`/signup/complet/user`)

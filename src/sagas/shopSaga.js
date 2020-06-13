@@ -15,7 +15,7 @@ export function* fetchShopListSaga({ payload }) {
         long: (data.now.active) ? data.now.location.longitude.$numberDecimal : data.location.longitude.$numberDecimal
       }
     })
-    console.log('aaaa', data)
+
     yield put({
       type: shopTypes.SET_SHOP_LIST,
       payload: {
@@ -30,7 +30,6 @@ export function* fetchShopListSaga({ payload }) {
 
 export function* fetchShopDetailSaga({ payload }) {
   const response = yield call(fetchShopDetail, payload);
-  console.log('fetchShopDetailSaga', response.data);
   if (response.data) {
     yield put({
       type: shopTypes.SET_SELECT_SHOP_ID,

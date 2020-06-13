@@ -58,7 +58,6 @@ const SignUpOwner = ({ history, match }) => {
   };
 
   useEffect(() => {
-    console.log(userLoading, isUser, shopInfo, history.location.pathname)
     if (!state && !userLoading && shopInfo) {
       if (history.location.pathname !== "/myPage/owner") {
         history.push(`/signup/complet/owner`)

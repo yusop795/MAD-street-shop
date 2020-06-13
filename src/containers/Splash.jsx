@@ -107,10 +107,8 @@ const Splash = ({ history }) => {
 
 
   useEffect(() => {
-    console.log(isLogin, isUser)
     if (!userLoading && Object.keys(location).length > 0) {
       if (isUser) {
-        console.log(userInfo.owner, shopInfo)
         if (userInfo.owner && !shopInfo.now.active) {
           history.push('openShop')
         } else {

@@ -17,7 +17,6 @@ const SelectTime = ({ fullMode = false, title = '', setOpenTime = null, setClose
   }
 
   useEffect(() => {
-    console.log(open, close)
     setOpenTime([open.hour, open.min])
     setCloseTime([close.hour, close.min])
   }, [open, close]);

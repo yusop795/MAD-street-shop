@@ -109,7 +109,6 @@ const OpenShop = ({ history, match }) => {
 
   useEffect(() => {
     if (!state && !shopLoding) {
-      console.log(123)
       history.push('/home')
     }
   }, [shopLoding]);

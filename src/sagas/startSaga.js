@@ -5,7 +5,6 @@ import { isEmpty } from "../util/gm";
 
 
 export function* fetchCategorySaga({ payload }) {
-  // console.log('fetchCategorySaga')
   const response = yield call(fetchCategory, payload);
   if (response.data) {
     yield put({
@@ -18,7 +17,6 @@ export function* fetchCategorySaga({ payload }) {
 }
 
 export function* fetchShopListSaga({ payload }) {
-  // console.log('fetchShopListSaga');
   yield put({
     type: startTypes.SET_SHOP_LIST,
     name: payload.name,

@@ -26,7 +26,6 @@ const SettingLocation = ({ isOpen, onEvent, type, addressText = '' }) => {
 
   // 위치정보 조회
   const fetchGeolocation = () => {
-    console.log(navigator.geolocation)
     const options = {
       enableHighAccuracy: true,
       maximumAge: 300000,
@@ -45,12 +44,10 @@ const SettingLocation = ({ isOpen, onEvent, type, addressText = '' }) => {
 
   useEffect(() => {
     if (type === 'edit' || type === 'openShop') {
-      console.log(storeLocation)
       setCrrLocation(storeLocation.location)
       setAddress(storeLocation.address)
       setLocationComment(storeLocation.locationComment)
     } else {
-      console.log('location', location)
       setCrrLocation(location)
     }
   }, []);
