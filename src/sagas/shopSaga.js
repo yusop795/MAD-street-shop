@@ -15,7 +15,6 @@ export function* fetchShopListSaga({ payload }) {
         long: (data.now.active) ? data.now.location.longitude.$numberDecimal : data.location.longitude.$numberDecimal
       }
     })
-
     yield put({
       type: shopTypes.SET_SHOP_LIST,
       payload: {

@@ -118,6 +118,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
           target: 'ShopDetailModal',
         });
         if (shopId) {
+
           dispatch({
             type: shopTypes.SET_SELECT_SHOP_ID,
             payload: {
@@ -131,6 +132,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
               shopDetail: data
             }
           });
+
         }
 
         // if(marker.getZIndex() ===0){

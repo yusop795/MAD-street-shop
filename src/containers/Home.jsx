@@ -66,32 +66,6 @@ const Home = ({ history }) => {
     }
   }, [location]);
 
-  // useEffect(() => {
-  //   if (shopList.length > 0) {
-  //     setSelectShopId(shopList[0]._id)
-  //   }
-  // }, [shopList]);
-
-  // useEffect(() => {
-  //   setSelectShopId(shopId)
-  // }, [shopId]);
-
-  // useEffect(() => {
-  //   shopList.forEach(v => {
-  //     if (selectShopId === v._id) {
-  //       console.log(222, selectShopId)
-  //       dispatch({
-  //         type: shopTypes.FETCH_SHOP_DETAIL,
-  //         payload: {
-  //           shopId: selectShopId,
-  //           long: location.long,
-  //           lat: location.lat
-  //         }
-  //       });
-  //     }
-  //   });
-  // }, [selectShopId]);
-
   useEffect(() => {
     const getFromLocalStorage = JSON.parse(localStorageGet('MadShopCurrentKeyword'));
 
