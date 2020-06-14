@@ -5,14 +5,17 @@ import iconClock from '../../assets/imgs/iconClock.png'
 import iconMapPin from '../../assets/imgs/iconMapPin.png'
 import iconPhone from '../../assets/imgs/iconPhone.png'
 
-const shopDetailModal = ({ shopInfo, isOpen = true, onEvent = null, }) => {
-  const mobile = shopInfo.useMobile ? shopInfo.mobile.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3") : '비공개'
-  const times = shopInfo.now.active ? `${shopInfo.now.openTime}~${shopInfo.now.closeTime}` : `${shopInfo.openTime}~${shopInfo.closeTime}`
+const shopDetailModal = ({ shopInfo, isOpen = true, onEvent = null, userFavorite = [], userIdNumber, token }) => {
+  const mobile = shopInfo.mobile ? shopInfo.mobile.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3") : '비공개'
+  const times = shopInfo.now.active ? `${shopInfo.now.openTime}~${shopInfo.now.closeTime}` : `${shopInfo.now.openTime}~${shopInfo.closeTime}`
   const locationComment = shopInfo.now.active ? shopInfo.now.locationComment : shopInfo.locationComment
+
+  console.log('userFavorite', userFavorite);
+  console.log('>>>>>>>>>>>>>>data>>>>>>>>>', typeof shopInfo._id, shopInfo._id);
 
   return (
     <div className={`shopDetailModal ${isOpen ? 'open' : ''}`}>
-      <ShopItem data={shopInfo} type='icon' />
+      <ShopItem data={shopInfo} type='icon' userFavorite={userFavorite} userId={userIdNumber} token={token} />
       <ul className={'shopDetailInfo'}>
         <li className="infoList">
           <img src={iconMapPin} alt={'위치'} />

@@ -30,6 +30,13 @@ const Home = ({ history }) => {
   const [selectShopId, setSelectShopId] = useState(shopId);
   const [currentKeyword, setCurrentKeyword] = useState([]);
 
+  const userInfo = useSelector(state => state.userReducer.userInfo);
+  const userId = useSelector(state => state.userReducer.userId);
+
+  const [token] = useState(localStorageGet('MAD_KAKAO_ACCESS_TOKEN'))
+
+
+
   // 위치정보 조회
   const fetchGeolocation = () => {
     const options = {
@@ -109,13 +116,15 @@ const Home = ({ history }) => {
       case 'SearchModal':
         return <SearchModal history={history} isOpen={isModalOpen} onEvent={setModalPage} currentKeyword={currentKeyword} />;
       case 'ShopDetailModal':
-        return <ShopDetailModal shopInfo={shopDetail} isOpen={isModalOpen} onEvent={setModalPage} />;
+        return <ShopDetailModal shopInfo={shopDetail} isOpen={isModalOpen} onEvent={setModalPage} userFavorite={userInfo.favoriteShops} userIdNumber={userId} token={token}/>;
       case 'SettingLocation':
         return <SettingLocation type={'home'} addressText={address} isOpen={isModalOpen} onEvent={setModalPage} />;
       default:
         return null;
     }
   }
+
+  console.log('Home >>>>', userInfo);
 
   return (
     <div>
