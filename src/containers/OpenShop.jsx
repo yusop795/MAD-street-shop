@@ -5,8 +5,10 @@ import { withRouter } from 'react-router-dom';
 import { MainMap } from '../components/Map';
 import { Button } from '../components/Unit';
 import { SettingTime, SettingLocation } from './ModalPage';
+import AlertUtil from '../util/AlertUtil';
 import ModalPageUtill from '../util/ModalPageUtill';
 import Spinner from "../components/Unit/Spinner";
+import { Alert } from '../components/Alert';
 import '../assets/styles/containers/openShop.scss';
 
 const OpenShop = ({ history, match }) => {
@@ -20,6 +22,7 @@ const OpenShop = ({ history, match }) => {
   const shopLoding = useSelector(state => state.shopReducer.shopLoding, shallowEqual);
 
   const { targetModalPage, isModalOpen, setModalPage } = ModalPageUtill();
+  const { isShowing, title, contents, setAlert } = AlertUtil();
 
   const renderTimes = () => {
     const openTime = `${storeOpenTime[0]}:${(+storeOpenTime[1] < 10) ? `0${+storeOpenTime[1]}` : storeOpenTime[1]}`
@@ -65,6 +68,17 @@ const OpenShop = ({ history, match }) => {
       },
     })
   }
+
+  const showAlert = () => {
+    setAlert({
+      contents: `
+      오늘의 영업을 종료합니다.<br>
+      영업 재시작은<br>
+      <b>마이페이지>오늘의 영업정보</b>에서<br>
+      수정가능합니다.`
+    })
+  }
+
 
   const closeShop = () => {
     setState(false)
@@ -142,7 +156,7 @@ const OpenShop = ({ history, match }) => {
       {match.path === '/openShop/edit' ? (
         <div className="btnBox">
           <Button fullmode={true} text="확인" onEvent={editShopOpen} />
-          <Button fullmode={true} text="영업종료" onEvent={closeShop} />
+          <Button fullmode={true} text="영업종료" onEvent={showAlert} />
         </div>
       ) : (
           <>
@@ -155,6 +169,7 @@ const OpenShop = ({ history, match }) => {
         )}
       {rederModalPage()}
       {shopLoding ? <Spinner /> : null}
+      <Alert isShowing={isShowing} hide={setAlert} title={title} contents={contents} onEvent={closeShop} />
     </div>
   )
 }

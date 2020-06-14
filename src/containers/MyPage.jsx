@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { userTypes, userApiTypes } from '../reducers/userReducer';
-import AlertUtil from '../util/AlertUtil.js';
+import AlertUtil from '../util/AlertUtil';
 import ModalPageUtill from '../util/ModalPageUtill.js';
 import { localStorageGet } from '../util/LocalStorage.js';
 
@@ -95,32 +95,39 @@ const MyPage = ({ history, match }) => {
                   }}>
                 </div>
               ) : (
-                  <div className="menuList">
-                    {!userInfo.owner ? (
-                      <Link to='/myPage/user' className="menuItem">
-                        <img src={iconSettings} alt="취향설정" />
-                        <p>취향설정</p>
-                      </Link>
-                    ) : (
-                        <Link to='/myPage/owner' className="menuItem">
-                          <img src={iconSettings} alt="가게설정" />
-                          <p>가게설정</p>
-                        </Link>
-                      )}
-                    <Link to='/watchList' className="menuItem">
-                      <img src={iconHeart} alt="관심리스트" />
-                      <p>관심리스트</p>
-                    </Link>
-                    <div className="menuItem"
+                  <>
+                    <div className="banner bannerClose"
                       onClick={() => {
-                        setAlert({
-                          contents: '준비 중인 기능입니다.'
-                        })
+                        history.push('openShop')
                       }}>
-                      <img src={iconDeclare} alt="신고리스트" />
-                      <p>신고리스트</p>
                     </div>
-                  </div>
+                    <div className={`menuList ${!userInfo.owner ? 'borderTop' : null}`}>
+                      {!userInfo.owner ? (
+                        <Link to='/myPage/user' className="menuItem">
+                          <img src={iconSettings} alt="취향설정" />
+                          <p>취향설정</p>
+                        </Link>
+                      ) : (
+                          <Link to='/myPage/owner' className="menuItem">
+                            <img src={iconSettings} alt="가게설정" />
+                            <p>가게설정</p>
+                          </Link>
+                        )}
+                      <Link to='/watchList' className="menuItem">
+                        <img src={iconHeart} alt="관심리스트" />
+                        <p>관심리스트</p>
+                      </Link>
+                      <div className="menuItem"
+                        onClick={() => {
+                          setAlert({
+                            contents: '준비 중인 기능입니다.'
+                          })
+                        }}>
+                        <img src={iconDeclare} alt="신고리스트" />
+                        <p>신고리스트</p>
+                      </div>
+                    </div>
+                  </>
                 )
             }
           </>

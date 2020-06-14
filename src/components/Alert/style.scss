@@ -1,31 +1,34 @@
 @import "../../assets/styles/common/color.scss";
 
 .alert {
-    position: fixed;
-    top:0;
-    left:0;
-    display: flex;
-    flex:1;
-    align-items: center;
-    justify-content: center;
-    width:100%;
-    height:100%;
-    z-index: 999;
-    background:$black01;
-    .alertBox {
-        width: 270px;
-        padding-top:32px;
-        text-align: center;
-        background: $whiteColor;
-        border-radius: 10px;
-        p {
-        line-height: 20px;   
-        margin: 0px 20px;
-        }
-        .alertBtn {
-            border-top: 1px solid $gray233;
-            padding: 12px 0;
-            margin-top:32px;
-        }
+  position: fixed;
+  top:0;
+  left:0;
+  display: flex;
+  flex:1;
+  align-items: center;
+  justify-content: center;
+  width:100%;
+  height:100%;
+  z-index: 999;
+  background:$black01;
+  .alertBox {
+      width: 270px;
+      padding-top:32px;
+      text-align: center;
+      background: $whiteColor;
+      border-radius: 10px;
+    p {
+      line-height: 20px;   
+      margin: 0px 20px;
     }
+    .alertBtn {
+      border-top: 1px solid $gray233;
+      padding: 12px 0;
+      margin-top:32px;
+    }
+    b {
+      font-weight: bold;;
+    }
+  }
 }

@@ -34,8 +34,10 @@
     display: flex;
     justify-content: space-between;
     margin: 0px 30px;
-    border-top: 1px solid $black01;
     border-bottom: 1px solid $black01;
+    &.borderTop {
+    border-top: 1px solid $black01;
+    }
     .menuItem {
       display: flex;
       flex-direction: column;
@@ -64,6 +66,9 @@
     &.bannerOpen {
       background-image: url('../../imgs/bannerOpen.png');
     }
+    &.bannerClose {
+      background-image: url('../../imgs/bannerClose.png');
+    }   
   }
   .settingList {
     .settingItem {
