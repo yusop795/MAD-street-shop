@@ -24,7 +24,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
     if (location && crrlocation) {
       renderMap()
     }
-  }, [crrlocation, shopDetail, shopList]);
+  }, [shopList, shopDetail]);
 
   const moveMap = (kakaoMap, map, latlng) => {
     // 이동할 위도 경도 위치를 생성합니다 

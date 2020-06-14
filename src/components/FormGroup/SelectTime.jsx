@@ -16,8 +16,10 @@ const SelectTime = ({ fullMode = false, title = '', setOpenTime = null, setClose
     return option;
   }
 
+
   useEffect(() => {
-    setOpenTime([open.hour, open.min])
+    if (setOpenTime) setOpenTime([open.hour, open.min])
+
     setCloseTime([close.hour, close.min])
   }, [open, close]);
 
@@ -25,25 +27,27 @@ const SelectTime = ({ fullMode = false, title = '', setOpenTime = null, setClose
     <FormGroup fullMode={fullMode} title={title}>
       <div>
         <div className="selectTimeBox">
-          <label>여는 시간</label>
-          <select
-            defaultValue={open.hour}
-            onChange={({ target }) => {
-              setOpen({ hour: +target.value, min: open.min })
-            }}>
-            {renderHourOption()}
-          </select>
-          <select
-            defaultValue={open.min}
-            onChange={({ target }) => {
-              setOpen({ hour: open.hour, min: +target.value })
-            }}>
-            {
-              min.map((v, i) => {
-                return <option value={v} key={`min-${i}`} defaultValue={open.min === v}>{(v < 10) ? `0${v}` : v}</option>
-              })
-            }
-          </select>
+          {setOpenTime ? (<>
+            <label>여는 시간</label>
+            <select
+              defaultValue={open.hour}
+              onChange={({ target }) => {
+                setOpen({ hour: +target.value, min: open.min })
+              }}>
+              {renderHourOption()}
+            </select>
+            <select
+              defaultValue={open.min}
+              onChange={({ target }) => {
+                setOpen({ hour: open.hour, min: +target.value })
+              }}>
+              {
+                min.map((v, i) => {
+                  return <option value={v} key={`min-${i}`} defaultValue={open.min === v}>{(v < 10) ? `0${v}` : v}</option>
+                })
+              }
+            </select>
+          </>) : null}
         </div>
         <div className="selectTimeBox">
           <label>닫는 시간</label>

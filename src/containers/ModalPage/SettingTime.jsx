@@ -65,7 +65,6 @@ const SettingTime = ({ type, isOpen, onEvent }) => {
         title={'영업 시간'}
         openTime={openTime}
         closeTime={closeTime}
-        setOpenTime={setOpenTime}
         setCloseTime={setCloseTime}
       />
       {type !== "openShop" ? (
