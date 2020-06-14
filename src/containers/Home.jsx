@@ -104,14 +104,14 @@ const Home = ({ history }) => {
         />
       </div>
       <div className={`buttonBox ${targetModalPage !== 'ShopInfoModal' || shopList.length <= 0 ? 'bottom' : ''}`}>
-        <div className="loactionBtn" onClick={fetchGeolocation}>
-          <img src={btnHere} alt="현재위치" />
-        </div>
         <div className="ranking">
           <Link to="/ranking">
             <img src={iconPin} alt="현재위치" />
             <span className="text">내 주변 인기 스트릿푸드는?</span>
           </Link>
+        </div>
+        <div className="loactionBtn" onClick={fetchGeolocation}>
+          <img src={btnHere} alt="현재위치" />
         </div>
       </div>
       {rederModalPage()}

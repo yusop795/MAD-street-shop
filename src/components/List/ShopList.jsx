@@ -50,9 +50,10 @@ export const ShopItem = ({ index = 10, data, type, onEvent, history }) => {
       <div className="listTest">
         <div className="shopInfo">
           <span className="shopName">{data.shopName}</span>
-          <span className="shopCategory">{data.shopTags.title}
-          </span>
+          <span className="shopCategory">{data.shopTags.title}</span>
+          {type === 'icon' ? <p>{data.shopTags.item.join(', ')}</p> : null}
         </div>
+
         <div className="shopSubInfo">
           <span className="distance">{data.vicinity.toFixed(2)}m</span>
           <span className={`heart ${data.likeScore ? "on" : ""}`}>{data.likeScore}</span>

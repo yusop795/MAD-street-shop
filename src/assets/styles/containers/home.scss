@@ -4,25 +4,25 @@
   margin-top: -40%;
 }
 .buttonBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
     bottom: 130px;
-    overflow: hidden;
     width: 100%;
-    padding: 0 20px;
+    padding: 0 30px;
     box-sizing: border-box;
     margin-bottom: 10px;
     z-index: 10;
     &.bottom {
-        bottom: 0px;
-    }
-    > div {
-      float: right;
+      bottom: 0px;
     }
     .loactionBtn {
+      position: absolute;
+      right: 24px;
       img {
         width: 44px;
         height: 44px;
-        margin-left: 15px;
       }
     }
     .ranking {
