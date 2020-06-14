@@ -145,6 +145,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
   };
 
   const renderMap = () => {
+    console.log('renderMap')
     const container = document.getElementById(containerId);
     kakaoMapScript
       .then(() => {

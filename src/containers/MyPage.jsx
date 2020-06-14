@@ -87,50 +87,43 @@ const MyPage = ({ history, match }) => {
                 <p>{userInfo.kakao.nickname}</p>
               </div>
             </div>
-            {
-              userInfo.owner && shopActive ? (
-                <div className="banner bannerOpen"
+            {userInfo.owner ? shopActive ? (
+              <div className="banner bannerOpen"
+                onClick={() => {
+                  history.push('openShop/edit')
+                }} />
+            ) : (
+                <div className="banner bannerClose"
                   onClick={() => {
-                    history.push('openShop/edit')
-                  }}>
-                </div>
+                    history.push('openShop')
+                  }} />
+              ) : null}
+            <div className={`menuList ${!userInfo.owner ? 'borderTop' : null}`}>
+              {!userInfo.owner ? (
+                <Link to='/myPage/user' className="menuItem">
+                  <img src={iconSettings} alt="취향설정" />
+                  <p>취향설정</p>
+                </Link>
               ) : (
-                  <>
-                    {userInfo.owner ? (
-                      <div className="banner bannerClose"
-                        onClick={() => {
-                          history.push('openShop')
-                        }}>
-                      </div>) : null}
-                    <div className={`menuList ${!userInfo.owner ? 'borderTop' : null}`}>
-                      {!userInfo.owner ? (
-                        <Link to='/myPage/user' className="menuItem">
-                          <img src={iconSettings} alt="취향설정" />
-                          <p>취향설정</p>
-                        </Link>
-                      ) : (
-                          <Link to='/myPage/owner' className="menuItem">
-                            <img src={iconSettings} alt="가게설정" />
-                            <p>가게설정</p>
-                          </Link>
-                        )}
-                      <Link to='/watchList' className="menuItem">
-                        <img src={iconHeart} alt="관심리스트" />
-                        <p>관심리스트</p>
-                      </Link>
-                      <div className="menuItem"
-                        onClick={() => {
-                          setAlert({
-                            contents: '준비 중인 기능입니다.'
-                          })
-                        }}>
-                        <img src={iconDeclare} alt="신고리스트" />
-                        <p>신고리스트</p>
-                      </div>
-                    </div>
-                  </>
-                )
-            }
+                  <Link to='/myPage/owner' className="menuItem">
+                    <img src={iconSettings} alt="가게설정" />
+                    <p>가게설정</p>
+                  </Link>
+                )}
+              <Link to='/watchList' className="menuItem">
+                <img src={iconHeart} alt="관심리스트" />
+                <p>관심리스트</p>
+              </Link>
+              <div className="menuItem"
+                onClick={() => {
+                  setAlert({
+                    contents: '준비 중인 기능입니다.'
+                  })
+                }}>
+                <img src={iconDeclare} alt="신고리스트" />
+                <p>신고리스트</p>
+              </div>
+            </div>
           </>
         )}
       {!isUser ? (
