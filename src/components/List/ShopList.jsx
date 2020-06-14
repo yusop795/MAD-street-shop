@@ -27,6 +27,7 @@ export const ShopItem = ({ index = 10, data, type, onEvent, history }) => {
       className={`shopListItem ${type === "rank" && index < 5 ? "iconShow" : ""}`}
       onClick={() => {
         if (type !== 'icon') {
+          console.log('dhsadjkghaslgueawhkjsd >>>>', data._id, history);
           dispatch({
             type: shopTypes.SET_SELECT_SHOP_ID,
             payload: {
@@ -35,10 +36,26 @@ export const ShopItem = ({ index = 10, data, type, onEvent, history }) => {
           });
           if (history) {
             history.push('home')
+            if (type === 'rank' || type == 'watchList') {
+              dispatch({
+                type: shopTypes.FROM_SELECT_SHOP_ID,
+                payload: type,
+              });
+              onEvent({
+                target: 'ShopDetailModal',
+              });
+            }
           } else {
-            onEvent({
-              target: 'ShopDetailModal',
-            });
+            if (type == 'serchResult') {
+              console.log('type >>>> resultSearch ', type);
+              dispatch({
+                type: shopTypes.FROM_SELECT_SHOP_ID,
+                payload: type,
+              });
+              onEvent({
+                target: 'ShopDetailModal',
+              });
+            }
           }
         }
 
@@ -60,12 +77,15 @@ export const ShopItem = ({ index = 10, data, type, onEvent, history }) => {
         </div>
       </div>
       {
-        type === 'icon' ? <img src={iconLikeOn} alt={'좋아요'} /> : (
-          <div className="listPhoto">
-            <img src={data.imageUrl[0]} alt="가게 사진" />
-            {data.now.active ? null : <div className="getReady">준비중</div>}
-          </div>
-        )
+        type === 'icon' ? <button type="button" onClick={(event) => {
+          console.log('djdjdjd');
+          event.stopPropagation();
+        }}><img src={iconLikeOn} alt={'좋아요'} /> </button> : (
+            <div className="listPhoto">
+              <img src={data.imageUrl[0]} alt="가게 사진" />
+              {data.now.active ? null : <div className="getReady">준비중</div>}
+            </div>
+          )
       }
     </div >
   )

@@ -15,6 +15,8 @@ import { ShopList } from '../components/List';
 
 import '../assets/styles/containers/favorite.scss';
 
+import ModalPageUtill from '../util/ModalPageUtill.js';
+
 const WatchList = ({ history }) => {
   const dispatch = useDispatch();
   const [token] = useState(localStorageGet('MAD_KAKAO_ACCESS_TOKEN'))
@@ -22,6 +24,9 @@ const WatchList = ({ history }) => {
   const location = useSelector(state => state.startReducer.location, {})
   const favoritesList = useSelector(state => state.userReducer.favoritesList, [])
   const userLoading = useSelector(state => state.userReducer.userLoading)
+
+
+  const { targetModalPage, isModalOpen, setModalPage } = ModalPageUtill();
 
   useEffect(() => {
     dispatch({
@@ -43,16 +48,12 @@ const WatchList = ({ history }) => {
 
 
 
-
+  console.log('djdjasdgjhasdjghsdjkghwelug', favoritesList);
   return (
     <div className="main ranking">
       <Header title="관심리스트" onEvent={history.goBack} />
-
-      {userLoading ? <Spinner /> :
-        favoritesList.length > 0 ? (
-          <ShopList items={favoritesList} type="watchList" history={history} />
-        ) : (<NoDataBox />)
-      }
+      <ShopList items={favoritesList} type="watchList" history={history} onEvent={setModalPage} />
+      {userLoading ? <Spinner /> : null}
     </div>
   );
 };

@@ -264,7 +264,7 @@ export function* fetchFavoritesListSaga({ payload }) {
     yield put({
       type: userTypes.SET_FAVORITE_LIST,
       payload: {
-        favoritesList: []
+        favoritesList: response.data
       }
     });
     yield put({

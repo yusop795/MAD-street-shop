@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { startTypes } from '../reducers/startReducer';
+import { shopTypes } from '../reducers/shopReducer';
+import { startTypes } from '../reducers/startReducer'
 
 
 import ModalPageUtill from '../util/ModalPageUtill.js';
@@ -24,18 +25,17 @@ const Ranking = ({ history }) => {
 
   const { targetModalPage, isModalOpen, setModalPage } = ModalPageUtill();
   const dispatch = useDispatch();
-  const storeShopList = useSelector(state => state.startReducer.rank, {});
+  const storeShopList = useSelector(state => state.shopReducer.rank, {});
+  const location = useSelector(state => state.startReducer.location);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     console.log('userEffect', storeShopList);
-    // dispatch({
-    //   type: startTypes.FETCH_SHOP_LIST,
-    //   payload: {
-    //     type: "rank",
-    //     name: "rank",
-    //   }
-    // });
+    dispatch({
+      type: shopTypes.FETCH_SHOP_LIST,
+      name: "rank",
+      payload: { location, type: 'rank' },
+    });
   }, []);
 
   const rederModalPage = () => {
@@ -53,13 +53,14 @@ const Ranking = ({ history }) => {
     if (!isEmpty(storeShopList)) {
       setLoading(false);
     }
+    console.log('storeShopList >> ', storeShopList);
   }, [storeShopList])
 
   return (
     <div className="main ranking">
       <Header title="내주변 랭킹" onEvent={history.goBack} />
       {
-        loading ? <Spinner /> : <ShopList items={storeShopList} type="rank" />
+        loading ? <Spinner /> : <ShopList items={storeShopList} type="rank" onEvent={setModalPage} history={history} />
       }
       {rederModalPage()}
     </div>
