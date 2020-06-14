@@ -30,7 +30,6 @@ const Ranking = ({ history }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log('userEffect', storeShopList);
     dispatch({
       type: shopTypes.FETCH_SHOP_LIST,
       name: "rank",
@@ -53,7 +52,6 @@ const Ranking = ({ history }) => {
     if (!isEmpty(storeShopList)) {
       setLoading(false);
     }
-    console.log('storeShopList >> ', storeShopList);
   }, [storeShopList])
 
   return (

@@ -16,7 +16,6 @@ export function* fetchShopListSaga({ name, payload }) {
         },
       });
     } else {
-      console.log('djdsgadjghasdkjlghsdkjgashdlj');
       yield put({
         type: shopTypes.SET_SHOP_LIST,
         payload: {

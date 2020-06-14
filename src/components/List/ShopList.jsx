@@ -27,7 +27,6 @@ export const ShopItem = ({ index = 10, data, type, onEvent, history }) => {
       className={`shopListItem ${type === "rank" && index < 5 ? "iconShow" : ""}`}
       onClick={() => {
         if (type !== 'icon') {
-          console.log('dhsadjkghaslgueawhkjsd >>>>', data._id, history);
           dispatch({
             type: shopTypes.SET_SELECT_SHOP_ID,
             payload: {
@@ -47,7 +46,6 @@ export const ShopItem = ({ index = 10, data, type, onEvent, history }) => {
             }
           } else {
             if (type == 'serchResult') {
-              console.log('type >>>> resultSearch ', type);
               dispatch({
                 type: shopTypes.FROM_SELECT_SHOP_ID,
                 payload: type,

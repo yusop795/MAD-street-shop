@@ -27,6 +27,7 @@ const Home = ({ history }) => {
   const shopId = useSelector(state => state.shopReducer.selectShopId)
   const selectedFrom = useSelector(state => state.shopReducer.selectedFrom)
   const [address, setAddress] = useState('');
+  const [selectShopId, setSelectShopId] = useState(shopId);
   const [currentKeyword, setCurrentKeyword] = useState([]);
 
   // 위치정보 조회
@@ -65,7 +66,6 @@ const Home = ({ history }) => {
   useEffect(() => {
     /* selectedFrom => 랭킹, watch리스트에서 넘어온 것 */
     if (location && selectedFrom == '') {
-      console.log('djdjdjdjdjd sslse>>', selectedFrom);
       dispatch({
         type: shopTypes.FETCH_SHOP_LIST,
         name: "shopList",
@@ -73,6 +73,25 @@ const Home = ({ history }) => {
       });
     }
   }, [location]);
+
+  useEffect(() => {
+    setSelectShopId(shopId)
+  }, [shopId]);
+
+  useEffect(() => {
+    shopList.forEach(v => {
+      if (selectShopId === v._id) {
+        dispatch({
+          type: shopTypes.FETCH_SHOP_DETAIL,
+          payload: {
+            shopId: selectShopId,
+            long: location.long,
+            lat: location.lat
+          }
+        });
+      }
+    });
+  }, [selectShopId]);
 
   useEffect(() => {
     const getFromLocalStorage = JSON.parse(localStorageGet('MadShopCurrentKeyword'));
@@ -97,7 +116,7 @@ const Home = ({ history }) => {
         return null;
     }
   }
-  console.log('>>>>shopId<<<', shopId, '>>>selectShopId<<<', selectShopId, '>>>selectedFrom', selectedFrom);
+
   return (
     <div>
       <HomeHeader address={address} fetchGeolocation={fetchGeolocation} setModalPage={setModalPage} />
