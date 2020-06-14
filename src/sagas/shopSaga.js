@@ -3,26 +3,27 @@ import { shopTypes } from "../reducers/shopReducer";
 import { userTypes } from "../reducers/userReducer";
 import { fetchShopList, fetchShopDetail, postShopOpen, deleteShopOpen, putShopOpen } from './api/shopApi';
 
-export function* fetchShopListSaga({ payload }) {
+export function* fetchShopListSaga({ name, payload }) {
   const response = yield call(fetchShopList, payload);
   if (response.data) {
-    // TODO : 첫번쨰 리스트에 삭제된 가게정보가 옴
-    const data = response.data[1]
-    yield fetchShopDetailSaga({
-      payload: {
-        shopId: data._id,
-        lat: (data.now.active) ? data.now.location.latitude.$numberDecimal : data.location.latitude.$numberDecimal,
-        long: (data.now.active) ? data.now.location.longitude.$numberDecimal : data.location.longitude.$numberDecimal
-      }
-    })
-
-    yield put({
-      type: shopTypes.SET_SHOP_LIST,
-      payload: {
-        shopList: response.data
-      },
-    });
-
+    if (name === "shopList") {
+      /* 메인페이지에서 설정되었을 때만 */
+      yield put({
+        type: shopTypes.SET_SHOP_LIST_HOME,
+        payload: {
+          name: name,
+          shopList: response.data
+        },
+      });
+    } else {
+      yield put({
+        type: shopTypes.SET_SHOP_LIST,
+        payload: {
+          name: name,
+          shopList: response.data
+        },
+      });
+    }
   } else {
     console.log('fetchShopList >>', response);
   }

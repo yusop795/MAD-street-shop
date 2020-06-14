@@ -8,6 +8,8 @@
 export const shopTypes = {
   FETCH_SHOP_LIST: 'shop/FETCH_SHOP_LIST',
   SET_SHOP_LIST: 'shop/SET_SHOP_LIST',
+  SET_SHOP_LIST_HOME: 'shop/SET_SHOP_LIST_HOME',
+  FROM_SELECT_SHOP_ID: 'shop/FROM_SELECT_SHOP_ID',
   FETCH_SHOP_DETAIL: 'shop/FETCH_SHOP_DETAIL',
   SET_SHOP_DETAIL: 'shop/SET_SHOP_DETAILL',
 
@@ -39,6 +41,7 @@ const initialState = {
   shopDetail: {},
   shopLoding: false,
   selectShopId: '',
+  selectedFrom: '',
 };
 
 /**
@@ -55,7 +58,14 @@ export default function shopReducer(state = initialState, action) {
     case shopTypes.SET_SHOP_LIST:
       return {
         ...state,
-        shopList: payload.shopList,
+        [payload.name]: payload.shopList,
+      };
+    case shopTypes.SET_SHOP_LIST_HOME:
+      /* 메인페이지에서 처음 렌더할 때 첫번째 가게 아이디 넣어주는 것 */
+      return {
+        ...state,
+        [payload.name]: payload.shopList,
+        selectShopId: payload.shopList[0]._id,
       };
     case shopTypes.SET_SHOP_DETAIL:
       return {
@@ -66,6 +76,12 @@ export default function shopReducer(state = initialState, action) {
       return {
         ...state,
         selectShopId: payload.selectShopId,
+      };
+    /* 선택된 가게의 아이디가 어디서 넘어온 것인가? => 랭킹, 관심*/
+    case shopTypes.FROM_SELECT_SHOP_ID:
+      return {
+        ...state,
+        selectedFrom: payload,
       };
     case shopTypes.SET_SHOP_LOADING:
       return {

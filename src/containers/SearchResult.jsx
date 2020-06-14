@@ -24,7 +24,6 @@ const SearchResult = ({ onEvent }) => {
 
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
-        console.log('SearchModal coords', coords);
         setLocation({ lat: coords.latitude, long: coords.longitude });
         // return { lat: coords.latitude, long: coords.longitude };
 
@@ -32,8 +31,6 @@ const SearchResult = ({ onEvent }) => {
       e => console.log(`Geolocation 오류 [${e.code}] : ${e.message}`),
       options,
     );
-
-    console.log('fetchGeolocation');
   };
 
 
@@ -48,7 +45,6 @@ const SearchResult = ({ onEvent }) => {
       setChildLoading(false);
     }
   }, [getResult]);
-
   return (
     <div className="searchResult">
       <div className="resultInfo">내 주변 <strong>3km</strong> 이내의 검색 결과입니다</div>

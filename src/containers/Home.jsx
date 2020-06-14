@@ -24,9 +24,18 @@ const Home = ({ history }) => {
   const location = useSelector(state => state.startReducer.location);
   const shopList = useSelector(state => state.shopReducer.shopList);
   const shopDetail = useSelector(state => state.shopReducer.shopDetail);
-  const selectShopId = useSelector(state => state.shopReducer.selectShopId)
+  const shopId = useSelector(state => state.shopReducer.selectShopId)
+  const selectedFrom = useSelector(state => state.shopReducer.selectedFrom)
   const [address, setAddress] = useState('');
+  const [selectShopId, setSelectShopId] = useState(shopId);
   const [currentKeyword, setCurrentKeyword] = useState([]);
+
+  const userInfo = useSelector(state => state.userReducer.userInfo);
+  const userId = useSelector(state => state.userReducer.userId);
+
+  const [token] = useState(localStorageGet('MAD_KAKAO_ACCESS_TOKEN'))
+
+
 
   // 위치정보 조회
   const fetchGeolocation = () => {
@@ -37,7 +46,6 @@ const Home = ({ history }) => {
     };
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
-        console.log('coords', coords);
         dispatch({
           type: startTypes.SET_LOCATION,
           payload: {
@@ -53,18 +61,44 @@ const Home = ({ history }) => {
   const { targetModalPage, isModalOpen, setModalPage } = ModalPageUtill();
 
   useEffect(() => {
-    setModalPage({ target: 'ShopInfoModal' })
+    /* 랭킹, watch리스트에서 넘어온 것이 아니면 selectedFrom은 빈값임 */
+    if (selectedFrom == '') {
+      setModalPage({ target: 'ShopInfoModal' })
+    } else {
+      setModalPage({ target: 'ShopDetailModal' })
+    }
   }, []);
 
   // location 변경될때
   useEffect(() => {
-    if (location) {
+    /* selectedFrom => 랭킹, watch리스트에서 넘어온 것 */
+    if (location && selectedFrom == '') {
       dispatch({
         type: shopTypes.FETCH_SHOP_LIST,
+        name: "shopList",
         payload: { location, type: 'main' },
       });
     }
   }, [location]);
+
+  useEffect(() => {
+    setSelectShopId(shopId)
+  }, [shopId]);
+
+  useEffect(() => {
+    shopList.forEach(v => {
+      if (selectShopId === v._id) {
+        dispatch({
+          type: shopTypes.FETCH_SHOP_DETAIL,
+          payload: {
+            shopId: selectShopId,
+            long: location.long,
+            lat: location.lat
+          }
+        });
+      }
+    });
+  }, [selectShopId]);
 
   useEffect(() => {
     const getFromLocalStorage = JSON.parse(localStorageGet('MadShopCurrentKeyword'));
@@ -82,13 +116,15 @@ const Home = ({ history }) => {
       case 'SearchModal':
         return <SearchModal history={history} isOpen={isModalOpen} onEvent={setModalPage} currentKeyword={currentKeyword} />;
       case 'ShopDetailModal':
-        return <ShopDetailModal shopInfo={shopDetail} isOpen={isModalOpen} onEvent={setModalPage} />;
+        return <ShopDetailModal shopInfo={shopDetail} isOpen={isModalOpen} onEvent={setModalPage} userFavorite={userInfo.favoriteShops} userIdNumber={userId} token={token}/>;
       case 'SettingLocation':
         return <SettingLocation type={'home'} addressText={address} isOpen={isModalOpen} onEvent={setModalPage} />;
       default:
         return null;
     }
   }
+
+  console.log('Home >>>>', userInfo);
 
   return (
     <div>

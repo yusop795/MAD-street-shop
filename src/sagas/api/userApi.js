@@ -244,12 +244,34 @@ export const fetchWhoami = ({ token, userId }) => {
  */
 export const fetchFavoritesList = ({ token, userId, location }) => {
   console.log('관심리스트', qs.stringify({ userId }))
-  return API_INSTANCE.get(`/favorites`,
+  return API_INSTANCE.get(`/favorites/${userId}/`,
     {
       params: {
         long: location.long,
         lat: location.lat,
       },
+      headers: {
+        'Authorization': `Bearer ${AuthUtill.accessToken}`
+      }
+    },
+  )
+    .then(response => {
+      return response
+    })
+    .catch(error => {
+      return error;
+    });
+};
+
+
+/**
+ * 사용자 관심 설정
+ * @param
+ */
+export const putFavoritesList = ({ token, userId, shopId }) => {
+  console.log('관심리스트 설정', qs.stringify({ userId }), qs.stringify({ shopId }))
+  return API_INSTANCE.post(`/favorites/${userId}/`, qs.stringify({shopId: shopId}),
+    {
       headers: {
         'Authorization': `Bearer ${AuthUtill.accessToken}`
       }

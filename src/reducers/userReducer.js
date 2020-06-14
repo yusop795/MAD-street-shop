@@ -41,6 +41,7 @@ export const userApiTypes = {
   PUT_OWNER: 'user/PUT_OWNER',
   WHO_AM_I: 'user/WHO_AM_I',
   FETCH_FAVORITE_LIST: 'user/FETCH_FAVORITE_LIST',
+  PUT_FAVORITE_LIST: 'user/PUT_FAVORITE_LIST',
 };
 
 /**
