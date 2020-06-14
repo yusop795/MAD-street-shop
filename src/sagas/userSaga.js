@@ -13,21 +13,12 @@ export function* loginSaga({ payload }) {
       yield fetchWhoamiSaga({ token: payload.token, userId: response.data.userId })
     }
 
-    let tag = {}
-    response.data.userInfo.userTags.forEach(element => {
-      element.item.forEach((v) => {
-        tag[v] = element.title
-      })
-    });
-    response.data.userInfo.userTags = tag
-
     yield put({
       type: userTypes.SET_LOGIN,
       payload: {
         isLogin: true,
         isUser: response.data.isUser,
         userId: response.data.userId,
-        userInfo: (response.data.isUser) ? response.data.userInfo : {}
       },
     });
     yield put({
@@ -71,20 +62,12 @@ export function* logoutSaga({ payload }) {
 export function* postSignUpUserSaga({ payload }) {
   const response = yield call(postSignUpUser, payload);
   if (response.data) {
-    let tag = {}
-    response.data.user.userTags.forEach(element => {
-      element.item.forEach((v) => {
-        tag[v] = element.title
-      })
-    });
-    response.data.user.userTags = tag
-
+    yield fetchWhoamiSaga({ userId: payload.userId })
     yield put({
       type: userTypes.SET_SIGNUP,
       payload: {
         isLogin: true,
         isUser: true,
-        userInfo: response.data.user
       },
     });
     yield put({
@@ -117,19 +100,7 @@ export function* postSignUpUserSaga({ payload }) {
 export function* putUserSaga({ payload }) {
   const response = yield call(putUser, payload);
   if (response.data) {
-    let tag = {}
-    response.data.userTags.forEach(element => {
-      element.item.forEach((v) => {
-        tag[v] = element.title
-      })
-    });
-    response.data.userTags = tag
-    yield put({
-      type: userTypes.SET_USER_INFO,
-      payload: {
-        userInfo: response.data,
-      },
-    });
+    yield fetchWhoamiSaga({ userId: payload.userId })
     yield put({
       type: userTypes.USER_LODING,
       payload: {
@@ -153,48 +124,19 @@ export function* postSignUpImgOwnerSaga(data) {
   const response = yield call(putImgUpload, data);
   if (response.data) {
     console.log('카카오 사장님 이미지 업로드', response.data)
+    yield fetchWhoamiSaga({ userId: data.userId })
     yield put({
       type: userTypes.USER_LODING,
       payload: {
         userLoading: false
       }
     });
-    const data = response.data
-    const tagList = ['월', '화', '수', '목', '금', '토', '일']
-    let days = {}
-    data.openDays[0].split(',').forEach((v, i) => {
-      days[v] = tagList.indexOf(v)
-    })
-    data.openDays = days
-    // TODO: storeLocation now 수정 필요
-    yield put({
-      type: userTypes.SET_SHOP_INFO,
-      payload: {
-        shopId: data._id,
-        storeLocation: {
-          address: (data.now.active) ? data.now.location.subLocation : data.location.subLocation,
-          locationComment: data.now.locationComment,
-          location: {
-            lat: (data.now.active) ? data.now.location.latitude.$numberDecimal : data.location.latitude.$numberDecimal,
-            long: (data.now.active) ? data.now.location.longitude.$numberDecimal : data.location.longitude.$numberDecimal
-          }
-        },
-        storeCategory: data.shopTags,
-        storeOpenDays: data.openDays,
-        storeOpenTime: data.openTime.split(':'),
-        storeCloseTime: data.closeTime.split(':'),
-        firstFile: data.imageUrl.pop(),
-        files: data.imageUrl,
-        shopInfo: data,
-        shopActive: data.now.active
-      },
-    });
   } else {
     yield put({
       type: userTypes.SET_SIGNUP,
       payload: {
         isLogin: false,
-        userId: ''
+        isUser: ''
       },
     });
     yield put({
@@ -218,7 +160,6 @@ export function* postSignUpOwnerSaga({ payload }) {
       payload: {
         isLogin: true,
         isUser: true,
-        userInfo: (response.data.isUser) ? response.data.userInfo : {}
       },
     });
     const data = { files: payload.files, userId: payload.userId, shopId: response.data.shop._id }
@@ -273,7 +214,7 @@ export function* fetchWhoamiSaga(payload) {
           shopId: data._id,
           storeLocation: {
             address: (data.now.active) ? data.now.location.subLocation : data.location.subLocation,
-            locationComment: data.now.locationComment,
+            locationComment: (data.now.active) ? data.now.locationComment : data.locationComment,
             location: {
               lat: (data.now.active) ? data.now.location.latitude.$numberDecimal : data.location.latitude.$numberDecimal,
               long: (data.now.active) ? data.now.location.longitude.$numberDecimal : data.location.longitude.$numberDecimal
@@ -299,6 +240,12 @@ export function* fetchWhoamiSaga(payload) {
       });
       response.data.user.userTags = tag
     }
+    yield put({
+      type: userTypes.SET_USER_INFO,
+      payload: {
+        userInfo: response.data.user,
+      },
+    });
   } else {
     yield put({
       type: userTypes.USER_LODING,

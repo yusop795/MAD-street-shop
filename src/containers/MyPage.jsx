@@ -79,7 +79,7 @@ const MyPage = ({ history, match }) => {
             <div className="userInfoBox">
               {
                 userInfo.kakao.profileLink ?
-                  <img src={userInfo.kakao.profileLink} className="userImg" alt="기본 프로필 이미지" /> :
+                  <img src={userInfo.kakao.profileLink.replace(':/', 's:/')} className="userImg" alt="기본 프로필 이미지" /> :
                   <img src={!userInfo.owner ? imgProfile01 : imgProfile02} className="userImg" alt="기본 프로필 이미지" />
               }
               <div className="userInfo">
@@ -96,11 +96,12 @@ const MyPage = ({ history, match }) => {
                 </div>
               ) : (
                   <>
-                    <div className="banner bannerClose"
-                      onClick={() => {
-                        history.push('openShop')
-                      }}>
-                    </div>
+                    {userInfo.owner ? (
+                      <div className="banner bannerClose"
+                        onClick={() => {
+                          history.push('openShop')
+                        }}>
+                      </div>) : null}
                     <div className={`menuList ${!userInfo.owner ? 'borderTop' : null}`}>
                       {!userInfo.owner ? (
                         <Link to='/myPage/user' className="menuItem">

@@ -223,7 +223,7 @@ export const fetchWhoami = ({ token, userId }) => {
   return API_INSTANCE.get(`/users/${userId}/whoami`,
     {
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${AuthUtill.accessToken}`
       }
     },
   )
@@ -251,7 +251,7 @@ export const fetchFavoritesList = ({ token, userId, location }) => {
         lat: location.lat,
       },
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${AuthUtill.accessToken}`
       }
     },
   )

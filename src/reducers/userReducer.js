@@ -118,14 +118,12 @@ export default function userReducer(state = initialState, action) {
         isLogin: payload.isLogin,
         isUser: payload.isUser,
         userId: payload.userId,
-        userInfo: payload.userInfo
       };
     case userTypes.SET_SIGNUP:
       return {
         ...state,
         isLogin: payload.isLogin,
         isUser: payload.isUser,
-        userInfo: payload.userInfo
       };
     case userTypes.SET_LEAVE:
       return {

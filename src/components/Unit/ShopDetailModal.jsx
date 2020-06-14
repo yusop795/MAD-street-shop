@@ -6,8 +6,8 @@ import iconMapPin from '../../assets/imgs/iconMapPin.png'
 import iconPhone from '../../assets/imgs/iconPhone.png'
 
 const shopDetailModal = ({ shopInfo, isOpen = true, onEvent = null, }) => {
-  const mobile = shopInfo.mobile ? shopInfo.mobile.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3") : '비공개'
-  const times = shopInfo.now.active ? `${shopInfo.now.openTime}~${shopInfo.now.closeTime}` : `${shopInfo.now.openTime}~${shopInfo.closeTime}`
+  const mobile = shopInfo.useMobile ? shopInfo.mobile.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3") : '비공개'
+  const times = shopInfo.now.active ? `${shopInfo.now.openTime}~${shopInfo.now.closeTime}` : `${shopInfo.openTime}~${shopInfo.closeTime}`
   const locationComment = shopInfo.now.active ? shopInfo.now.locationComment : shopInfo.locationComment
 
   return (
@@ -32,7 +32,7 @@ const shopDetailModal = ({ shopInfo, isOpen = true, onEvent = null, }) => {
           <img src={iconPhone} alt={'전화번호'} />
           <div className="info">
             <p>
-              {(mobile !== '비공개') ? <a href={`tel:${mobile}`}>{mobile}</a> : mobile}
+              {(shopInfo.useMobile) ? <a href={`tel:${mobile}`}>{mobile}</a> : '비공개'}
             </p>
           </div>
         </li>

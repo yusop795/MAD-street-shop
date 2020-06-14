@@ -34,7 +34,7 @@ const SignUpOwner = ({ history, match }) => {
 
   const [userName, setUserName] = useState(shopInfo.ownerName || '');
   const [mobile, setMobile] = useState(shopInfo.mobile || '');
-  const [useMobile, setUseMobile] = useState(0);
+  const [useMobile, setUseMobile] = useState(shopInfo.useMobile ? 1 : 0);
   const [shopName, setShopName] = useState(shopInfo.shopName || '');
   const [shopComment, setShopComment] = useState(shopInfo.ownerComment || '');
   const [firstFile, setFirstFile] = useState(useSelector(state => state.userReducer.firstFile), []);

@@ -39,7 +39,7 @@ export const HomeHeader = ({ address = '', setModalPage }) => {
   let img = ''
   if (isLogin && isUser) {
     if (userInfo.kakao.profileLink) {
-      img = userInfo.kakao.profileLink
+      img = userInfo.kakao.profileLink.replace(':/', 's:/')
     } else {
       img = (userInfo.owner) ? imgProfile02 : imgProfile01
     }
