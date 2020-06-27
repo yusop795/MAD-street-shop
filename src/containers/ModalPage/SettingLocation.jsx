@@ -13,16 +13,16 @@ import { MainMap } from '../../components/Map';
 // style
 import '../../assets/styles/containers/setting.scss';
 import btnHere from '../../assets/imgs/btnHere.png';
+import mapMarker from '../../assets/imgs/mapMarker.png';
 
 const SettingLocation = ({ isOpen, onEvent, type, addressText = '' }) => {
   const dispatch = useDispatch();
   const location = useSelector(state => state.startReducer.location)
   const storeLocation = useSelector(state => state.userReducer.storeLocation)
-  const [crrlocation, setCrrLocation] = useState('')
+  const [crrlocation, setCrrLocation] = useState(type === 'home' ? location : storeLocation.location)
   const [address, setAddress] = useState(addressText);
   const [locationComment, setLocationComment] = useState('');
   const modalPage = useRef();
-
 
   // 위치정보 조회
   const fetchGeolocation = () => {
@@ -34,8 +34,12 @@ const SettingLocation = ({ isOpen, onEvent, type, addressText = '' }) => {
 
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
-        console.log('coords', coords);
-        setCrrLocation({ lat: coords.latitude, long: coords.longitude });
+        dispatch({
+          type: startTypes.SET_LOCATION,
+          payload: {
+            location: { lat: coords.latitude, long: coords.longitude }
+          }
+        })
       },
       e => console.log(`Geolocation 오류 [${e.code}] : ${e.message}`),
       options,
@@ -50,7 +54,7 @@ const SettingLocation = ({ isOpen, onEvent, type, addressText = '' }) => {
     } else {
       setCrrLocation(location)
     }
-  }, []);
+  }, [location, storeLocation]);
 
   useEffect(() => {
     if (isOpen) {
@@ -75,7 +79,6 @@ const SettingLocation = ({ isOpen, onEvent, type, addressText = '' }) => {
       dispatch({
         type: startTypes.SET_LOCATION,
         payload: {
-          address,
           location: crrlocation,
         }
       })
@@ -93,8 +96,8 @@ const SettingLocation = ({ isOpen, onEvent, type, addressText = '' }) => {
       })
       onEvent({ target: 'SettingLocation' })
     }
-
   }
+
   return (
     <div ref={modalPage} className={`main settingLocation modalPage ${isOpen ? 'open' : ''}`}>
       <ModalHeader onEvent={onEvent} title={'위치 설정'} />
@@ -112,6 +115,7 @@ const SettingLocation = ({ isOpen, onEvent, type, addressText = '' }) => {
         {type !== 'home' ? (<InputText placeholder={'상세주소 입력 (예 : OO빌딩 앞, OO아파트 단지 내)'} defaultValue={locationComment} onEvent={setText} />) : null}
         <Button fullmode={true} text={'선택한 위치로 설정'} onEvent={setData} />
       </div>
+      <img className="marker" src={mapMarker} />
     </div>
   );
 };

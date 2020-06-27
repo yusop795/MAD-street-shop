@@ -5,51 +5,62 @@ import './style.scss';
 import mapPinOn from '../../assets/imgs/mapPinOn.png';
 import mapPinOff from '../../assets/imgs/mapPinOff.png';
 import mapMarker from '../../assets/imgs/mapMarker.png';
-import { shopTypes } from '../../reducers/shopReducer'
-// const kakaoMapScript = scriptUtill(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=a2634b699ee1deee53b339a1835cca33&autoload=false&libraries=services`);
+import { shopTypes } from '../../reducers/shopReducer';
+
+let selectedMarker = null
+let selectedMarkerImg = null
 
 const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectShopId, getGeocoder, setLocation }) => {
   const dispatch = useDispatch();
+  const mainLocation = useSelector(state => state.startReducer.location)
   const [crrlocation, setCrrLocation] = useState(location)
   const shopId = useSelector(state => state.shopReducer.selectShopId)
   const shopDetail = useSelector(state => state.shopReducer.shopDetail);
   const [Map, setMap] = useState(null)
+  // const [selectedMarker, setSelectedMarker] = useState(null)
 
   useEffect(() => {
-  }, [location]);
-
-  useEffect(() => {
-    if (location) {
+    if (Map && location) {
       setCrrLocation(location)
+      setAddress()
+      if (containerId === 'openShopMap') {
+        renderMap()
+      }
     }
+  }, [crrlocation, containerId]);
+
+  useEffect(() => {
     renderMap()
-  }, []);
+  }, [mainLocation]);
 
   useEffect(() => {
     if (Map) {
-      const marker = renderMarker(mapMarker, { width: 50, height: 48 }, location)
-      marker.setMap(Map);
-      console.log(Map)
+      if (containerId !== 'locationMap') {
+        const marker = renderMarker(mapMarker, { width: 50, height: 48 }, location)
+        marker.setMap(Map);
+        moveMap(location)
+      }
       if (onEvent) {
-
         clickMap(Map)
+      }
+
+      if (getGeocoder && Object.keys(crrlocation).length > 0) {
+        setAddress()
       }
     }
   }, [Map]);
 
   useEffect(() => {
-    if (shopList.length > 0) {
-      console.log(shopList)
+    if (Map && shopList.length > 0) {
       createShopsMarker();
     }
   }, [shopList]);
 
+
   // 지도 이동
-  const moveMap = (latlng) => {
+  const moveMap = (location) => {
     // 이동할 위도 경도 위치를 생성합니다 
-    // const moveLatLon = new kakaoMap.LatLng(latlng.Ga, latlng.Ha);
-    const moveLatLon = new window.kakao.maps.LatLng(latlng.Ha, latlng.Ga);
-    setCrrLocation({ lat: latlng.Ha, long: latlng.Ga });
+    const moveLatLon = new window.kakao.maps.LatLng(location.lat, location.long);
 
     // 지도 중심을 이동
     Map.setCenter(moveLatLon);
@@ -65,7 +76,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
     return markerImage;
   }
 
-  const renderMarker = (src, sizeObj, location, event = false) => {
+  const renderMarker = (src, sizeObj, location) => {
     const image = createMarkerImage(src, sizeObj);
     const position = new window.kakao.maps.LatLng(location.lat, location.long);
     const marker = new window.kakao.maps.Marker({
@@ -76,11 +87,22 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
     return marker
   }
 
-  const addEvent = (marker, data, location) => {
+  const addEvent = (marker, data, location, src) => {
     // 마커 이벤트 등록
-    window.kakao.maps.event.addListener(marker, 'click', () => {
-      const position = new window.kakao.maps.LatLng(location.lat, location.long);
-      moveMap(position)
+
+    window.kakao.maps.event.addListener(marker, 'click', function () {
+      if (!selectedMarker || selectedMarker !== marker) {
+        !!selectedMarker && selectedMarker.setImage(createMarkerImage(selectedMarkerImg, { width: 23, height: 28 }));
+        console.log(selectedMarker, marker, src)
+        // 현재 클릭된 마커의 이미지는 클릭 이미지로 변경합니다
+        marker.setImage(createMarkerImage(src, { width: 35, height: 42 }));
+      }
+
+      selectedMarker = marker;
+      selectedMarkerImg = src;
+
+
+      moveMap(location)
       onEvent({
         target: 'ShopDetailModal',
       });
@@ -121,18 +143,20 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
   }
 
   // 가게 마커 생성
-  const createShopsMarker = () => {
+  const createShopsMarker = (map = Map) => {
     for (let i = 0; i < shopList.length; i++) {
       const data = shopList[i];
+      console.log(selectShopId)
       const src = data.now.active ? mapPinOn : mapPinOff;
-      const sizeObj = selectShopId === data._id ? { width: 35, height: 42 } : { width: 23, height: 28 };
+      const sizeObj = { width: 23, height: 28 };
       const lat = (data.now.active) ? data.now.location.latitude.$numberDecimal : data.location.latitude.$numberDecimal
       const long = (data.now.active) ? data.now.location.longitude.$numberDecimal : data.location.longitude.$numberDecimal
       const marker = renderMarker(src, sizeObj, { lat, long })
-      marker.setMap(Map);
-      addEvent(marker, data, { lat, long })
+      marker.setMap(map);
+      addEvent(marker, data, { lat, long }, src)
     }
   };
+
   // 주소 설정
   const setAddress = () => {
     // 주소-좌표 변환 객체를 생성합니다
@@ -149,6 +173,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
     }
 
     if (containerId === 'locationMap') {
+
       window.kakao.maps.event.addListener(Map, 'idle', (data) => {
         const latlng = Map.getCenter();
         geocoder.coord2Address(latlng.Ga, latlng.Ha, (result, status) => {
@@ -161,6 +186,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
 
         if (setLocation) {
           setLocation({ lat: latlng.Ha, long: latlng.Ga })
+          moveMap({ lat: latlng.Ha, long: latlng.Ga })
         }
       });
     }
@@ -173,20 +199,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
       level: 3, // 지도의 레벨(확대, 축소 정도)
     };
 
-    console.log(location, crrlocation)
-
-    if (containerId !== 'locationMap' && shopId) {
-      const latitude = (shopDetail.now.active) ? shopDetail.now.location.latitude.$numberDecimal : shopDetail.location.latitude.$numberDecimal
-      const longitude = (shopDetail.now.active) ? shopDetail.now.location.longitude.$numberDecimal : shopDetail.location.longitude.$numberDecimal
-      options.center = new window.kakao.maps.LatLng(latitude, longitude);
-    }
-
-
     setMap(new window.kakao.maps.Map(container, options))
-
-    if (getGeocoder && Object.keys(crrlocation).length > 0) {
-      setAddress()
-    }
   };
 
 

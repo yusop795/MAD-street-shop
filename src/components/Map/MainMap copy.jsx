@@ -76,9 +76,9 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
           }
         });
 
-        if (setLocation) {
-          setLocation({ lat: latlng.Ha, long: latlng.Ga })
-        }
+        // if (setLocation) {
+        //   setLocation({ lat: latlng.Ha, long: latlng.Ga })
+        // }
       });
     }
   }
