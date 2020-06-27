@@ -7,7 +7,7 @@ export { default as SignUpUser } from './SignUpUser';
 export { default as SignUpComplet } from './SignUpComplet';
 export { default as Home } from './Home';
 export { default as Ranking } from './Ranking';
-export { default as Test } from './Test';
+export { default as Landing } from './Landing';
 export { default as MyPage } from './MyPage';
 export { default as WatchList } from "./WatchList";
 export { default as Notice } from "./Notice";
