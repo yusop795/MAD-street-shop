@@ -45,13 +45,14 @@ export const ShopItem = ({ index = 10, data, type, onEvent, history, userFavorit
       }
     });
   }
+
   useEffect(() => {
     if (!isEmpty(userFavorite)) {
       getFavoirteList(data._id) ? setIsFavorite(true) : setIsFavorite(false);
-
-      console.log('이 가게가 너의 즐겨찾기니?', isFavorite);
+      console.log('이 가게가 너의 즐겨찾기니?', getFavoirteList(data._id));
     }
-  }, [])
+  }, [data])
+
   return (
     <div
       className={`shopListItem ${type === "rank" && index < 5 ? "iconShow" : ""}`}

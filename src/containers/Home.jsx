@@ -116,7 +116,7 @@ const Home = ({ history }) => {
       case 'SearchModal':
         return <SearchModal history={history} isOpen={isModalOpen} onEvent={setModalPage} currentKeyword={currentKeyword} />;
       case 'ShopDetailModal':
-        return <ShopDetailModal shopInfo={shopDetail} isOpen={isModalOpen} onEvent={setModalPage} userFavorite={userInfo.favoriteShops} userIdNumber={userId} token={token}/>;
+        return <ShopDetailModal shopInfo={shopDetail} isOpen={isModalOpen} onEvent={setModalPage} userFavorite={userInfo.favoriteShops} userIdNumber={userId} token={token} />;
       case 'SettingLocation':
         return <SettingLocation type={'home'} addressText={address} isOpen={isModalOpen} onEvent={setModalPage} />;
       default:
@@ -124,7 +124,7 @@ const Home = ({ history }) => {
     }
   }
 
-  console.log('Home >>>>', userInfo);
+  // console.log('Home >>>>', userInfo);
 
   return (
     <div>

@@ -286,9 +286,11 @@ export function* fetchFavoritesListSaga({ payload }) {
 export function* putFavoritesListSaga({ payload }) {
   console.log('putFavoritesListSaga', payload)
   const response = yield call(putFavoritesList, payload);
-  if (response.data) {
+  if (response) {
+    yield fetchWhoamiSaga({ userId: payload.userId })
     console.log('관심리스트', response.data)
   }
+
 }
 
 export default function* userSaga() {
