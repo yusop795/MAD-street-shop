@@ -23,11 +23,23 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
     if (Map && location) {
       setCrrLocation(location)
       setAddress()
-      if (containerId === 'openShopMap') {
-        renderMap()
-      }
     }
-  }, [crrlocation, containerId]);
+  }, [location, containerId]);
+
+  useEffect(() => {
+    if (containerId === 'openShopMap') {
+      renderMap()
+    }
+
+  }, [location]);
+
+  useEffect(() => {
+    if (containerId !== 'locationMap' && shopId) {
+      const lat = (shopDetail.now.active) ? shopDetail.now.location.latitude.$numberDecimal : shopDetail.location.latitude.$numberDecimal
+      const long = (shopDetail.now.active) ? shopDetail.now.location.longitude.$numberDecimal : shopDetail.location.longitude.$numberDecimal
+      moveMap({ lat, long })
+    }
+  }, [shopDetail]);
 
   useEffect(() => {
     renderMap()
@@ -93,14 +105,11 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
     window.kakao.maps.event.addListener(marker, 'click', function () {
       if (!selectedMarker || selectedMarker !== marker) {
         !!selectedMarker && selectedMarker.setImage(createMarkerImage(selectedMarkerImg, { width: 23, height: 28 }));
-        console.log(selectedMarker, marker, src)
-        // 현재 클릭된 마커의 이미지는 클릭 이미지로 변경합니다
         marker.setImage(createMarkerImage(src, { width: 35, height: 42 }));
       }
 
       selectedMarker = marker;
       selectedMarkerImg = src;
-
 
       moveMap(location)
       onEvent({
@@ -146,12 +155,13 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
   const createShopsMarker = (map = Map) => {
     for (let i = 0; i < shopList.length; i++) {
       const data = shopList[i];
-      console.log(selectShopId)
       const src = data.now.active ? mapPinOn : mapPinOff;
-      const sizeObj = { width: 23, height: 28 };
+      const sizeObj = i === 0 ? { width: 35, height: 42 } : { width: 23, height: 28 };
       const lat = (data.now.active) ? data.now.location.latitude.$numberDecimal : data.location.latitude.$numberDecimal
       const long = (data.now.active) ? data.now.location.longitude.$numberDecimal : data.location.longitude.$numberDecimal
       const marker = renderMarker(src, sizeObj, { lat, long })
+      selectedMarker = marker
+      selectedMarkerImg = src;
       marker.setMap(map);
       addEvent(marker, data, { lat, long }, src)
     }
