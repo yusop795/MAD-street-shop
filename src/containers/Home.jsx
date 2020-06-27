@@ -124,8 +124,6 @@ const Home = ({ history }) => {
     }
   }
 
-  // console.log('Home >>>>', userInfo);
-
   return (
     <div>
       <HomeHeader address={address} fetchGeolocation={fetchGeolocation} setModalPage={setModalPage} />

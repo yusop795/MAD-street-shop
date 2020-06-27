@@ -95,7 +95,6 @@ const SettingLocation = ({ isOpen, onEvent, type, addressText = '' }) => {
     }
 
   }
-
   return (
     <div ref={modalPage} className={`main settingLocation modalPage ${isOpen ? 'open' : ''}`}>
       <ModalHeader onEvent={onEvent} title={'위치 설정'} />

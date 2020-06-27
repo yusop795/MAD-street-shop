@@ -6,38 +6,106 @@ import mapPinOn from '../../assets/imgs/mapPinOn.png';
 import mapPinOff from '../../assets/imgs/mapPinOff.png';
 import mapMarker from '../../assets/imgs/mapMarker.png';
 import { shopTypes } from '../../reducers/shopReducer'
-const kakaoMapScript = scriptUtill(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=a2634b699ee1deee53b339a1835cca33&autoload=false&libraries=services`);
+// const kakaoMapScript = scriptUtill(`https://dapi.kakao.com/v2/maps/sdk.js?appkey=a2634b699ee1deee53b339a1835cca33&autoload=false&libraries=services`);
 
 const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectShopId, getGeocoder, setLocation }) => {
   const dispatch = useDispatch();
   const [crrlocation, setCrrLocation] = useState(location)
   const shopId = useSelector(state => state.shopReducer.selectShopId)
   const shopDetail = useSelector(state => state.shopReducer.shopDetail);
+  const [Map, setMap] = useState(null)
+
+  useEffect(() => {
+  }, [location]);
 
   useEffect(() => {
     if (location) {
       setCrrLocation(location)
     }
-  }, [location]);
+    renderMap()
+  }, []);
 
   useEffect(() => {
-    if (location && crrlocation) {
-      renderMap()
-    }
-  }, [shopList, shopDetail]);
+    if (Map) {
+      const marker = renderMarker(mapMarker, { width: 50, height: 48 }, location)
+      marker.setMap(Map);
+      console.log(Map)
+      if (onEvent) {
 
-  const moveMap = (kakaoMap, map, latlng) => {
+        clickMap(Map)
+      }
+    }
+  }, [Map]);
+
+  useEffect(() => {
+    if (shopList.length > 0) {
+      console.log(shopList)
+      createShopsMarker();
+    }
+  }, [shopList]);
+
+  // 지도 이동
+  const moveMap = (latlng) => {
     // 이동할 위도 경도 위치를 생성합니다 
     // const moveLatLon = new kakaoMap.LatLng(latlng.Ga, latlng.Ha);
-    const moveLatLon = new kakaoMap.LatLng(latlng.Ha, latlng.Ga);
+    const moveLatLon = new window.kakao.maps.LatLng(latlng.Ha, latlng.Ga);
     setCrrLocation({ lat: latlng.Ha, long: latlng.Ga });
 
     // 지도 중심을 이동
-    map.setCenter(moveLatLon);
+    Map.setCenter(moveLatLon);
   }
 
-  const clickMap = (kakaoMap, map) => {
-    kakaoMap.event.addListener(map, 'click', () => {
+  const createMarkerImage = (src, sizeObj) => {
+    const size = new window.kakao.maps.Size(sizeObj.width, sizeObj.height);
+    const options = {
+      spriteOrigin: new window.kakao.maps.Point(0, 0),
+      spriteSize: new window.kakao.maps.Size(sizeObj.width, sizeObj.height)
+    }
+    const markerImage = new window.kakao.maps.MarkerImage(src, size, options);
+    return markerImage;
+  }
+
+  const renderMarker = (src, sizeObj, location, event = false) => {
+    const image = createMarkerImage(src, sizeObj);
+    const position = new window.kakao.maps.LatLng(location.lat, location.long);
+    const marker = new window.kakao.maps.Marker({
+      Map,
+      position,
+      image,
+    });
+    return marker
+  }
+
+  const addEvent = (marker, data, location) => {
+    // 마커 이벤트 등록
+    window.kakao.maps.event.addListener(marker, 'click', () => {
+      const position = new window.kakao.maps.LatLng(location.lat, location.long);
+      moveMap(position)
+      onEvent({
+        target: 'ShopDetailModal',
+      });
+
+      if (shopId) {
+        dispatch({
+          type: shopTypes.SET_SELECT_SHOP_ID,
+          payload: {
+            selectShopId: data._id
+          },
+        });
+
+        dispatch({
+          type: shopTypes.SET_SHOP_DETAIL,
+          payload: {
+            shopDetail: data
+          }
+        });
+      }
+    });
+  }
+
+
+  const clickMap = (map) => {
+    window.kakao.maps.event.addListener(map, 'click', () => {
       onEvent({
         target: null,
       });
@@ -52,11 +120,25 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
     });
   }
 
-  const setAddress = (kakaoMap, map, marker) => {
+  // 가게 마커 생성
+  const createShopsMarker = () => {
+    for (let i = 0; i < shopList.length; i++) {
+      const data = shopList[i];
+      const src = data.now.active ? mapPinOn : mapPinOff;
+      const sizeObj = selectShopId === data._id ? { width: 35, height: 42 } : { width: 23, height: 28 };
+      const lat = (data.now.active) ? data.now.location.latitude.$numberDecimal : data.location.latitude.$numberDecimal
+      const long = (data.now.active) ? data.now.location.longitude.$numberDecimal : data.location.longitude.$numberDecimal
+      const marker = renderMarker(src, sizeObj, { lat, long })
+      marker.setMap(Map);
+      addEvent(marker, data, { lat, long })
+    }
+  };
+  // 주소 설정
+  const setAddress = () => {
     // 주소-좌표 변환 객체를 생성합니다
-    const geocoder = new kakaoMap.services.Geocoder();
+    const geocoder = new window.kakao.maps.services.Geocoder();
     if (containerId === 'homeMap') {
-      const coord = new kakaoMap.LatLng(location.long, location.lat);
+      const coord = new window.kakao.maps.LatLng(location.long, location.lat);
       geocoder.coord2Address(coord.Ha, coord.Ga, (result, status) => {
         if (result[0].road_address) {
           getGeocoder(result[0].road_address.address_name)
@@ -65,9 +147,10 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
         }
       });
     }
+
     if (containerId === 'locationMap') {
-      kakaoMap.event.addListener(map, 'idle', (data) => {
-        const latlng = map.getCenter();
+      window.kakao.maps.event.addListener(Map, 'idle', (data) => {
+        const latlng = Map.getCenter();
         geocoder.coord2Address(latlng.Ga, latlng.Ha, (result, status) => {
           if (result[0].road_address) {
             getGeocoder(result[0].road_address.address_name)
@@ -83,119 +166,31 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
     }
   }
 
-  const createMarkerImage = (kakaoMap, src, sizeObj) => {
-    const size = new kakaoMap.Size(sizeObj.width, sizeObj.height);
-    const options = {
-      spriteOrigin: new kakaoMap.Point(0, 0),
-      spriteSize: new kakaoMap.Size(sizeObj.width, sizeObj.height)
-    }
-    const markerImage = new kakaoMap.MarkerImage(src, size, options);
-    return markerImage;
-  }
-
-  const createShopsMarker = (kakaoMap, map) => {
-    for (let i = 0; i < shopList.length; i++) {
-      const data = shopList[i];
-      const src = data.now.active ? mapPinOn : mapPinOff;
-      const sizeObj = selectShopId === data._id ? { width: 35, height: 42 } : { width: 23, height: 28 };
-      const image = createMarkerImage(kakaoMap, src, sizeObj);
-      const latitude = (data.now.active) ? data.now.location.latitude.$numberDecimal : data.location.latitude.$numberDecimal
-      const longitude = (data.now.active) ? data.now.location.longitude.$numberDecimal : data.location.longitude.$numberDecimal
-      const position = new kakaoMap.LatLng(latitude, longitude)
-      const marker = new kakaoMap.Marker({
-        map,
-        position,
-        title: data.name,
-        image,
-      });
-
-      marker.setMap(map);
-
-      // 마커 이벤트 등록
-      kakaoMap.event.addListener(marker, 'click', () => {
-        moveMap(kakaoMap, map, position)
-        onEvent({
-          target: 'ShopDetailModal',
-        });
-        if (shopId) {
-
-          dispatch({
-            type: shopTypes.SET_SELECT_SHOP_ID,
-            payload: {
-              selectShopId: data._id
-            },
-          });
-
-          dispatch({
-            type: shopTypes.SET_SHOP_DETAIL,
-            payload: {
-              shopDetail: data
-            }
-          });
-
-        }
-
-        // if(marker.getZIndex() ===0){
-        //   marker.setZIndex(1);
-        // }else {
-        //   marker.setZIndex(0);
-        // }
-      });
-    }
-  };
-
   const renderMap = () => {
-    console.log('renderMap')
     const container = document.getElementById(containerId);
-    kakaoMapScript
-      .then(() => {
-        const kakaoMap = window.kakao.maps;
-        kakaoMap.load(() => {
-          // 지도 옵션
-          const options = {
-            center: new kakaoMap.LatLng(crrlocation.lat, crrlocation.long), // 지도의 중심좌표.
-            level: 3, // 지도의 레벨(확대, 축소 정도)
-          };
+    const options = {
+      center: new window.kakao.maps.LatLng(crrlocation.lat, crrlocation.long), // 지도의 중심좌표.
+      level: 3, // 지도의 레벨(확대, 축소 정도)
+    };
 
-          if (containerId !== 'locationMap' && shopId) {
-            const latitude = (shopDetail.now.active) ? shopDetail.now.location.latitude.$numberDecimal : shopDetail.location.latitude.$numberDecimal
-            const longitude = (shopDetail.now.active) ? shopDetail.now.location.longitude.$numberDecimal : shopDetail.location.longitude.$numberDecimal
-            options.center = new kakaoMap.LatLng(latitude, longitude);
-          }
-          // 지도 생성
-          const map = new kakaoMap.Map(container, options);
+    console.log(location, crrlocation)
 
-          // 현재 내위치 마커 생성
-          const image = createMarkerImage(kakaoMap, mapMarker, { width: 50, height: 48 });
+    if (containerId !== 'locationMap' && shopId) {
+      const latitude = (shopDetail.now.active) ? shopDetail.now.location.latitude.$numberDecimal : shopDetail.location.latitude.$numberDecimal
+      const longitude = (shopDetail.now.active) ? shopDetail.now.location.longitude.$numberDecimal : shopDetail.location.longitude.$numberDecimal
+      options.center = new window.kakao.maps.LatLng(latitude, longitude);
+    }
 
-          let position = new kakaoMap.LatLng(location.lat, location.long);
 
-          const marker = new kakaoMap.Marker({
-            map,
-            position,
-            image,
-          });
+    setMap(new window.kakao.maps.Map(container, options))
 
-          marker.setMap(map);
-
-          if (shopList.length > 0) {
-            createShopsMarker(kakaoMap, map);
-          }
-
-          if (onEvent) {
-            clickMap(kakaoMap, map)
-          }
-
-          if (getGeocoder && Object.keys(crrlocation).length > 0) {
-            setAddress(kakaoMap, map, marker)
-          }
-
-        });
-      })
-      .catch(e => {
-        console.log(e);
-      });
+    if (getGeocoder && Object.keys(crrlocation).length > 0) {
+      setAddress()
+    }
   };
+
+
+
 
   return <div id={containerId} className="mapBox"></div>;
 };
