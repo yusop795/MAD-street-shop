@@ -10,7 +10,9 @@ const Alert = ({ isShowing, hide, title, contents, height = windowUtil.useWindow
       <div className="alertBox">
         <h5>{title}</h5>
         <p dangerouslySetInnerHTML={{ __html: contents }} />
-        <div className="alertBtn" onClick={() => { onEvent ? onEvent() : hide() }}>확인</div>
+        <div className="alertBtn" onClick={() => {
+          onEvent ? onEvent() : hide({})
+        }}>확인</div>
       </div>
     </div>
   ) : null

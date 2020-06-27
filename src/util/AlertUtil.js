@@ -5,7 +5,7 @@ const AlertUtil = () => {
   const [title, setAlertTitle] = useState('');
   const [contents, setAlertContents] = useState('');
 
-  const setAlert = ({ title, contents }) => {
+  const setAlert = ({ title = '', contents = '' }) => {
     if (!isShowing) {
       // 타이틀 설정
       setAlertTitle(title);
