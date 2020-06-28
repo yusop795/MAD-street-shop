@@ -1,16 +1,26 @@
 import React from 'react';
+import { Alert } from '../Alert';
+import AlertUtil from '../../util/AlertUtil';
 import './style.scss';
 
-const PhotoList = ({ items = [], type = '', onEvent = null }) => {
+const PhotoList = ({ items = [] }) => {
+  const { isShowing, title, contents, setAlert } = AlertUtil();
+
+  const imgZoom = (v) => {
+    setAlert({
+      contents: v
+    })
+  }
   return (
     <div className="photoListBox">
       <div style={{ width: `${102 * 5}px` }}>
         {items.map((v, i) => {
           return (
-            <div className='imgBox' key={`imgBox-${i}`} style={{ backgroundImage: `url(${v})` }} />
+            <div className='imgBox' key={`imgBox-${i}`} style={{ backgroundImage: `url(${v})` }} onClick={() => { imgZoom(v) }} />
           )
         })}
       </div>
+      <Alert isShowing={isShowing} hide={setAlert} title={title} contents={contents} type="img" />
     </div>
   );
 };

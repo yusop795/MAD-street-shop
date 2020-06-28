@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { userTypes, userApiTypes } from '../reducers/userReducer';
+import { userApiTypes } from '../reducers/userReducer';
 import AlertUtil from '../util/AlertUtil';
 import ModalPageUtill from '../util/ModalPageUtill.js';
 import { localStorageGet } from '../util/LocalStorage.js';
@@ -18,12 +18,10 @@ import iconDeclare from '../assets/imgs/iconDeclare.png';
 import iconHeart from '../assets/imgs/iconHeart.png';
 import iconSettings from '../assets/imgs/iconSettings.png';
 import iconChevronRight from '../assets/imgs/iconChevronRight.png';
-import more from '../assets/imgs/more.png';
 
 import '../assets/styles/containers/myPage.scss';
-import { useEffect } from 'react';
 
-const MyPage = ({ history, match }) => {
+const MyPage = ({ history }) => {
   const dispatch = useDispatch();
   const token = useState(localStorageGet('MAD_KAKAO_ACCESS_TOKEN'));
   const userInfo = useSelector(state => state.userReducer.userInfo);
@@ -137,6 +135,11 @@ const MyPage = ({ history, match }) => {
       ) : null}
       <ul className="settingList">
         <li className="settingItem">
+          <Link to="/landing">
+            서비스 소개<img src={iconChevronRight} alt="이동" />
+          </Link>
+        </li>
+        <li className="settingItem">
           <Link to="/notice">
             공지사항<img src={iconChevronRight} alt="이동" />
           </Link>
@@ -146,6 +149,7 @@ const MyPage = ({ history, match }) => {
             FAQ<img src={iconChevronRight} alt="이동" />
           </Link>
         </li>
+
         {isUser ?
           (<li className="settingItem" onClick={kakaoLogout}>
             <a>

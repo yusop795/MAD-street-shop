@@ -156,7 +156,8 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
     for (let i = 0; i < shopList.length; i++) {
       const data = shopList[i];
       const src = data.now.active ? mapPinOn : mapPinOff;
-      const sizeObj = i === 0 ? { width: 35, height: 42 } : { width: 23, height: 28 };
+      // const sizeObj = i === 0 ? { width: 35, height: 42 } : { width: 23, height: 28 };
+      const sizeObj = { width: 23, height: 28 }
       const lat = (data.now.active) ? data.now.location.latitude.$numberDecimal : data.location.latitude.$numberDecimal
       const long = (data.now.active) ? data.now.location.longitude.$numberDecimal : data.location.longitude.$numberDecimal
       const marker = renderMarker(src, sizeObj, { lat, long })

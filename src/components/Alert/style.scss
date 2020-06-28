@@ -13,22 +13,28 @@
   z-index: 999;
   background:$black01;
   .alertBox {
-      width: 270px;
-      padding-top:32px;
+      width: 80%;
       text-align: center;
       background: $whiteColor;
       border-radius: 10px;
+    img {
+      width: 100%;
+      vertical-align: middle;
+      border-radius: 10px 10px 0 0;
+    }
     p {
       line-height: 20px;   
-      margin: 0px 20px;
+      margin: 32px 20px;
     }
     .alertBtn {
       border-top: 1px solid $gray233;
       padding: 12px 0;
-      margin-top:32px;
     }
     b {
       font-weight: bold;;
+    }
+    &.img {
+
     }
   }
 }
