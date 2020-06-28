@@ -7,7 +7,7 @@ import iconPhone from '../../assets/imgs/iconPhone.png'
 
 const shopDetailModal = ({ shopInfo, isOpen = true, onEvent = null, userFavorite = [], userIdNumber, token }) => {
   const mobile = shopInfo.mobile ? shopInfo.mobile.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3") : '비공개'
-  const times = shopInfo.now.active ? `${shopInfo.now.openTime}~${shopInfo.now.closeTime}` : `${shopInfo.now.openTime}~${shopInfo.closeTime}`
+  const times = shopInfo.now.active ? `${shopInfo.now.openTime}~${shopInfo.now.closeTime}` : `${shopInfo.openTime}~${shopInfo.closeTime}`
   const locationComment = shopInfo.now.active ? shopInfo.now.locationComment : shopInfo.locationComment
 
   // console.log('userFavorite', userFavorite);
