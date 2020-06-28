@@ -10,16 +10,21 @@ import iconLikeOn from '../../assets/imgs/iconLikeOn.png'
 import iconLikeOff from '../../assets/imgs/iconLikeOff.png'
 
 import { isEmpty } from '../../util/gm';
+import { NoDataBox } from "../../components/Unit";
 
 const ShopList = ({ items = [], type = '', onEvent = null, history }) => {
   return (
-    <div className="shopListWrapper">
+    <div className={items.length === 0 ? "shopListWrapper is_no_data" : "shopListWrapper"}>
       {
-        items.map((v, i) => {
-          return (
-            <ShopItem index={i} data={v} type={type} onEvent={onEvent} history={history} key={i} />
+        items.length === 0 ? (
+          <NoDataBox />
+        ) : (
+            items.map((v, i) => {
+              return (
+                <ShopItem index={i} data={v} type={type} onEvent={onEvent} history={history} key={i} />
+              )
+            })
           )
-        })
       }
     </div>
   );
@@ -36,7 +41,6 @@ export const ShopItem = ({ index = 10, data, type, onEvent, history, userFavorit
   }
 
   const putFavoirteList = (id) => {
-    console.log('dhdhdhdh', userId);
     dispatch({
       type: userApiTypes.POST_FAVORITE_LIST,
       payload: {
@@ -87,15 +91,13 @@ export const ShopItem = ({ index = 10, data, type, onEvent, history, userFavorit
               });
             }
           } else {
-            if (type == 'serchResult') {
-              dispatch({
-                type: shopTypes.FROM_SELECT_SHOP_ID,
-                payload: type,
-              });
-              onEvent({
-                target: 'ShopDetailModal',
-              });
-            }
+            dispatch({
+              type: shopTypes.FROM_SELECT_SHOP_ID,
+              payload: type,
+            });
+            onEvent({
+              target: 'ShopDetailModal',
+            });
           }
         }
 
