@@ -47,8 +47,6 @@ const WatchList = ({ history }) => {
   }, []);
 
 
-
-  console.log('djdjasdgjhasdjghsdjkghwelug', favoritesList);
   return (
     <div className="main ranking">
       <Header title="관심리스트" onEvent={history.goBack} />

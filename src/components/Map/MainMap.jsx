@@ -34,7 +34,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
   }, [location]);
 
   useEffect(() => {
-    if (containerId !== 'locationMap' && shopId) {
+    if (Map && containerId !== 'locationMap' && shopId) {
       const lat = (shopDetail.now.active) ? shopDetail.now.location.latitude.$numberDecimal : shopDetail.location.latitude.$numberDecimal
       const long = (shopDetail.now.active) ? shopDetail.now.location.longitude.$numberDecimal : shopDetail.location.longitude.$numberDecimal
       moveMap({ lat, long })

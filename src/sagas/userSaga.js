@@ -1,6 +1,6 @@
 import { takeLatest, put, call } from "redux-saga/effects";
 import { userTypes, userApiTypes } from "../reducers/userReducer";
-import { login, logout, fetchWhoami, postSignUpUser, postSignUpOwner, putImgUpload, putUser, deleteUser, putOwner, fetchFavoritesList, putFavoritesList } from './api/userApi';
+import { login, logout, fetchWhoami, postSignUpUser, postSignUpOwner, putImgUpload, putUser, deleteUser, putOwner, fetchFavoritesList, postFavoritesList, delFavoritesList } from './api/userApi';
 import { localStorageRemove } from '../util/LocalStorage';
 
 /**
@@ -283,10 +283,21 @@ export function* fetchFavoritesListSaga({ payload }) {
   }
 }
 
-export function* putFavoritesListSaga({ payload }) {
+export function* postFavoritesListSaga({ payload }) {
   console.log('putFavoritesListSaga', payload)
-  const response = yield call(putFavoritesList, payload);
-  if (response) {
+  const response = yield call(postFavoritesList, payload);
+  if (response.data) {
+    yield fetchWhoamiSaga({ userId: payload.userId })
+    console.log('관심리스트', response.data)
+  }
+
+}
+
+
+export function* delFavoritesListSaga({ payload }) {
+  console.log('putFavoritesListSaga', payload)
+  const response = yield call(delFavoritesList, payload);
+  if (response.data) {
     yield fetchWhoamiSaga({ userId: payload.userId })
     console.log('관심리스트', response.data)
   }
@@ -305,5 +316,6 @@ export default function* userSaga() {
   yield takeLatest(userApiTypes.WHO_AM_I, fetchWhoamiSaga);
   yield takeLatest(userApiTypes.FETCH_FAVORITE_LIST, fetchFavoritesListSaga);
   yield takeLatest(userApiTypes.WHO_AM_I, fetchWhoamiSaga);
-  yield takeLatest(userApiTypes.PUT_FAVORITE_LIST, putFavoritesListSaga)
+  yield takeLatest(userApiTypes.POST_FAVORITE_LIST, postFavoritesListSaga);
+  yield takeLatest(userApiTypes.DEL_FAVORITE_LIST, delFavoritesListSaga)
 }

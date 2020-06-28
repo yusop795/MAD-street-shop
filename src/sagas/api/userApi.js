@@ -265,17 +265,40 @@ export const fetchFavoritesList = ({ token, userId, location }) => {
 
 
 /**
- * 사용자 관심 설정
+ * 사용자 관심 추가
  * @param
  */
-export const putFavoritesList = ({ token, userId, shopId }) => {
+export const postFavoritesList = ({ token, userId, shopId }) => {
   console.log('관심리스트 설정', qs.stringify({ userId }), qs.stringify({ shopId }))
-  return API_INSTANCE.post(`/favorites/${userId}/`, qs.stringify({shopId: shopId}),
+  return API_INSTANCE.post(`/favorites/${userId}/`, qs.stringify({ shopId: shopId }),
     {
       headers: {
         'Authorization': `Bearer ${AuthUtill.accessToken}`
       }
     },
+  )
+    .then(response => {
+      return response
+    })
+    .catch(error => {
+      return error;
+    });
+};
+
+
+/**
+ * 사용자 관심 삭제
+ * @param
+ */
+export const delFavoritesList = ({ userId, shopId }) => {
+  console.log('관심리스트 삭제', qs.stringify({ userId }), qs.stringify({ shopId }))
+  return API_INSTANCE.delete(`/favorites/${userId}/`,
+    {
+      data: qs.stringify({ shopId }),
+      headers: {
+        'Authorization': `Bearer ${AuthUtill.accessToken}`
+      }
+    }
   )
     .then(response => {
       return response

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { shopTypes } from '../../reducers/shopReducer'
 import './style.scss';
 
@@ -27,6 +27,7 @@ const ShopList = ({ items = [], type = '', onEvent = null, history }) => {
 
 export const ShopItem = ({ index = 10, data, type, onEvent, history, userFavorite = [], userId, token }) => {
   const dispatch = useDispatch();
+  const isLogin = useSelector(state => state.userReducer.isLogin);
   const [isFavorite, setIsFavorite] = useState(false);
 
   const getFavoirteList = (id) => {
@@ -37,9 +38,19 @@ export const ShopItem = ({ index = 10, data, type, onEvent, history, userFavorit
   const putFavoirteList = (id) => {
     console.log('dhdhdhdh', userId);
     dispatch({
-      type: userApiTypes.PUT_FAVORITE_LIST,
+      type: userApiTypes.POST_FAVORITE_LIST,
       payload: {
         token: token,
+        userId: userId,
+        shopId: id
+      }
+    });
+  }
+
+  const delFavoirteList = (id) => {
+    dispatch({
+      type: userApiTypes.DEL_FAVORITE_LIST,
+      payload: {
         userId: userId,
         shopId: id
       }
@@ -107,10 +118,18 @@ export const ShopItem = ({ index = 10, data, type, onEvent, history, userFavorit
       </div>
       {
         type === 'icon' ? <button className="btn_like" type="button" onClick={(event) => {
-          console.log('djdjdjd');
           event.stopPropagation();
-          setIsFavorite(!isFavorite);
-          putFavoirteList(data._id)
+          if (isLogin) {
+            if (isFavorite) {
+              delFavoirteList(data._id)
+            } else {
+              putFavoirteList(data._id)
+            }
+            setIsFavorite(!isFavorite);
+          } else {
+            alert('로그인 후 이용가능합니다')
+          }
+
         }}><img src={isFavorite ? iconLikeOn : iconLikeOff} alt={'좋아요'} /> </button> : (
             <div className="listPhoto">
               <img src={data.imageUrl[0]} alt="가게 사진" />
