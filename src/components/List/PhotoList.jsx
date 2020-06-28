@@ -13,7 +13,7 @@ const PhotoList = ({ items = [] }) => {
   }
   return (
     <div className="photoListBox">
-      <div style={{ width: `${102 * 5}px` }}>
+      <div style={{ width: `${102 * items.length}px` }}>
         {items.map((v, i) => {
           return (
             <div className='imgBox' key={`imgBox-${i}`} style={{ backgroundImage: `url(${v})` }} onClick={() => { imgZoom(v) }} />

@@ -17,7 +17,6 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
   const shopId = useSelector(state => state.shopReducer.selectShopId)
   const shopDetail = useSelector(state => state.shopReducer.shopDetail);
   const [Map, setMap] = useState(null)
-  // const [selectedMarker, setSelectedMarker] = useState(null)
 
   useEffect(() => {
     if (Map && location) {
@@ -47,6 +46,9 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
 
   useEffect(() => {
     if (Map) {
+      selectedMarker = null
+      selectedMarkerImg = null
+
       if (containerId !== 'locationMap') {
         const marker = renderMarker(mapMarker, { width: 50, height: 48 }, location)
         marker.setMap(Map);
@@ -59,6 +61,10 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
       if (getGeocoder && Object.keys(crrlocation).length > 0) {
         setAddress()
       }
+
+      if (shopList.length > 0) {
+        createShopsMarker();
+      }
     }
   }, [Map]);
 
@@ -66,7 +72,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
     if (Map && shopList.length > 0) {
       createShopsMarker();
     }
-  }, [shopList]);
+  }, [selectShopId]);
 
 
   // 지도 이동
@@ -156,8 +162,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
     for (let i = 0; i < shopList.length; i++) {
       const data = shopList[i];
       const src = data.now.active ? mapPinOn : mapPinOff;
-      // const sizeObj = i === 0 ? { width: 35, height: 42 } : { width: 23, height: 28 };
-      const sizeObj = { width: 23, height: 28 }
+      const sizeObj = selectShopId === data._id ? { width: 35, height: 42 } : { width: 23, height: 28 };
       const lat = (data.now.active) ? data.now.location.latitude.$numberDecimal : data.location.latitude.$numberDecimal
       const long = (data.now.active) ? data.now.location.longitude.$numberDecimal : data.location.longitude.$numberDecimal
       const marker = renderMarker(src, sizeObj, { lat, long })
@@ -204,6 +209,7 @@ const MainMap = ({ location, shopList = [], containerId = null, onEvent, selectS
   }
 
   const renderMap = () => {
+    console.log('renderMap')
     const container = document.getElementById(containerId);
     const options = {
       center: new window.kakao.maps.LatLng(crrlocation.lat, crrlocation.long), // 지도의 중심좌표.
